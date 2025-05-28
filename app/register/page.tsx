@@ -3,13 +3,15 @@
 import type React from "react"
 
 import { useState } from "react"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { UserPlus, Eye, EyeOff } from "lucide-react"
+import { UserPlus, Eye, EyeOff, CheckCircle } from "lucide-react"
 import Link from "next/link"
 
 export default function RegisterPage() {
@@ -25,22 +27,130 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [success, setSuccess] = useState(false)
+  const router = useRouter()
+
+  const validateForm = () => {
+    if (!formData.firstName.trim()) {
+      setError("First name is required")
+      return false
+    }
+    if (!formData.lastName.trim()) {
+      setError("Last name is required")
+      return false
+    }
+    if (!formData.email.trim()) {
+      setError("Email is required")
+      return false
+    }
+    if (!formData.password) {
+      setError("Password is required")
+      return false
+    }
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters")
+      return false
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords don't match")
+      return false
+    }
+    if (!formData.agreeToTerms) {
+      setError("You must agree to the terms and conditions")
+      return false
+    }
+    return true
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError("")
+    setSuccess(false)
 
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords don't match!")
+    if (!validateForm()) {
       return
     }
 
     setIsLoading(true)
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Combine first and last name
+      const fullName = `${formData.firstName.trim()} ${formData.lastName.trim()}`
+
+      // Call registration API
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: fullName,
+          email: formData.email.trim(),
+          password: formData.password,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || "Registration failed")
+      }
+
+      // Registration successful
+      setSuccess(true)
+
+      // Auto-login the user
+      const signInResult = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      })
+
+      if (signInResult?.error) {
+        // Registration worked but auto-login failed
+        setError("Account created successfully, but auto-login failed. Please log in manually.")
+        setTimeout(() => {
+          router.push("/login")
+        }, 2000)
+      } else {
+        // Both registration and login successful
+        setTimeout(() => {
+          router.push("/")
+        }, 1500)
+      }
+
+    } catch (error: any) {
+      setError(error.message || "Something went wrong. Please try again.")
+    } finally {
       setIsLoading(false)
-      // Redirect to welcome page or login
-    }, 1500)
+    }
+  }
+
+  // Show success state
+  if (success && !error) {
+    return (
+      <div className="max-w-md mx-auto mt-16">
+        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
+          <CardContent className="pt-6">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                <CheckCircle className="w-8 h-8 text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-green-800 mb-2">Welcome to LOTUS!</h2>
+                <p className="text-green-600">
+                  Your account has been created successfully. You're being logged in automatically...
+                </p>
+              </div>
+              <div className="w-full bg-green-100 rounded-full h-2">
+                <div className="bg-green-600 h-2 rounded-full animate-pulse" style={{ width: "100%" }}></div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -56,6 +166,12 @@ export default function RegisterPage() {
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                {error}
+              </div>
+            )}
+
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="firstName" className="text-green-800 font-medium">
@@ -128,8 +244,9 @@ export default function RegisterPage() {
                   type={showPassword ? "text" : "password"}
                   value={formData.password}
                   onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
-                  placeholder="Create a password"
+                  placeholder="Create a password (min 6 characters)"
                   required
+                  minLength={6}
                   className="border-green-300 focus:border-green-500 pr-10"
                 />
                 <button

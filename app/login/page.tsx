@@ -3,6 +3,8 @@
 import type React from "react"
 
 import { useState } from "react"
+import { signIn, getSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,16 +21,34 @@ export default function LoginPage() {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError("")
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const result = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      })
+
+      if (result?.error) {
+        setError("Invalid email or password")
+      } else {
+        // Refresh the session and redirect to home
+        await getSession()
+        router.push("/")
+        router.refresh()
+      }
+    } catch (error) {
+      setError("An error occurred during login")
+    } finally {
       setIsLoading(false)
-      // Redirect to dashboard or home page
-    }, 1500)
+    }
   }
 
   return (
@@ -44,6 +64,12 @@ export default function LoginPage() {
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
+                {error}
+              </div>
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="email" className="text-green-800 font-medium">
                 Email
@@ -111,6 +137,12 @@ export default function LoginPage() {
                 Sign up
               </Link>
             </p>
+          </div>
+
+          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
+            <strong>Test Account:</strong><br />
+            Email: sarah@example.com<br />
+            Password: password123
           </div>
         </CardContent>
       </Card>

@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  bio       String?
+  avatarUrl String?  @map("avatar_url")
+  website   String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  poems    Poem[]
+  comments Comment[]
+  likes    Like[]
+
+  @@map("users")
+}
+
+model Poem {
+  id          String   @id @default(cuid())
+  title       String
+  content     String
+  category    String
+  authorId    String   @map("author_id")
+  publishedAt DateTime @default(now()) @map("published_at")
+  readingTime Int?     @map("reading_time")
+  status      String   @default("published")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  author   User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments Comment[]
+  likes    Like[]
+  tags     PoemTag[]
+
+  @@map("poems")
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+
+  // Relations
+  poems PoemTag[]
+
+  @@map("tags")
+}
+
+model PoemTag {
+  poemId String @map("poem_id")
+  tagId  String @map("tag_id")
+
+  // Relations
+  poem Poem @relation(fields: [poemId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([poemId, tagId])
+  @@map("poem_tags")
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  authorId  String   @map("author_id")
+  poemId    String   @map("poem_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  poem   Poem @relation(fields: [poemId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
+
+model Like {
+  userId    String   @map("user_id")
+  poemId    String   @map("poem_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  poem Poem @relation(fields: [poemId], references: [id], onDelete: Cascade)
+
+  @@id([userId, poemId])
+  @@map("likes")
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  category  String
+  subject   String
+  message   String
+  status    String   @default("unread")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_submissions")
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("feedback")
+}
