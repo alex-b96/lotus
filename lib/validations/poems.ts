@@ -6,7 +6,7 @@ export const createPoemSchema = z.object({
   content: z.string().min(1, "Content is required").max(10000, "Content must be less than 10,000 characters"),
   category: z.string().min(1, "Category is required"),
   tags: z.array(z.string()).optional().default([]),
-  status: z.enum(["draft", "published"]).optional().default("published"),
+  status: z.enum(["draft", "review", "published", "rejected"]).optional().default("review"),
 })
 
 // Schema for updating a poem
@@ -15,7 +15,7 @@ export const updatePoemSchema = z.object({
   content: z.string().min(1, "Content is required").max(10000, "Content must be less than 10,000 characters").optional(),
   category: z.string().min(1, "Category is required").optional(),
   tags: z.array(z.string()).optional(),
-  status: z.enum(["draft", "published"]).optional(),
+  status: z.enum(["draft", "review", "published", "rejected"]).optional(),
 })
 
 // Schema for query parameters when listing poems

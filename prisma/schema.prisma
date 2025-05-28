@@ -33,16 +33,16 @@ model User {
 }
 
 model Poem {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   content     String
   category    String
-  authorId    String   @map("author_id")
-  publishedAt DateTime @default(now()) @map("published_at")
-  readingTime Int?     @map("reading_time")
-  status      String   @default("published")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  authorId    String    @map("author_id")
+  publishedAt DateTime? @map("published_at")
+  readingTime Int?      @map("reading_time")
+  status      String    @default("review")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
 
   // Relations
   author   User        @relation(fields: [authorId], references: [id], onDelete: Cascade)

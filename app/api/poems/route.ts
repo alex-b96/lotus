@@ -167,16 +167,10 @@ export async function POST(request: NextRequest) {
         category: validatedData.category,
         status: validatedData.status,
         readingTime,
-        authorId: user.id,
         publishedAt: validatedData.status === "published" ? new Date() : null,
-      },
-      include: {
         author: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            avatarUrl: true,
+          connect: {
+            id: user.id
           }
         }
       }
