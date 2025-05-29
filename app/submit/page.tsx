@@ -136,7 +136,7 @@ export default function SubmitPoemPage() {
         content: formData.content.trim(),
         category: formData.category,
         tags: formData.tags,
-        status: "review" // Submit for moderation review
+        status: "SUBMITTED" // Submit for moderation review
       }
 
       const response = await fetch("/api/poems", {

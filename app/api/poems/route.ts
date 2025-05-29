@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 
     // Build where clause based on filters
     const where: any = {
-      status: "published", // Only show published poems by default
+      status: "PUBLISHED", // Only show published poems by default
     }
 
     if (query.search) {
@@ -167,7 +167,7 @@ export async function POST(request: NextRequest) {
         category: validatedData.category,
         status: validatedData.status,
         readingTime,
-        publishedAt: validatedData.status === "published" ? new Date() : null,
+        publishedAt: validatedData.status === "PUBLISHED" ? new Date() : null,
         author: {
           connect: {
             id: user.id

@@ -12,12 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Menu, X, User, LogIn, LogOut, Settings, PenTool } from "lucide-react"
+import { Menu, X, User, LogIn, LogOut, Settings, PenTool, Shield } from "lucide-react"
 import { LotusLogo } from "@/components/lotus-logo"
+import { useAdminStatus } from "@/hooks/use-admin-status"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { data: session, status } = useSession()
+  const { isAdmin } = useAdminStatus()
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -119,6 +121,17 @@ export function Header() {
                         Settings
                       </Link>
                     </DropdownMenuItem>
+                    {isAdmin && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin" className="cursor-pointer text-orange-600">
+                            <Shield className="w-4 h-4 mr-2" />
+                            Admin Panel
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
+                    )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-600">
                       <LogOut className="w-4 h-4 mr-2" />
@@ -198,6 +211,14 @@ export function Header() {
                         Settings
                       </Link>
                     </Button>
+                    {isAdmin && (
+                      <Button variant="ghost" size="sm" asChild>
+                        <Link href="/admin" onClick={() => setIsMenuOpen(false)}>
+                          <Shield className="w-4 h-4 mr-2" />
+                          Admin Panel
+                        </Link>
+                      </Button>
+                    )}
                     <Button
                       variant="ghost"
                       size="sm"

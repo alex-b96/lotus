@@ -13,6 +13,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum PoemStatus {
+  DRAFT
+  SUBMITTED
+  PUBLISHED
+  REJECTED
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
@@ -21,31 +33,37 @@ model User {
   bio       String?
   avatarUrl String?  @map("avatar_url")
   website   String?
+  role      UserRole @default(USER)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   // Relations
-  poems    Poem[]
-  comments Comment[]
-  likes    Like[]
+  poems          Poem[]    @relation("AuthoredPoems")
+  reviewedPoems  Poem[]    @relation("ReviewedPoems")
+  comments       Comment[]
+  likes          Like[]
 
   @@map("users")
 }
 
 model Poem {
-  id          String    @id @default(cuid())
-  title       String
-  content     String
-  category    String
-  authorId    String    @map("author_id")
-  publishedAt DateTime? @map("published_at")
-  readingTime Int?      @map("reading_time")
-  status      String    @default("review")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
+  id           String     @id @default(cuid())
+  title        String
+  content      String
+  category     String
+  authorId     String     @map("author_id")
+  publishedAt  DateTime?  @map("published_at")
+  readingTime  Int?       @map("reading_time")
+  status       PoemStatus @default(DRAFT)
+  reviewedBy   String?    @map("reviewed_by")
+  reviewedAt   DateTime?  @map("reviewed_at")
+  rejectionReason String? @map("rejection_reason")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
 
   // Relations
-  author   User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author   User        @relation("AuthoredPoems", fields: [authorId], references: [id], onDelete: Cascade)
+  reviewer User?       @relation("ReviewedPoems", fields: [reviewedBy], references: [id])
   comments Comment[]
   likes    Like[]
   tags     PoemTag[]

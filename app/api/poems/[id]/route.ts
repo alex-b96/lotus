@@ -65,7 +65,7 @@ export async function GET(
     }
 
     // Only show published poems unless it's the author viewing their own poem
-    if (poem.status !== "published") {
+    if (poem.status !== "PUBLISHED") {
       // Check if the requester is the author
       try {
         const user = await requireAuth(request)
@@ -171,13 +171,13 @@ export async function PUT(
     }
 
     // Set publishedAt if status is being changed to published
-    if (validatedData.status === "published") {
+    if (validatedData.status === "PUBLISHED") {
       const currentPoem = await db.poem.findUnique({
         where: { id: poemId },
         select: { status: true, publishedAt: true }
       })
 
-      if (currentPoem?.status !== "published" && !currentPoem?.publishedAt) {
+      if (currentPoem?.status !== "PUBLISHED" && !currentPoem?.publishedAt) {
         updateData.publishedAt = new Date()
       }
     }

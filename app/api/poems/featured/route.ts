@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     // Get total count of published poems
     console.log("Attempting to count poems...")
     const totalCount = await db.poem.count({
-      where: { status: "published" }
+      where: { status: "PUBLISHED" }
     })
     console.log("Poem count:", totalCount)
 
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     // Fetch the random poem
     console.log("Fetching random poem...")
     const poem = await db.poem.findFirst({
-      where: { status: "published" },
+      where: { status: "PUBLISHED" },
       include: {
         author: {
           select: {
