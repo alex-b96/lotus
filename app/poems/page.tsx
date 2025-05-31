@@ -68,20 +68,20 @@ export default function PoemsPage() {
             {/* Filters Row */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {/* Category Filter */}
-              <div className="flex items-center space-x-2">
-                <Filter className="text-green-600 w-4 h-4" />
+            <div className="flex items-center space-x-2">
+              <Filter className="text-green-600 w-4 h-4" />
                 <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={isLoading}>
-                  <SelectTrigger className="w-48 border-green-300">
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <SelectTrigger className="w-48 border-green-300">
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               </div>
 
               {/* Sort Options */}
@@ -166,78 +166,78 @@ export default function PoemsPage() {
 
       {/* Poems Grid */}
       {!isLoading && !error && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {poems.map((poem) => (
-            <Card
-              key={poem.id}
-              className="bg-white/70 backdrop-blur-sm border-green-200 hover:shadow-lg transition-all duration-300 hover:scale-105"
-            >
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <Badge variant="outline" className="border-green-300 text-green-600 mb-2">
-                    {poem.category}
-                  </Badge>
+          <Card
+            key={poem.id}
+            className="bg-white/70 backdrop-blur-sm border-green-200 hover:shadow-lg transition-all duration-300 hover:scale-105"
+          >
+            <CardHeader>
+              <div className="flex items-start justify-between">
+                <Badge variant="outline" className="border-green-300 text-green-600 mb-2">
+                  {poem.category}
+                </Badge>
                   {poem.readingTime && (
                     <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
                       {poem.readingTime} min read
                     </Badge>
                   )}
-                </div>
-                <CardTitle className="text-xl text-green-800 hover:text-green-900 transition-colors">
-                  <Link href={`/poems/${poem.id}`}>{poem.title}</Link>
-                </CardTitle>
-                <div className="flex items-center space-x-4 text-sm text-green-600">
-                  <div className="flex items-center space-x-1">
-                    <User className="w-4 h-4" />
-                    <Link
+              </div>
+              <CardTitle className="text-xl text-green-800 hover:text-green-900 transition-colors">
+                <Link href={`/poems/${poem.id}`}>{poem.title}</Link>
+              </CardTitle>
+              <div className="flex items-center space-x-4 text-sm text-green-600">
+                <div className="flex items-center space-x-1">
+                  <User className="w-4 h-4" />
+                  <Link
                       href={`/authors/${poem.authorData.id}`}
-                      className="hover:text-green-800 transition-colors"
-                    >
-                      {poem.author}
-                    </Link>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Clock className="w-4 h-4" />
-                    <span>{new Date(poem.publishedAt).toLocaleDateString()}</span>
-                  </div>
-                </div>
-              </CardHeader>
-
-              <CardContent>
-                <p className="text-green-700 mb-4 italic line-clamp-3">"{poem.preview}"</p>
-
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {poem.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="text-xs bg-green-100 text-green-700">
-                      #{tag}
-                    </Badge>
-                  ))}
-                </div>
-
-                <div className="flex items-center justify-between pt-4 border-t border-green-100">
-                  <div className="flex items-center space-x-4">
-                    <Button variant="ghost" size="sm" className="text-green-700 hover:text-red-500 hover:bg-red-50">
-                      <Heart className="w-4 h-4 mr-1" />
-                      {poem.likes}
-                    </Button>
-                    <Button variant="ghost" size="sm" className="text-green-700 hover:text-blue-500 hover:bg-blue-50">
-                      <MessageCircle className="w-4 h-4 mr-1" />
-                      {poem.comments}
-                    </Button>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    asChild
-                    className="border-green-300 text-green-700 hover:bg-green-50"
+                    className="hover:text-green-800 transition-colors"
                   >
-                    <Link href={`/poems/${poem.id}`}>Read More</Link>
+                    {poem.author}
+                  </Link>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <Clock className="w-4 h-4" />
+                    <span>{new Date(poem.publishedAt).toLocaleDateString()}</span>
+                </div>
+              </div>
+            </CardHeader>
+
+            <CardContent>
+              <p className="text-green-700 mb-4 italic line-clamp-3">"{poem.preview}"</p>
+
+              <div className="flex flex-wrap gap-1 mb-4">
+                {poem.tags.map((tag) => (
+                  <Badge key={tag} variant="secondary" className="text-xs bg-green-100 text-green-700">
+                    #{tag}
+                  </Badge>
+                ))}
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-green-100">
+                <div className="flex items-center space-x-4">
+                  <Button variant="ghost" size="sm" className="text-green-700 hover:text-red-500 hover:bg-red-50">
+                    <Heart className="w-4 h-4 mr-1" />
+                    {poem.likes}
+                  </Button>
+                  <Button variant="ghost" size="sm" className="text-green-700 hover:text-blue-500 hover:bg-blue-50">
+                    <MessageCircle className="w-4 h-4 mr-1" />
+                    {poem.comments}
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                  className="border-green-300 text-green-700 hover:bg-green-50"
+                >
+                  <Link href={`/poems/${poem.id}`}>Read More</Link>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
       )}
 
       {/* No Results */}
@@ -255,13 +255,13 @@ export default function PoemsPage() {
               }
             </p>
             {(searchTerm || selectedCategory !== "All") && (
-              <Button
-                variant="outline"
+            <Button
+              variant="outline"
                 onClick={clearFilters}
-                className="border-green-300 text-green-700 hover:bg-green-50"
-              >
-                Clear Filters
-              </Button>
+              className="border-green-300 text-green-700 hover:bg-green-50"
+            >
+              Clear Filters
+            </Button>
             )}
           </CardContent>
         </Card>

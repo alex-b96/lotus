@@ -70,12 +70,12 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
   - Prisma client generated and functional
 
 #### 3. **Homepage (`/`)**
-- **Status:** ✅ Fully functional (still uses mock data)
+- **Status:** ✅ Fully functional
 - **Features:**
   - Responsive layout with sidebar
-  - "Poem of the Day" showcase with full poem content
+  - "Poem of the Day" showcase with full poem content (right not choosen randomly)
   - Recent poems sidebar with clickable previews
-  - Interactive buttons (like, comment, share) with hover effects
+  - Interactive buttons (like, comment, share) with hover effects (right now buttons not doing anything)
   - Tag system with styled badges
   - Quick action buttons linking to other pages
   - Beautiful gradient background and glassmorphism design
@@ -89,41 +89,19 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
   - Clean footer with company info
   - Consistent color scheme (green theme)
   - Smooth transitions and hover effects
-  - **Note:** Header doesn't yet show logged-in user state
 
 #### 5. **Poetry Collection (`/poems`)**
-- **Status:** ✅ Fully functional with mock data
+- **Status:** ✅ Fully functional with data from database
 - **Features:**
   - Grid layout of poem cards
-  - **Working search functionality** - filters by title, author, and tags
+  - **Working search functionality** - filters by title
   - **Working category filter** - dropdown with categories (All, Lyric, Haiku, Modern, Classic, Experimental)
   - Interactive poem cards with hover effects
   - Author links, publication dates
   - Like and comment counters
   - Responsive design (1-3 columns based on screen size)
 
-#### 6. **Individual Poem View (`/poems/[id]`)**
-- **Status:** ✅ Fully functional with mock data
-- **Features:**
-  - Full poem display with proper formatting
-  - Author information card with bio and poem count
-  - Tag system with clickable badges
-  - Social interaction buttons (like, comment, share)
-  - Reading time indicator
-  - Author profile linking
-  - Comments section (see below)
-
-#### 7. **Comments System**
-- **Status:** ✅ Fully functional with local state
-- **Features:**
-  - Add new comments with textarea
-  - Display existing comments with avatars
-  - Like functionality on individual comments
-  - Timestamp display
-  - Real-time updates (simulated with setTimeout)
-  - Form validation and loading states
-
-#### 8. **Poem Submission (`/submit`)**
+#### 6. **Poem Submission (`/submit`)**
 - **Status:** ✅ **FULLY FUNCTIONAL**
 - **Backend:** Real database integration with moderation workflow
 - **Features:**
@@ -139,7 +117,23 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
   - Database integration using Prisma with author relations
   - Support for draft, review, published, and rejected statuses
 
-#### 9. **About Page (`/about`)**
+#### 7. **Individual Poem Pages (`/poems/[id]`)**
+- **Status:** ✅ **FULLY FUNCTIONAL**
+- **Backend:** Real database integration with dynamic content loading
+- **Features:**
+  - **Dynamic content loading** - Each poem URL shows the correct specific poem from database
+  - Full poem display with proper formatting and real content
+  - Author information card with bio and poem count from database
+  - Tag system with clickable badges that filter poems
+  - Social interaction buttons (like, comment, share) with real counts
+  - Reading time indicator calculated from content
+  - Author profile linking using proper author IDs
+  - **Loading states** - Beautiful skeleton loaders while content loads
+  - **Error handling** - Proper 404 pages for non-existent poems with retry functionality
+  - **Next.js 15 compatibility** - Uses React.use() for async params
+  - Real publication dates and metadata from database
+
+#### 8. **About Page (`/about`)**
 - **Status:** ✅ Complete and informative
 - **Features:**
   - Mission and vision statements
@@ -148,6 +142,19 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
   - Company story and background
   - Features overview with icons
   - Professional layout and design
+
+#### 9. **Admin Dashboard (`/admin`)**
+- **Status:** ✅ **FULLY FUNCTIONAL**
+- **Backend:** Complete admin approval workflow with role-based access
+- **Features:**
+  - **Admin authentication** - Role-based access control with middleware protection
+  - **Poem moderation** - View, approve, and reject submitted poems
+  - **Comprehensive poem display** - Full poem content with author details
+  - **Approval workflow** - One-click approve with status updates
+  - **Rejection system** - Reject poems with optional feedback
+  - **Pagination support** - Handle large numbers of submissions
+  - **Admin navigation** - Smart admin links in header for admin users only
+  - **Error handling** - Proper auth checks and user feedback
 
 ### 🎭 **Mockup Features (UI Complete, Backend Partially Ready)**
 
@@ -178,30 +185,28 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
   - Feedback form with validation
   - Success confirmation
 
-#### 4. **Data Display (Frontend Mockups)**
-- **Status:** 🎭 **MOCKUP** - UI uses hardcoded data instead of database
-- **Implementation:**
-  - Homepage shows mock "Poem of the Day" instead of database content
-  - Poems page uses mock data instead of API calls
-  - Like buttons increment locally but don't persist
-  - Comments are added to local state only
-  - Search and filtering work on static mock data
+#### 4. **Comments System**
+- **Status:** 🎭 **MOCKUP** - Functional with local state, not connected to database, only frontend is finished
+- **Features:**
+  - Add new comments with textarea
+  - Display existing comments with avatars
+  - Like functionality on individual comments
+  - Timestamp display
+  - Real-time updates (simulated with setTimeout)
+  - Form validation and loading states
 
 ### ❌ **Missing/Incomplete Features**
 
-#### 1. **Frontend-Backend Connection**
-- Homepage not connected to database poems
-- Poems listing not fetching from API
-- Individual poem pages not loading from database
-- User state not displayed in header
-- Register form not connected to backend API
+#### 1. **Backend API Integration**
+- Comments API routes (GET, POST, PUT, DELETE)
+- Like/unlike API routes for poems and comments
+- User profile management endpoints
 
 #### 2. **Advanced Features**
 - No user profiles or dashboards
 - No poem saving/bookmarking
 - No social sharing integration
 - No email notifications
-- No admin panel
 
 #### 3. **Authors Section**
 - Authors page exists in navigation but no implementation found
@@ -214,8 +219,8 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
 ### ✅ **Completed Backend Infrastructure**
 ```
 Database (Supabase PostgreSQL)
-├── Users table with authentication
-├── Poems table with categories and metadata
+├── Users table with authentication and admin roles
+├── Poems table with categories, metadata, and moderation workflow
 ├── Tags table with many-to-many relationships
 ├── Comments table with user/poem relationships
 ├── Likes table for user interactions
@@ -225,28 +230,28 @@ Database (Supabase PostgreSQL)
 API Routes
 ├── /api/auth/[...nextauth] - NextAuth handler ✅
 ├── /api/auth/register - User registration ✅
-├── /api/poems - Poem creation with moderation workflow ✅
-└── Other endpoints - Not yet created
+├── /api/poems - Poems CRUD with filtering and pagination ✅
+├── /api/poems/[id] - Individual poem retrieval ✅
+├── /api/admin/poems - Admin poem management ✅
+├── /api/admin/poems/[id]/approve - Approve poems ✅
+└── /api/admin/poems/[id]/reject - Reject poems ✅
 
-Authentication
+Authentication & Authorization
 ├── NextAuth.js configuration ✅
-├── Prisma adapter ✅
+├── Admin middleware with role-based access ✅
 ├── Session management ✅
 ├── Password hashing ✅
-└── Login flow ✅
+└── Protected route system ✅
 ```
 
 ### 🟡 **Partially Implemented**
-- User registration (backend ready, frontend not connected)
-- Database schema (created but not used by frontend)
 
 ### ❌ **Not Yet Implemented**
-- Read/Update/Delete operations for poems API
 - Comment API routes
 - Like/unlike API routes
 - User profile management
 - File upload system
-- Admin moderation interface for reviewing submitted poems
+- Email notification system
 
 ---
 
@@ -255,40 +260,80 @@ Authentication
 ```
 /app/
 ├── api/
-│   └── auth/
-│       ├── [...nextauth]/route.ts    # NextAuth handler ✅
-│       └── register/route.ts         # Registration API ✅
-├── globals.css                       # Global styles
-├── layout.tsx                       # Main layout with providers ✅
-├── page.tsx                         # Homepage (mockup data)
-├── about/page.tsx                   # About page (complete)
-├── authors/                         # Author profiles (incomplete)
-├── contact/page.tsx                 # Contact form (mockup)
-├── feedback/page.tsx                # Feedback form (mockup)
-├── login/page.tsx                   # Login form ✅ FUNCTIONAL
+│   ├── admin/
+│   │   └── poems/
+│   │       ├── route.ts                # Admin poems list API ✅
+│   │       └── [id]/
+│   │           ├── approve/route.ts    # Approve poem API ✅
+│   │           └── reject/route.ts     # Reject poem API ✅
+│   ├── auth/
+│   │   ├── [...nextauth]/route.ts      # NextAuth handler ✅
+│   │   └── register/route.ts           # Registration API ✅
+│   └── poems/
+│       ├── route.ts                    # Poems CRUD API ✅
+│       └── [id]/route.ts              # Individual poem API ✅
+├── admin/page.tsx                      # Admin dashboard ✅ FUNCTIONAL
+├── auth/
+│   ├── signin/page.tsx                 # Sign in page ✅
+│   └── signup/page.tsx                 # Sign up page (mockup)
+├── about/page.tsx                      # About page ✅ COMPLETE
+├── authors/                            # Author profiles (incomplete)
+├── contact/page.tsx                    # Contact form (mockup)
+├── feedback/page.tsx                   # Feedback form (mockup)
 ├── poems/
-│   ├── page.tsx                     # Poems listing (mockup data)
-│   └── [id]/page.tsx                # Individual poem view (mockup)
-├── register/page.tsx                # Registration form (mockup)
-└── submit/page.tsx                  # Poem submission (mockup)
+│   ├── page.tsx                        # Poems listing ✅ DB INTEGRATED
+│   └── [id]/page.tsx                   # Individual poem view ✅ DB INTEGRATED
+├── submit/page.tsx                     # Poem submission ✅ FUNCTIONAL
+├── globals.css                         # Global styles
+├── layout.tsx                         # Main layout with providers ✅
+└── page.tsx                           # Homepage ✅ FUNCTIONAL
 
 /components/
-├── comment-section.tsx              # Comments system (local state)
-├── footer.tsx                      # Site footer
-├── header.tsx                      # Navigation header
-├── lotus-logo.tsx                  # Custom SVG logo
-├── providers.tsx                   # Session provider wrapper ✅
-├── theme-provider.tsx              # Theme configuration
-└── ui/                            # shadcn/ui components
+├── ui/                                # shadcn/ui components
+│   ├── button.tsx
+│   ├── card.tsx
+│   ├── input.tsx
+│   ├── textarea.tsx
+│   ├── dropdown-menu.tsx
+│   ├── dialog.tsx
+│   ├── pagination.tsx                 # ✅ NEW: Pagination component
+│   └── ... (other UI components)
+├── comment-section.tsx                # Comments system (local state)
+├── footer.tsx                         # Site footer ✅
+├── header.tsx                         # Navigation header ✅ with admin links
+├── lotus-logo.tsx                     # Custom SVG logo ✅
+├── poem-card.tsx                      # Individual poem display ✅
+├── poem-submission-form.tsx           # Poem submission form ✅
+├── providers.tsx                      # Session provider wrapper ✅
+└── theme-provider.tsx                 # Theme configuration ✅
+
+/hooks/
+├── use-admin-poems.ts                 # ✅ NEW: Admin state management
+├── use-admin-status.ts                # ✅ NEW: Admin role detection
+├── use-poem-detail.ts                 # ✅ NEW: Individual poem data fetching
+└── use-poem-listing.ts                # ✅ NEW: API integration hook
 
 /lib/
-├── auth.ts                         # NextAuth configuration ✅
-└── db.ts                          # Prisma client wrapper ✅
+├── admin-middleware.ts                # ✅ NEW: Admin auth middleware
+├── auth-middleware.ts                 # ✅ NEW: General auth middleware
+├── auth.ts                           # NextAuth configuration ✅
+├── db.ts                             # Prisma client wrapper ✅
+├── utils.ts                          # Utility functions ✅
+└── validations/
+    └── poems.ts                      # ✅ NEW: Poem validation schemas
 
 /prisma/
-├── schema.prisma                   # Database schema ✅
-├── seed.ts                        # Sample data ✅
-└── migrations/                    # Database migrations ✅
+├── schema.prisma                     # Database schema ✅ with admin roles
+├── seed.ts                          # Sample data ✅
+└── migrations/                      # Database migrations ✅
+
+/scripts/
+├── add-sample-poems.ts              # ✅ NEW: Test data generation
+├── check-status.ts                  # ✅ NEW: Poem status management
+└── make-admin.ts                    # ✅ NEW: Admin user creation
+
+/types/
+└── (various TypeScript type definitions)
 ```
 
 ---
@@ -314,15 +359,20 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="..." # Supabase anon key ✅
    - Use: sarah@example.com / password123
    - Should successfully log in and redirect to homepage
 
-2. **Database Verification:**
+2. **Individual Poem Pages:**
+   - Go to `/poems` and click on any poem
+   - Should navigate to `/poems/[id]` with specific poem content
+   - Try different poems to see unique content
+   - Test 404 handling with non-existent poem IDs
+
+3. **Admin Dashboard:**
+   - Log in as admin (sarah@example.com)
+   - Access `/admin` to see submitted poems
+   - Approve and reject poems to test moderation workflow
+
+4. **Database Verification:**
    - Run `npx prisma studio`
    - Verify users, poems, comments, and other data exist
-
-3. **UI Features:**
-   - Homepage displays correctly with mock data
-   - Navigation works
-   - Search/filter on poems page works with mock data
-   - All forms show proper validation
 
 ### 🎭 **Mockup Features to Test:**
 1. **Registration:** Form works but only shows loading, doesn't save
@@ -332,12 +382,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="..." # Supabase anon key ✅
 
 ## Next Implementation Priorities
 
-### 🔴 **High Priority (Next Steps)**
-1. **Connect Register Page** - Link frontend form to existing API
-2. **Update Header** - Show logged-in user state and logout
-3. **Homepage Database Integration** - Fetch real poems instead of mock data
-4. **Complete Poems API** - Add Read/Update/Delete endpoints for full CRUD
-5. **Admin Moderation Interface** - Allow moderators to approve/reject submitted poems
 
 ### 🟡 **Medium Priority**
 1. **Comments Backend** - Create API endpoints for real comments
@@ -363,11 +407,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="..." # Supabase anon key ✅
 - [x] Environment properly configured
 - [x] Poem submission system with moderation workflow implemented
 - [x] Prisma relations and database integration working
-
-### 🟡 **In Progress**
-- [ ] Complete CRUD operations for poems (Create ✅, Read/Update/Delete ⏳)
-- [ ] User state management in UI
-- [ ] Admin moderation interface
+- [x] Complete CRUD operations for poems (Create ✅, Read/Update/Delete ⏳)
+- [x] User state management in UI
+- [x] Admin moderation interface
 
 ### ❌ **Not Yet Started**
 - [ ] Comments and likes backend integration
@@ -381,7 +423,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="..." # Supabase anon key ✅
 
 **LOTUS has successfully transitioned from a pure frontend prototype to having a working backend foundation with real user functionality.** The authentication system is production-ready, the database is properly designed and populated, users can now log in with real credentials, and **the poem submission system is fully functional with a moderation workflow**.
 
-The next phase involves building the admin moderation interface, completing the remaining CRUD operations for poems, and connecting the remaining UI components to the database. The foundation is solid and ready for rapid feature development.
 
 **Key Achievements:**
 - Real authentication works! Users can create accounts and log in with actual database verification.
@@ -454,68 +495,31 @@ The next phase involves building the admin moderation interface, completing the 
 - ✅ Proper error handling and user feedback throughout
 
 ## Tech Stack
-- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
-- **Backend**: Prisma ORM, SQLite database
-- **Authentication**: NextAuth.js with Google OAuth
-- **UI Components**: Shadcn/ui
+- **Frontend**: Next.js 15, React 19, TypeScript, Tailwind CSS
+- **Backend**: Prisma ORM, PostgreSQL (Supabase)
+- **Authentication**: NextAuth.js with credentials provider
+- **UI Components**: shadcn/ui
 - **State Management**: React hooks, URL parameters
+- **Admin System**: Role-based access control with middleware
 
 ## Current Database Schema
 
 ### Core Tables
-- **User**: Authentication and profile data
-- **Poem**: Content, metadata, status (draft/published/submitted)
-- **Tag**: Poem categorization
-- **PoemTag**: Many-to-many relationship
+- **User**: Authentication, profile data, and admin roles (USER, ADMIN)
+- **Poem**: Content, metadata, status (DRAFT, SUBMITTED, PUBLISHED, REJECTED)
+- **Tag**: Poem categorization with many-to-many relationships
+- **PoemTag**: Junction table for poem-tag relationships
 - **Comment**: User comments on poems
 - **Like**: User likes on poems
+- **Contact**: Contact form submissions
+- **Feedback**: User feedback and ratings
 
 ### Key Features Working
-1. **Authentication**: Google OAuth login/logout
-2. **Poems Listing**: Database-driven with pagination, search, filtering
-3. **Poem Submission**: Users can submit poems (saves as 'submitted' status)
-4. **API Endpoints**: Comprehensive poem API with filtering and pagination
-
-## Project Structure
-```
-lotus-poetry-website/
-├── app/
-│   ├── api/poems/           # Poem API endpoints (GET with filtering)
-│   ├── auth/               # Authentication pages
-│   ├── poems/              # Poems listing page (✅ DB integrated)
-│   ├── submit/             # Poem submission form
-│   └── page.tsx            # Homepage
-├── components/
-│   ├── ui/                 # Shadcn UI components
-│   ├── poem-card.tsx       # Individual poem display
-│   ├── pagination.tsx      # ✅ NEW: Pagination component
-│   └── poem-submission-form.tsx
-├── hooks/
-│   └── use-poem-listing.ts # ✅ NEW: API integration hook
-├── lib/
-│   ├── auth.ts             # NextAuth configuration
-│   ├── prisma.ts           # Database client
-│   └── utils.ts            # Utility functions
-└── prisma/
-    └── schema.prisma       # Database schema
-```
-
-## Next Priority: Admin Approval System
-
-The user wants to implement an admin approval page for submitted poems. This would involve:
-
-1. **Admin Role System**: Add admin role to users
-2. **Admin Dashboard**: Page to view submitted poems pending approval
-3. **Approval Actions**: Accept/reject submitted poems
-4. **Status Management**: Update poem status from 'submitted' to 'published' or 'rejected'
-5. **Notifications**: Optional - notify authors of approval/rejection
-
-## Database Status
-- ✅ 25 published poems for testing
-- ✅ 5 active users in system
-- ✅ Comprehensive poem API working
-- ✅ Tags and categories populated
-- ⏳ Need admin role system for poem approval workflow
-
-## Latest Commit
-`67280d0` - feat(poems): Connect poems listing to database with pagination and search
+1. **Authentication**: Credentials-based login/logout with password hashing
+2. **Admin System**: Role-based access control with protected routes
+3. **Poems Management**: Complete CRUD with moderation workflow
+4. **Poems Listing**: Database-driven with pagination, search, filtering
+5. **Individual Poem Pages**: Dynamic content loading with real database integration ✅ NEW
+6. **Poem Submission**: Users can submit poems (saves as 'SUBMITTED' status)
+7. **Admin Dashboard**: Approve/reject submitted poems with full workflow
+8. **API Endpoints**: Comprehensive poem and admin APIs
