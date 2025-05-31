@@ -247,7 +247,7 @@ export default function PoemPage({ params }: PoemPageProps) {
       </Card>
 
       {/* Comments Section */}
-      <CommentSection poemId={parseInt(poem.id)} />
+      <CommentSection poemId={poem.id} />
     </div>
   )
 }
