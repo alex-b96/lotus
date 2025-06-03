@@ -26,8 +26,8 @@ export const poemListQuerySchema = z.object({
   category: z.string().nullable().optional(),
   authorId: z.string().nullable().optional(),
   tag: z.string().nullable().optional(),
-  sortBy: z.enum(["createdAt", "title", "likes"]).optional().default("createdAt"),
-  order: z.enum(["asc", "desc"]).optional().default("desc"),
+  sortBy: z.string().nullable().optional().transform((val) => val || "createdAt").pipe(z.enum(["createdAt", "title", "likes"])),
+  order: z.string().nullable().optional().transform((val) => val || "desc").pipe(z.enum(["asc", "desc"])),
 })
 
 // Type exports for TypeScript
