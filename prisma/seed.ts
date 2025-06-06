@@ -9,31 +9,48 @@ async function main() {
   // Create users
   const hashedPassword = await bcrypt.hash('password123', 12)
 
-  const sarah = await prisma.user.create({
-    data: {
+  const sarah = await prisma.user.upsert({
+    where: { email: 'sarah@example.com' },
+    update: {
+      role: 'ADMIN', // Make Sarah an admin
+      featured: true, // Make Sarah a featured author
+    },
+    create: {
       email: 'sarah@example.com',
       password: hashedPassword,
       name: 'Sarah Chen',
       bio: 'Sarah is a nature poet who finds inspiration in the quiet moments of dawn.',
       website: 'https://sarahchen.poetry.com',
+      role: 'ADMIN', // Make Sarah an admin
+      featured: true, // Make Sarah a featured author
     },
   })
 
-  const marcus = await prisma.user.create({
-    data: {
+  const marcus = await prisma.user.upsert({
+    where: { email: 'marcus@example.com' },
+    update: {
+      featured: true, // Make Marcus a featured author
+    },
+    create: {
       email: 'marcus@example.com',
       password: hashedPassword,
       name: 'Marcus Johnson',
       bio: 'Urban poet capturing the rhythm of city life.',
+      featured: true, // Make Marcus a featured author
     },
   })
 
-  const elena = await prisma.user.create({
-    data: {
+  const elena = await prisma.user.upsert({
+    where: { email: 'elena@example.com' },
+    update: {
+      featured: false, // Elena is not featured initially
+    },
+    create: {
       email: 'elena@example.com',
       password: hashedPassword,
       name: 'Elena Rodriguez',
       bio: 'Ocean lover and poet of the waves.',
+      featured: false, // Elena is not featured initially
     },
   })
 
@@ -65,6 +82,8 @@ Where the earth and sky are bound.`,
       category: 'Lyric',
       authorId: sarah.id,
       readingTime: 2,
+      status: 'PUBLISHED', // Publish the poem
+      publishedAt: new Date(),
     },
   })
 
@@ -83,6 +102,8 @@ Illuminate our urban scars.`,
       category: 'Modern',
       authorId: marcus.id,
       readingTime: 2,
+      status: 'PUBLISHED', // Publish the poem
+      publishedAt: new Date(),
     },
   })
 
@@ -101,6 +122,8 @@ Find the soul its rightful place.`,
       category: 'Lyric',
       authorId: elena.id,
       readingTime: 2,
+      status: 'PUBLISHED', // Publish the poem
+      publishedAt: new Date(),
     },
   })
 

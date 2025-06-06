@@ -1,5 +1,6 @@
 "use client"
 
+import { Suspense } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -20,8 +21,9 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useAuthors } from "@/hooks/use-authors"
+import { FeaturedAuthors } from "@/components/featured-authors"
 
-export default function AuthorsPage() {
+function AuthorsPageContent() {
   const {
     authors,
     pagination,
@@ -39,13 +41,28 @@ export default function AuthorsPage() {
   } = useAuthors()
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* Header */}
       <div className="text-center">
         <h1 className="text-4xl font-bold text-green-800 mb-4">Our Authors</h1>
         <p className="text-green-600 text-lg max-w-2xl mx-auto">
           Meet the talented poets who share their hearts and souls through beautiful verse.
         </p>
+      </div>
+
+      {/* Featured Authors Section */}
+      <FeaturedAuthors />
+
+      {/* Divider */}
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-green-200" />
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="bg-gradient-to-r from-green-50 to-white px-6 py-2 text-green-600 font-medium rounded-full border border-green-200">
+            Browse All Authors
+          </span>
+        </div>
       </div>
 
       {/* Search and Filter */}
@@ -202,52 +219,59 @@ export default function AuthorsPage() {
         </div>
       )}
 
-      {/* No Results */}
+      {/* Empty State */}
       {!isLoading && !error && authors.length === 0 && (
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200">
-          <CardContent className="p-12 text-center">
-            <div className="text-green-600 mb-4">
-              <Search className="w-16 h-16 mx-auto opacity-50" />
-            </div>
-            <h3 className="text-xl font-semibold text-green-800 mb-2">No Authors Found</h3>
-            <p className="text-green-600 mb-4">
-              {searchTerm
-                ? `No authors match your search for "${searchTerm}".`
-                : "No authors available at the moment."
-              }
-            </p>
-            {searchTerm && (
-              <Button
-                variant="outline"
-                onClick={clearFilters}
-                className="border-green-300 text-green-700 hover:bg-green-50"
-              >
-                Clear Search
-              </Button>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && !isLoading && !error && (
-        <div className="flex flex-col items-center space-y-4">
-          <Pagination
-            currentPage={pagination.page}
-            totalPages={pagination.totalPages}
-            hasNext={pagination.hasNext}
-            hasPrev={pagination.hasPrev}
-            onPageChange={goToPage}
-          />
-          <PaginationInfo
-            currentPage={pagination.page}
-            totalPages={pagination.totalPages}
-            totalCount={pagination.totalCount}
-            limit={pagination.limit}
-            className="text-center"
-          />
+        <div className="text-center py-12">
+          <User className="w-16 h-16 text-green-300 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-green-800 mb-2">No Authors Found</h3>
+          <p className="text-green-600 mb-4">
+            {searchTerm
+              ? `No authors match your search for "${searchTerm}"`
+              : "No authors available at the moment"}
+          </p>
+          {searchTerm && (
+            <Button onClick={clearFilters} variant="outline" className="border-green-300 text-green-700">
+              Clear Search
+            </Button>
+          )}
         </div>
       )}
+
+      {/* Pagination Controls */}
+      {pagination && pagination.totalPages > 1 && !isLoading && !error && (
+        <Pagination
+          currentPage={pagination.page}
+          totalPages={pagination.totalPages}
+          onPageChange={goToPage}
+          className="justify-center"
+        />
+      )}
     </div>
+  )
+}
+
+// Loading fallback component
+function AuthorsPageLoading() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-green-800 mb-4">Our Authors</h1>
+        <p className="text-green-600 text-lg max-w-2xl mx-auto">
+          Meet the talented poets who share their hearts and souls through beautiful verse.
+        </p>
+      </div>
+      <div className="flex justify-center items-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-green-600" />
+        <span className="ml-2 text-green-600">Loading authors...</span>
+      </div>
+    </div>
+  )
+}
+
+export default function AuthorsPage() {
+  return (
+    <Suspense fallback={<AuthorsPageLoading />}>
+      <AuthorsPageContent />
+    </Suspense>
   )
 }

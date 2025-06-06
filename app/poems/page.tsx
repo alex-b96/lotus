@@ -1,19 +1,20 @@
 "use client"
 
+import { Suspense } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Heart, MessageCircle, Search, Filter, User, Clock, Loader2, AlertCircle, RefreshCcw } from "lucide-react"
+import { Heart, MessageCircle, Search, Filter, User, Clock, Loader2, AlertCircle, RefreshCcw, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { usePoemListing } from "@/hooks/use-poem-listing"
 import { Pagination, PaginationInfo } from "@/components/pagination"
 
 const categories = ["All", "Lyric", "Haiku", "Modern", "Classic", "Experimental"]
 
-export default function PoemsPage() {
+function PoemsPageContent() {
   const {
     // Data
     poems,
@@ -289,5 +290,31 @@ export default function PoemsPage() {
         </div>
       )}
     </div>
+  )
+}
+
+// Loading fallback component
+function PoemsPageLoading() {
+  return (
+    <div className="space-y-8">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold text-green-800 mb-4">Poetry Collection</h1>
+        <p className="text-green-600 text-lg max-w-2xl mx-auto">
+          Discover beautiful poems from talented writers around the world. Each piece tells a unique story.
+        </p>
+      </div>
+      <div className="flex justify-center items-center py-12">
+        <Loader2 className="w-8 h-8 animate-spin text-green-600" />
+        <span className="ml-2 text-green-600">Loading poems...</span>
+      </div>
+    </div>
+  )
+}
+
+export default function PoemsPage() {
+  return (
+    <Suspense fallback={<PoemsPageLoading />}>
+      <PoemsPageContent />
+    </Suspense>
   )
 }

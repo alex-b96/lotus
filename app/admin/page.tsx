@@ -92,6 +92,16 @@ export default function AdminDashboard() {
             Review and approve submitted poems. Welcome back, {session?.user?.name || 'Admin'}!
           </p>
 
+          {/* Quick Actions */}
+          <div className="flex gap-4 mt-4">
+            <Button variant="outline" asChild>
+              <a href="/admin/authors">
+                <User className="h-4 w-4 mr-2" />
+                Manage Authors
+              </a>
+            </Button>
+          </div>
+
           {pagination && (
             <div className="mt-4">
               <Badge variant="outline" className="text-sm">

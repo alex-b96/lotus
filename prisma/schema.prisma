@@ -34,6 +34,7 @@ model User {
   avatarUrl String?  @map("avatar_url")
   website   String?
   role      UserRole @default(USER)
+  featured  Boolean  @default(false)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

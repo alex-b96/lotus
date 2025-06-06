@@ -23,6 +23,7 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
 - **PostgreSQL Database:** Set up with Supabase
 - **Prisma ORM:** Fully configured with complete schema
 - **Database Schema:** All tables created (users, poems, comments, likes, tags, etc.)
+- **Featured Authors Schema:** Added `featured` boolean field to User model
 - **Seed Data:** Sample users, poems, tags, relationships, and comments populated
 - **Migration System:** Working with proper versioning
 - **Moderation Workflow:** Database schema supports draft, review, published, rejected statuses
@@ -93,9 +94,10 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
 
 #### 3. **Authors Section**
 - **Status:** ✅ **FULLY FUNCTIONAL**
-- **Backend:** Complete REST API with database integration
+- **Backend:** Complete REST API with database integration and admin-controlled featured authors
 - **Features:**
   - **Authors Listing Page (`/authors`)** - Grid view of all authors with published poems
+  - **Featured Authors Section** - Top section showcasing 3 admin-selected featured authors
   - **Search & Filtering** - Search by name/bio, sort by poem count, name, or join date
   - **Pagination** - 20 authors per page with full pagination controls
   - **Author Statistics** - Shows poem count and join date for each author
@@ -107,6 +109,7 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
   - **Loading States** - Beautiful loading spinners and skeleton states
   - **Error Handling** - 404 pages for non-existent authors with retry functionality
   - **Real-time Data** - All data pulled from PostgreSQL database
+  - **Admin Management** - Dedicated admin interface (`/admin/authors`) for managing featured status
 
 #### 4. **Database & Data Management**
 - **Status:** ✅ **FULLY FUNCTIONAL**
@@ -195,7 +198,7 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
 
 #### 11. **Admin Dashboard (`/admin`)**
 - **Status:** ✅ **FULLY FUNCTIONAL**
-- **Backend:** Complete admin approval workflow with role-based access
+- **Backend:** Complete admin approval workflow with role-based access and author management
 - **Features:**
   - **Admin authentication** - Role-based access control with middleware protection
   - **Poem moderation** - View, approve, and reject submitted poems
@@ -204,6 +207,9 @@ LOTUS is a poetry community website designed as a "digital sanctuary where poetr
   - **Rejection system** - Reject poems with optional feedback
   - **Pagination support** - Handle large numbers of submissions
   - **Admin navigation** - Smart admin links in header for admin users only
+  - **Author management (`/admin/authors`)** - Dedicated interface for managing featured authors
+  - **Featured author controls** - Toggle featured status with switch controls
+  - **Author search & pagination** - Search authors and navigate through paginated results
   - **Error handling** - Proper auth checks and user feedback
 
 ### 🎭 **Mockup Features (UI Complete, Backend Partially Ready)**
@@ -266,6 +272,7 @@ API Routes
 ├── /api/auth/[...nextauth] - NextAuth handler ✅
 ├── /api/auth/register - User registration ✅
 ├── /api/authors - Authors listing with pagination and search ✅
+├── /api/authors/featured - Featured authors API ✅
 ├── /api/authors/[id] - Individual author details ✅
 ├── /api/authors/[id]/poems - Author's poems with pagination ✅
 ├── /api/poems - Poems CRUD with filtering and pagination ✅
@@ -274,7 +281,9 @@ API Routes
 ├── /api/comments/[id] - Comments CRUD (PUT, DELETE) ✅
 ├── /api/admin/poems - Admin poem management ✅
 ├── /api/admin/poems/[id]/approve - Approve poems ✅
-└── /api/admin/poems/[id]/reject - Reject poems ✅
+├── /api/admin/poems/[id]/reject - Reject poems ✅
+├── /api/admin/authors - Admin authors management ✅
+└── /api/admin/authors/[id]/featured - Toggle featured status ✅
 
 Authentication & Authorization
 ├── NextAuth.js configuration ✅
@@ -300,6 +309,10 @@ Authentication & Authorization
 /app/
 ├── api/
 │   ├── admin/
+│   │   ├── authors/
+│   │   │   ├── route.ts                # Admin authors management API ✅
+│   │   │   └── [id]/
+│   │   │       └── featured/route.ts   # Toggle featured status API ✅
 │   │   └── poems/
 │   │       ├── route.ts                # Admin poems list API ✅
 │   │       └── [id]/
@@ -310,6 +323,7 @@ Authentication & Authorization
 │   │   └── register/route.ts           # Registration API ✅
 │   ├── authors/
 │   │   ├── route.ts                    # Authors listing API ✅ FUNCTIONAL
+│   │   ├── featured/route.ts           # Featured authors API ✅ FUNCTIONAL
 │   │   └── [id]/
 │   │       ├── route.ts                # Individual author API ✅ FUNCTIONAL
 │   │       └── poems/route.ts          # Author's poems API ✅ FUNCTIONAL
@@ -319,7 +333,9 @@ Authentication & Authorization
 │   └── poems/
 │       ├── route.ts                    # Poems CRUD API ✅
 │       └── [id]/route.ts              # Individual poem API ✅
-├── admin/page.tsx                      # Admin dashboard ✅ FUNCTIONAL
+├── admin/
+│   ├── page.tsx                        # Admin dashboard ✅ FUNCTIONAL
+│   └── authors/page.tsx                # Admin authors management ✅ FUNCTIONAL
 ├── auth/
 │   ├── signin/page.tsx                 # Sign in page ✅
 │   └── signup/page.tsx                 # Sign up page (mockup)
@@ -348,6 +364,7 @@ Authentication & Authorization
 │   ├── pagination.tsx                 # ✅ NEW: Pagination component
 │   └── ... (other UI components)
 ├── comment-section.tsx                # ✅ FUNCTIONAL: Real database comments
+├── featured-authors.tsx               # ✅ NEW: Featured authors display component
 ├── footer.tsx                         # Site footer ✅
 ├── header.tsx                         # Navigation header ✅ with admin links
 ├── lotus-logo.tsx                     # Custom SVG logo ✅
@@ -357,10 +374,12 @@ Authentication & Authorization
 └── theme-provider.tsx                 # Theme configuration ✅
 
 /hooks/
+├── use-admin-authors.ts               # ✅ NEW: Admin authors management state
 ├── use-admin-poems.ts                 # ✅ NEW: Admin state management
 ├── use-admin-status.ts                # ✅ NEW: Admin role detection
 ├── use-authors.ts                     # ✅ NEW: Authors listing state management
 ├── use-comments.ts                    # ✅ NEW: Comments state management and API integration
+├── use-featured-authors.ts            # ✅ NEW: Featured authors data fetching
 ├── use-poem-detail.ts                 # ✅ NEW: Individual poem data fetching
 └── use-poem-listing.ts                # ✅ NEW: API integration hook
 
