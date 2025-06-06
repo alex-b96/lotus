@@ -199,7 +199,11 @@ export default function HomePage() {
                 </Badge>
               ))}
             </div>
-
+            <Button asChild className="w-full bg-green-600 hover:bg-green-700">
+                    <Link href={`/poems/${featuredPoem.id}`}>
+                      Read Full Poem
+                    </Link>
+                  </Button>
             <div className="flex items-center justify-between pt-4 border-t border-green-100">
               <div className="flex items-center space-x-4">
                 <Button variant="ghost" size="sm" className="text-green-700 hover:text-red-500 hover:bg-red-50">

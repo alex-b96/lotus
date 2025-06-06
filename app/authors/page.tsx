@@ -42,14 +42,6 @@ function AuthorsPageContent() {
 
   return (
     <div className="space-y-12">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-green-800 mb-4">Our Authors</h1>
-        <p className="text-green-600 text-lg max-w-2xl mx-auto">
-          Meet the talented poets who share their hearts and souls through beautiful verse.
-        </p>
-      </div>
-
       {/* Featured Authors Section */}
       <FeaturedAuthors />
 
