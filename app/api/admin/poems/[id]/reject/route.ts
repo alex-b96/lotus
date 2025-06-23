@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { requireAdmin } from '@/lib/admin-middleware'
+import { sendRejectionEmail } from '@/lib/email-service'
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    console.log('Reject API: Starting request for poem:', params.id)
+    const { id: poemId } = params
+    console.log('Reject API: Starting request for poem:', poemId)
 
     // Check admin auth directly
     const adminUser = await requireAdmin()
     console.log('Reject API: Admin user verified:', adminUser.email)
-
-    const poemId = params.id
 
     if (!poemId) {
       return NextResponse.json(
@@ -80,6 +80,26 @@ export async function PUT(
     })
 
     console.log('Reject API: Poem rejected successfully')
+
+    // Send rejection email to author
+    try {
+      const emailResult = await sendRejectionEmail(
+        updatedPoem.author.email,
+        updatedPoem.author.name || 'Author',
+        updatedPoem.title,
+        rejectionReason
+      )
+
+      if (!emailResult.success) {
+        console.warn('Failed to send rejection email:', emailResult.error)
+        // Don't fail the entire request if email fails
+      } else {
+        console.log('Rejection email sent successfully to author')
+      }
+    } catch (emailError) {
+      console.warn('Email service error:', emailError)
+      // Don't fail the entire request if email fails
+    }
 
     return NextResponse.json({
       message: 'Poem rejected successfully',

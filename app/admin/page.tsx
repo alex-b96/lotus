@@ -10,7 +10,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Heart, MessageCircle, CheckCircle, XCircle, Loader2, AlertCircle, RefreshCcw, Shield, Calendar, User } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Heart, MessageCircle, CheckCircle, XCircle, Loader2, AlertCircle, RefreshCcw, Shield, Calendar, User, Star, StarOff } from "lucide-react"
 import { useAdminPoems } from "@/hooks/use-admin-poems"
 import { Pagination } from "@/components/pagination"
 
@@ -33,12 +34,26 @@ export default function AdminDashboard() {
   const [rejectionReason, setRejectionReason] = useState("")
   const [selectedPoemForRejection, setSelectedPoemForRejection] = useState<string | null>(null)
 
+  // Featured Poem state
+  const [featuredPoem, setFeaturedPoem] = useState<any>(null)
+  const [publishedPoems, setPublishedPoems] = useState<any[]>([])
+  const [featuredLoading, setFeaturedLoading] = useState(false)
+  const [featuredError, setFeaturedError] = useState<string | null>(null)
+
   // Redirect if not authenticated
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin")
     }
   }, [status, router])
+
+  // Fetch featured poem data on component mount
+  useEffect(() => {
+    if (status === "authenticated" && session?.user?.role === 'ADMIN') {
+      fetchFeaturedPoem()
+      fetchPublishedPoems()
+    }
+  }, [status, session])
 
   // Handle approve action
   const handleApprove = async (poemId: string) => {
@@ -54,6 +69,79 @@ export default function AdminDashboard() {
     if (success) {
       setSelectedPoemForRejection(null)
       setRejectionReason("")
+    }
+  }
+
+  // Featured Poem functions
+  const fetchFeaturedPoem = async () => {
+    try {
+      const response = await fetch('/api/admin/featured-poem')
+      if (response.ok) {
+        const data = await response.json()
+        setFeaturedPoem(data.featuredPoem)
+      }
+    } catch (error) {
+      console.error('Error fetching featured poem:', error)
+    }
+  }
+
+  const fetchPublishedPoems = async () => {
+    try {
+      const response = await fetch('/api/poems?status=PUBLISHED&limit=50')
+      if (response.ok) {
+        const data = await response.json()
+        setPublishedPoems(data.poems || [])
+      }
+    } catch (error) {
+      console.error('Error fetching published poems:', error)
+    }
+  }
+
+  const setFeaturedPoemHandler = async (poemId: string) => {
+    setFeaturedLoading(true)
+    setFeaturedError(null)
+    try {
+      const response = await fetch('/api/admin/featured-poem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ poemId }),
+      })
+
+      if (response.ok) {
+        await fetchFeaturedPoem()
+        // Could add toast notification here
+      } else {
+        const error = await response.json()
+        setFeaturedError(error.error || 'Failed to set featured poem')
+      }
+    } catch (error) {
+      setFeaturedError('An error occurred')
+    } finally {
+      setFeaturedLoading(false)
+    }
+  }
+
+  const removeFeaturedPoem = async () => {
+    setFeaturedLoading(true)
+    setFeaturedError(null)
+    try {
+      const response = await fetch('/api/admin/featured-poem', {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        setFeaturedPoem(null)
+        // Could add toast notification here
+      } else {
+        const error = await response.json()
+        setFeaturedError(error.error || 'Failed to remove featured poem')
+      }
+    } catch (error) {
+      setFeaturedError('An error occurred')
+    } finally {
+      setFeaturedLoading(false)
     }
   }
 
@@ -101,6 +189,100 @@ export default function AdminDashboard() {
               </a>
             </Button>
           </div>
+        </div>
+
+        {/* Featured Poem of the Week Section */}
+        <Card className="mb-8 border-l-4 border-l-blue-400">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Star className="h-5 w-5 text-yellow-500" />
+              Poem of the Week
+            </CardTitle>
+            <p className="text-sm text-gray-600">
+              Select which published poem should be featured on the homepage
+            </p>
+          </CardHeader>
+          <CardContent>
+            {featuredError && (
+              <Alert className="mb-4 border-red-200 bg-red-50">
+                <AlertCircle className="h-4 w-4 text-red-600" />
+                <AlertDescription className="text-red-800">
+                  {featuredError}
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {featuredPoem ? (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h4 className="font-semibold text-green-800">{featuredPoem.title}</h4>
+                    <p className="text-sm text-green-600 mb-2">by {featuredPoem.author.name}</p>
+                    <div className="flex gap-2 mb-3">
+                      {featuredPoem.tags.map((tag: string) => (
+                        <Badge key={tag} variant="outline" className="text-xs">
+                          #{tag}
+                        </Badge>
+                      ))}
+                    </div>
+                    <p className="text-xs text-green-500">
+                      Featured since: {new Date(featuredPoem.featuredAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={removeFeaturedPoem}
+                    disabled={featuredLoading}
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
+                    {featuredLoading ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <StarOff className="h-4 w-4" />
+                    )}
+                    <span className="ml-2">Remove</span>
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4 text-center">
+                <Star className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                <p className="text-gray-600">No poem is currently featured</p>
+              </div>
+            )}
+
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="poem-select">Select a poem to feature:</Label>
+                <Select onValueChange={setFeaturedPoemHandler} disabled={featuredLoading}>
+                  <SelectTrigger id="poem-select" className="w-full mt-2">
+                    <SelectValue placeholder={
+                      publishedPoems.length === 0
+                        ? "No published poems available"
+                        : "Choose a published poem..."
+                    } />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {publishedPoems.length === 0 ? (
+                      <div className="px-2 py-1.5 text-sm text-gray-500">
+                        No published poems found
+                      </div>
+                    ) : (
+                      publishedPoems.map((poem) => (
+                        <SelectItem key={poem.id} value={poem.id}>
+                          {poem.title} - by {poem.author.name}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="mb-8">
 
           {pagination && (
             <div className="mt-4">

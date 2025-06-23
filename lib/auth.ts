@@ -13,6 +13,7 @@ declare module "next-auth" {
     bio?: string | null
     avatarUrl?: string | null
     website?: string | null
+    role: string
   }
 
   interface Session {
@@ -23,6 +24,7 @@ declare module "next-auth" {
       bio?: string | null
       avatarUrl?: string | null
       website?: string | null
+      role: string
     }
   }
 }
@@ -67,6 +69,7 @@ export const authOptions: NextAuthOptions = {
           bio: user.bio,
           avatarUrl: user.avatarUrl,
           website: user.website,
+          role: user.role,
         }
       }
     })
@@ -80,6 +83,7 @@ export const authOptions: NextAuthOptions = {
         token.bio = user.bio
         token.avatarUrl = user.avatarUrl
         token.website = user.website
+        token.role = user.role
       }
       return token
     },
@@ -89,12 +93,12 @@ export const authOptions: NextAuthOptions = {
         session.user.bio = token.bio as string
         session.user.avatarUrl = token.avatarUrl as string
         session.user.website = token.website as string
+        session.user.role = token.role as string
       }
       return session
     }
   },
   pages: {
     signIn: "/login",
-    signUp: "/register",
   },
 }

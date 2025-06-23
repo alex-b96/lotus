@@ -313,6 +313,7 @@ Authentication & Authorization
 │   │   │   ├── route.ts                # Admin authors management API ✅
 │   │   │   └── [id]/
 │   │   │       └── featured/route.ts   # Toggle featured status API ✅
+│   │   ├── featured-poem/route.ts      # Featured poem management API ✅ NEW
 │   │   └── poems/
 │   │       ├── route.ts                # Admin poems list API ✅
 │   │       └── [id]/
@@ -467,9 +468,15 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="..." # Supabase anon key ✅
 
 ## Next Implementation Priorities
 
-### 🔴 **High Priority**
-1. **User Dashboard** - Allow users to manage their poems and view submission status
-2. **Registration Frontend** - Connect signup form to existing backend API
+### 🔴 **High Priority - Next Tasks**
+1. **Feedback Page Implementation** - Create functional feedback form with email integration (Task 10)
+   - Backend API to handle feedback submissions
+   - Email service integration to send feedback to admin
+   - Connect existing frontend form to new API
+   - Add form validation and loading states
+   - Provide user feedback with success/error messages
+2. **User Dashboard** - Allow users to manage their poems and view submission status
+3. **Registration Frontend** - Connect signup form to existing backend API
 
 ### 🟡 **Medium Priority**
 1. **Like System Backend** - Create API endpoints for poem and comment likes
@@ -519,6 +526,60 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="..." # Supabase anon key ✅
 - Moderation system implemented with draft, review, published, and rejected statuses.
 
 ## Recent Progress ✅
+
+### Task 9 COMPLETED: Poem of the Week Feature Implementation (January 6, 2025)
+- **Database Schema Updates**: Added SiteSettings table for featured poem management
+  - `featured_poem_id` field to track currently selected poem
+  - `featured_at` timestamp for tracking when poem was featured
+  - Proper relations between SiteSettings and Poem models
+  - Database migration successfully applied
+- **Admin API Endpoints**: Complete featured poem management system
+  - `GET /api/admin/featured-poem` - Retrieve current featured poem
+  - `POST /api/admin/featured-poem` - Set a new featured poem
+  - `DELETE /api/admin/featured-poem` - Remove featured poem
+  - Admin authentication and role verification
+- **Featured Poem API**: Updated existing featured endpoint
+  - `GET /api/poems/featured` - Now returns admin-selected featured poem instead of random
+  - Fallback to random poem if no featured poem is set
+  - Proper error handling and data transformation
+- **Admin UI Enhancement**: New "Poem of the Week" section in admin dashboard
+  - Dropdown selector showing all published poems
+  - Current featured poem display with metadata and remove option
+  - Real-time updates when featuring/unfeaturing poems
+  - Loading states and error handling
+  - Debug information for troubleshooting
+- **Homepage Update**: Changed from "Poem of the Day" to "Poem of the Week"
+  - Updated text labels and comments throughout codebase
+  - Maintains existing styling and functionality
+  - Now displays admin-selected featured poem
+- **Authentication Integration**: Role-based access control
+  - Updated NextAuth types to include user role
+  - Enhanced session management with role information
+  - Proper admin verification for featured poem management
+
+**Key Files Added/Modified:**
+- `prisma/schema.prisma` - Added SiteSettings model and relations
+- `app/api/admin/featured-poem/route.ts` - New admin API for featured poem management
+- `app/api/poems/featured/route.ts` - Updated to use featured poem from database
+- `lib/auth.ts` - Enhanced NextAuth configuration with role support
+- `app/admin/page.tsx` - Added Poem of the Week management section
+- `app/page.tsx` - Updated homepage text from "Day" to "Week"
+
+**Database Status:**
+- ✅ SiteSettings table created and ready
+- ✅ Featured poem relations properly configured
+- ✅ Migration applied successfully with seed data regenerated
+- ✅ Admin can select and manage featured poems
+- ✅ Homepage displays selected featured poem
+
+**Testing Verified:**
+- ✅ Admin can select any published poem as featured
+- ✅ Homepage immediately reflects the selected featured poem
+- ✅ Admin dashboard shows current featured poem status
+- ✅ Remove featured poem functionality works
+- ✅ Proper authentication and role verification
+- ✅ Error handling for edge cases
+- ✅ Responsive design maintained across all components
 
 ### Task 5 COMPLETED: Authors Section Implementation
 - **Backend API Implementation**: Complete REST API for authors functionality

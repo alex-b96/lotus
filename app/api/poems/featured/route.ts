@@ -2,61 +2,102 @@ import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
 
 /**
- * GET /api/poems/featured - Get a featured poem (random published poem)
+ * GET /api/poems/featured - Get the featured poem of the week (or fallback to random)
  */
 export async function GET(request: NextRequest) {
   try {
     console.log("Starting featured poem fetch...")
 
-    // Get total count of published poems
-    console.log("Attempting to count poems...")
-    const totalCount = await db.poem.count({
-      where: { status: "PUBLISHED" }
-    })
-    console.log("Poem count:", totalCount)
-
-    if (totalCount === 0) {
-      return NextResponse.json({
-        poem: null,
-        message: "No published poems available"
-      })
-    }
-
-    // Get a random offset
-    const randomOffset = Math.floor(Math.random() * totalCount)
-    console.log("Random offset:", randomOffset)
-
-    // Fetch the random poem
-    console.log("Fetching random poem...")
-    const poem = await db.poem.findFirst({
-      where: { status: "PUBLISHED" },
+    // First, try to get the featured poem from site settings
+    const siteSettings = await db.siteSettings.findFirst({
       include: {
-        author: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            avatarUrl: true,
-          }
-        },
-        tags: {
+        featuredPoem: {
           include: {
-            tag: {
+            author: {
               select: {
+                id: true,
                 name: true,
+                email: true,
+                avatarUrl: true,
+              }
+            },
+            tags: {
+              include: {
+                tag: {
+                  select: {
+                    name: true,
+                  }
+                }
+              }
+            },
+            _count: {
+              select: {
+                likes: true,
+                comments: true,
               }
             }
           }
-        },
-        _count: {
-          select: {
-            likes: true,
-            comments: true,
-          }
         }
-      },
-      skip: randomOffset,
+      }
     })
+
+    let poem = siteSettings?.featuredPoem
+
+    // If no featured poem is set, fallback to a random published poem
+    if (!poem) {
+      console.log("No featured poem set, falling back to random poem...")
+
+      // Get total count of published poems
+      const totalCount = await db.poem.count({
+        where: { status: "PUBLISHED" }
+      })
+      console.log("Poem count:", totalCount)
+
+      if (totalCount === 0) {
+        return NextResponse.json({
+          poem: null,
+          message: "No published poems available"
+        })
+      }
+
+      // Get a random offset
+      const randomOffset = Math.floor(Math.random() * totalCount)
+      console.log("Random offset:", randomOffset)
+
+      // Fetch the random poem
+      console.log("Fetching random poem...")
+      poem = await db.poem.findFirst({
+        where: { status: "PUBLISHED" },
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              avatarUrl: true,
+            }
+          },
+          tags: {
+            include: {
+              tag: {
+                select: {
+                  name: true,
+                }
+              }
+            }
+          },
+          _count: {
+            select: {
+              likes: true,
+              comments: true,
+            }
+          }
+        },
+        skip: randomOffset,
+      })
+    } else {
+      console.log("Found featured poem:", poem.title)
+    }
 
     if (!poem) {
       return NextResponse.json({
@@ -71,7 +112,7 @@ export async function GET(request: NextRequest) {
       content: poem.content,
       category: poem.category,
       author: poem.author,
-      tags: poem.tags.map(poemTag => poemTag.tag.name),
+      tags: poem.tags.map((poemTag: any) => poemTag.tag.name),
       readingTime: poem.readingTime,
       publishedAt: poem.publishedAt,
       createdAt: poem.createdAt,
@@ -83,7 +124,7 @@ export async function GET(request: NextRequest) {
     console.log("Successfully fetched poem:", poem.title)
     return NextResponse.json({ poem: transformedPoem })
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching featured poem:", error)
     console.error("Error details:", {
       name: error?.name,

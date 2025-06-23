@@ -109,13 +109,13 @@ export default function HomePage() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      {/* Main Content - Poem of the Day */}
+      {/* Main Content - Poem of the Week */}
       <div className="lg:col-span-2">
         <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
           <CardHeader className="text-center border-b border-green-100">
             <div className="flex items-center justify-center space-x-2 mb-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-green-700 font-medium">Poem of the Day</span>
+              <span className="text-green-700 font-medium">Poem of the Week</span>
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
             </div>
 
