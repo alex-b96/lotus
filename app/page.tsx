@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Heart, MessageCircle, Share2, Clock, User, AlertCircle, RefreshCw } from "lucide-react"
 import Link from "next/link"
+import { usePoemLike } from "@/hooks/use-poem-like"
 
 interface Author {
   id: string
@@ -49,6 +50,10 @@ export default function HomePage() {
   const [isLoadingRecent, setIsLoadingRecent] = useState(true)
   const [featuredError, setFeaturedError] = useState<string | null>(null)
   const [recentError, setRecentError] = useState<string | null>(null)
+
+  // Like state for featured poem
+  const likeHook = usePoemLike(featuredPoem?.id)
+  const { liked, count: likeCount, loading: likeLoading, like, unlike, session } = likeHook
 
   // Fetch featured poem
   const fetchFeaturedPoem = async () => {
@@ -206,14 +211,28 @@ export default function HomePage() {
                   </Button>
             <div className="flex items-center justify-between pt-4 border-t border-green-100">
               <div className="flex items-center space-x-4">
-                <Button variant="ghost" size="sm" className="text-green-700 hover:text-red-500 hover:bg-red-50">
-                  <Heart className="w-4 h-4 mr-2" />
-                      {featuredPoem.likes}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`text-green-700 ${liked ? "text-red-500" : "hover:text-red-500 hover:bg-red-50"}`}
+                  onClick={async () => {
+                    if (!session?.user) {
+                      window.location.href = "/login"
+                      return
+                    }
+                    if (likeLoading) return
+                    liked ? await unlike() : await like()
+                  }}
+                  disabled={likeLoading}
+                >
+                  <Heart className={`w-4 h-4 mr-2 ${liked ? "fill-red-500" : ""}`} />
+                  {likeCount}
                 </Button>
-                <Button variant="ghost" size="sm" className="text-green-700 hover:text-blue-500 hover:bg-blue-50">
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                      {featuredPoem.comments}
-                </Button>
+                {/* Comments count: static, not a button */}
+                <div className="flex items-center text-green-700 text-sm">
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  {featuredPoem.comments}
+                </div>
               </div>
               <Button variant="ghost" size="sm" className="text-green-700 hover:text-green-800">
                 <Share2 className="w-4 h-4 mr-2" />

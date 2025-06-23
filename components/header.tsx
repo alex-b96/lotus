@@ -110,7 +110,7 @@ export function Header() {
                     </div>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard" className="cursor-pointer">
+                      <Link href={`/authors/${session.user.id}`} className="cursor-pointer">
                         <User className="w-4 h-4 mr-2" />
                         My Profile
                       </Link>
@@ -200,7 +200,7 @@ export function Header() {
                       </Link>
                     </Button>
                     <Button variant="ghost" size="sm" asChild>
-                      <Link href="/dashboard" onClick={() => setIsMenuOpen(false)}>
+                      <Link href={`/authors/${session.user.id}`} onClick={() => setIsMenuOpen(false)}>
                         <User className="w-4 h-4 mr-2" />
                         My Profile
                       </Link>

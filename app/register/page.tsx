@@ -21,7 +21,6 @@ export default function RegisterPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    userType: "",
     agreeToTerms: false,
   })
   const [showPassword, setShowPassword] = useState(false)
@@ -214,24 +213,6 @@ export default function RegisterPage() {
                 required
                 className="border-green-300 focus:border-green-500"
               />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="userType" className="text-green-800 font-medium">
-                Account Type
-              </Label>
-              <Select
-                value={formData.userType}
-                onValueChange={(value) => setFormData((prev) => ({ ...prev, userType: value }))}
-              >
-                <SelectTrigger className="border-green-300 focus:border-green-500">
-                  <SelectValue placeholder="Select account type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="reader">Reader (Browse and comment)</SelectItem>
-                  <SelectItem value="poet">Poet (Submit and share poems)</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
 
             <div className="space-y-2">

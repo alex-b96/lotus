@@ -216,15 +216,16 @@ function PoemsPageContent() {
               </div>
 
               <div className="flex items-center justify-between pt-4 border-t border-green-100">
+                {/* Like and comment counts: static, not buttons */}
                 <div className="flex items-center space-x-4">
-                  <Button variant="ghost" size="sm" className="text-green-700 hover:text-red-500 hover:bg-red-50">
+                  <div className="flex items-center text-green-700 text-sm">
                     <Heart className="w-4 h-4 mr-1" />
                     {poem.likes}
-                  </Button>
-                  <Button variant="ghost" size="sm" className="text-green-700 hover:text-blue-500 hover:bg-blue-50">
+                  </div>
+                  <div className="flex items-center text-green-700 text-sm">
                     <MessageCircle className="w-4 h-4 mr-1" />
                     {poem.comments}
-                  </Button>
+                  </div>
                 </div>
                 <Button
                   variant="outline"

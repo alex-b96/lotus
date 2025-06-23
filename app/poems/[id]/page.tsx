@@ -1,6 +1,6 @@
 "use client"
 
-import { use } from "react"
+import { use, useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -12,6 +12,7 @@ import { Heart, MessageCircle, Share2, Clock, BookOpen, AlertCircle, RefreshCcw 
 import Link from "next/link"
 import { CommentSection } from "@/components/comment-section"
 import { usePoemDetail } from "@/hooks/use-poem-detail"
+import { usePoemLike } from "@/hooks/use-poem-like"
 
 interface PoemPageProps {
   params: Promise<{ id: string }>
@@ -20,6 +21,14 @@ interface PoemPageProps {
 export default function PoemPage({ params }: PoemPageProps) {
   const { id } = use(params)
   const { poem, loading, error, retry } = usePoemDetail(id)
+  const [commentCount, setCommentCount] = useState<number | undefined>(undefined)
+
+  // Like state management (always call the hook)
+  const { liked, count: likeCount, loading: likeLoading, like, unlike, session } = usePoemLike(poem?.id)
+
+  useEffect(() => {
+    if (poem) setCommentCount(poem.comments)
+  }, [poem])
 
   // Loading state
   if (loading) {
@@ -102,6 +111,11 @@ export default function PoemPage({ params }: PoemPageProps) {
     return null
   }
 
+  // Handler to increment comment count when a new comment is added
+  const handleCommentAdded = () => {
+    setCommentCount((prev) => (prev ?? 0) + 1)
+  }
+
   // Format reading time
   const readingTimeText = poem.readingTime === 1 ? "1 min read" : `${poem.readingTime} min read`
 
@@ -176,14 +190,28 @@ export default function PoemPage({ params }: PoemPageProps) {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" className="text-green-700 hover:text-red-500 hover:bg-red-50">
-                <Heart className="w-5 h-5 mr-2" />
-                {poem.likes} Likes
+              {/* Like Button */}
+              <Button
+                variant="ghost"
+                className={`text-green-700 ${liked ? "text-red-500" : "hover:text-red-500 hover:bg-red-50"}`}
+                onClick={async () => {
+                  if (!session?.user) {
+                    window.location.href = "/login"
+                    return
+                  }
+                  if (likeLoading) return
+                  liked ? await unlike() : await like()
+                }}
+                disabled={likeLoading}
+              >
+                <Heart className={`w-5 h-5 mr-2 ${liked ? "fill-red-500" : ""}`} />
+                {likeCount} Likes
               </Button>
-              <Button variant="ghost" className="text-green-700 hover:text-blue-500 hover:bg-blue-50">
+              {/* Comments count: static, not a button */}
+              <div className="flex items-center text-green-700 text-sm">
                 <MessageCircle className="w-5 h-5 mr-2" />
-                {poem.comments} Comments
-              </Button>
+                {commentCount ?? 0} Comments
+              </div>
             </div>
             <div className="flex items-center space-x-2">
               <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
@@ -247,7 +275,7 @@ export default function PoemPage({ params }: PoemPageProps) {
       </Card>
 
       {/* Comments Section */}
-      <CommentSection poemId={poem.id} />
+      <CommentSection poemId={poem.id} onCommentAdded={handleCommentAdded} />
     </div>
   )
 }

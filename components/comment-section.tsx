@@ -18,9 +18,10 @@ import {
 
 interface CommentSectionProps {
   poemId: string
+  onCommentAdded?: () => void // Optional callback for parent to update comment count
 }
 
-export function CommentSection({ poemId }: CommentSectionProps) {
+export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) {
   const { data: session } = useSession()
   const {
     comments,
@@ -49,6 +50,8 @@ export function CommentSection({ poemId }: CommentSectionProps) {
 
     if (success) {
       setNewComment("")
+      // Notify parent to increment comment count
+      if (onCommentAdded) onCommentAdded()
     }
 
     setIsSubmitting(false)
