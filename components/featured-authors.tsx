@@ -152,9 +152,11 @@ export function FeaturedAuthors() {
             </CardHeader>
 
             <CardContent className="pt-0">
-              <p className="text-green-700 mb-6 text-center line-clamp-3 text-sm leading-relaxed">
-                {author.bio || "A gifted poet whose words touch hearts and inspire minds through the beauty of verse."}
-              </p>
+              {author.bio ? (
+                <p className="text-green-700 mb-6 text-center line-clamp-3 text-sm leading-relaxed">
+                  {author.bio}
+                </p>
+              ) : null}
 
               <div className="flex flex-col space-y-3">
                 <Button asChild className="bg-green-600 hover:bg-green-700 shadow-md">

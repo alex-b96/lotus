@@ -196,9 +196,11 @@ function AuthorsPageContent() {
               </CardHeader>
 
               <CardContent>
-                <p className="text-green-700 mb-4 text-center line-clamp-3">
-                  {author.bio || "A talented poet sharing their creativity through verse."}
-                </p>
+                {author.bio ? (
+                  <p className="text-green-700 mb-4 text-center line-clamp-3">
+                    {author.bio}
+                  </p>
+                ) : null}
 
                 <div className="flex flex-col space-y-2">
                   <Button asChild className="bg-green-600 hover:bg-green-700">

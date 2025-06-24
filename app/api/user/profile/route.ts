@@ -8,6 +8,7 @@ import * as z from "zod"
 const profileUpdateSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters long." }).optional(),
   email: z.string().email({ message: "Please enter a valid email address." }).optional(),
+  bio: z.string().max(500, { message: "Bio must be at most 500 characters." }).optional(),
 })
 
 export async function PUT(req: NextRequest) {
@@ -31,7 +32,7 @@ export async function PUT(req: NextRequest) {
       return NextResponse.json({ error: validated.error.flatten().fieldErrors }, { status: 400 })
     }
 
-    const { name, email } = validated.data
+    const { name, email, bio } = validated.data
 
     // 3. Update the user in the database with only the provided fields
     const updatedUser = await db.user.update({
@@ -39,6 +40,7 @@ export async function PUT(req: NextRequest) {
       data: {
         ...(name && { name }),
         ...(email && { email }),
+        ...(bio !== undefined && { bio }),
       },
     })
 

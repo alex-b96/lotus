@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { UserPlus, Eye, EyeOff, CheckCircle } from "lucide-react"
 import Link from "next/link"
+import { Textarea } from "@/components/ui/textarea"
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -22,6 +23,7 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     agreeToTerms: false,
+    bio: "",
   })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -87,6 +89,7 @@ export default function RegisterPage() {
           name: fullName,
           email: formData.email.trim(),
           password: formData.password,
+          bio: formData.bio.trim() || undefined,
         }),
       })
 
@@ -262,6 +265,21 @@ export default function RegisterPage() {
                   {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bio" className="text-green-800 font-medium">
+                Bio <span className="text-xs text-green-600">(This will appear on your public author profile, optional)</span>
+              </Label>
+              <Textarea
+                id="bio"
+                value={formData.bio}
+                onChange={e => setFormData(prev => ({ ...prev, bio: e.target.value.slice(0, 500) }))}
+                maxLength={500}
+                placeholder="Tell the world about yourself as a poet... (optional)"
+                className="min-h-[100px]"
+              />
+              <div className="text-xs text-gray-500 mt-1">Max 500 characters.</div>
             </div>
 
             <div className="flex items-start space-x-2">

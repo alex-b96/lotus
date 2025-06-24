@@ -5,12 +5,14 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Textarea } from "@/components/ui/textarea"
 
 export default function SettingsPage() {
   const { data: session, update: updateSession } = useSession()
   // Local state for form fields
   const [name, setName] = useState(session?.user?.name || "")
   const [email, setEmail] = useState(session?.user?.email || "")
+  const [bio, setBio] = useState(session?.user?.bio || "")
   const [saving, setSaving] = useState(false)
   const [saveMessage, setSaveMessage] = useState("")
 
@@ -32,8 +34,9 @@ export default function SettingsPage() {
     if (session?.user) {
       setName(session.user.name || "")
       setEmail(session.user.email || "")
+      setBio(session.user.bio || "")
     }
-  }, [session?.user?.name, session?.user?.email])
+  }, [session?.user?.name, session?.user?.email, session?.user?.bio])
 
   // Handle profile info update
   async function handleSaveProfile(e: React.FormEvent) {
@@ -45,7 +48,7 @@ export default function SettingsPage() {
       const res = await fetch('/api/user/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify({ name, email, bio }),
       })
 
       const data = await res.json()
@@ -161,6 +164,11 @@ export default function SettingsPage() {
         <div>
           <label className="block text-sm font-medium text-green-700 mb-1">Email</label>
           <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-green-700 mb-1">Bio <span className="text-xs text-green-600">(This will appear on your public author profile)</span></label>
+          <Textarea value={bio} onChange={e => setBio(e.target.value)} maxLength={500} placeholder="Tell the world about yourself as a poet..." className="min-h-[100px]" />
+          <div className="text-xs text-gray-500 mt-1">Max 500 characters.</div>
         </div>
         <Button type="submit" disabled={saving} className="w-full mt-2">
           {saving ? "Saving..." : "Save Changes"}

@@ -84,6 +84,7 @@ export const authOptions: NextAuthOptions = {
         token.sub = user.id // Ensure sub is set from user.id on sign-in
         token.role = user.role
         token.avatarUrl = user.avatarUrl
+        token.bio = user.bio
       }
 
       // On session update (e.g., after profile update), update the token
@@ -92,6 +93,7 @@ export const authOptions: NextAuthOptions = {
         token.name = session.name
         token.email = session.email
         token.avatarUrl = session.avatarUrl
+        token.bio = session.bio
       }
 
       return token
@@ -104,6 +106,7 @@ export const authOptions: NextAuthOptions = {
         session.user.name = token.name as string
         session.user.email = token.email as string
         session.user.avatarUrl = token.avatarUrl as string
+        session.user.bio = token.bio as string | null
       }
       return session
     }
