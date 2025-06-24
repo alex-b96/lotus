@@ -34,7 +34,8 @@ export function Header() {
   const isLoading = status === "loading"
 
   // Helper function to get user initials for avatar fallback
-  const getUserInitials = (name: string) => {
+  const getUserInitials = (name?: string | null) => {
+    if (!name || typeof name !== 'string' || name.trim() === '') return '??'
     return name
       .split(" ")
       .map(word => word[0])

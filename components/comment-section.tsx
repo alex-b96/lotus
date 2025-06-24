@@ -93,13 +93,15 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
     return formatDistanceToNow(new Date(timestamp), { addSuffix: true })
   }
 
-  // Get user initials for avatar fallback
-  const getInitials = (name: string) => {
+  // Get user initials for avatar fallback (robust)
+  const getInitials = (name?: string | null) => {
+    if (!name || typeof name !== 'string' || name.trim() === '') return '??'
     return name
       .split(" ")
       .map((n) => n[0])
       .join("")
       .toUpperCase()
+      .slice(0, 2)
   }
 
   return (
@@ -165,7 +167,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                   <div className="flex items-start space-x-3">
                     <Avatar className="w-10 h-10">
                       <AvatarImage
-                        src={comment.author.avatarUrl || "/placeholder.svg"}
+                        src={comment.author.avatarUrl}
                         alt={comment.author.name}
                       />
                       <AvatarFallback>

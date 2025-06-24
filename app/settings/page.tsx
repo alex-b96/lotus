@@ -1,13 +1,13 @@
 "use client"
 
 import { useSession } from "next-auth/react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function SettingsPage() {
-  const { data: session } = useSession()
+  const { data: session, update: updateSession } = useSession()
   // Local state for form fields
   const [name, setName] = useState(session?.user?.name || "")
   const [email, setEmail] = useState(session?.user?.email || "")
@@ -27,17 +27,43 @@ export default function SettingsPage() {
   const [passwordMessage, setPasswordMessage] = useState("")
   const [passwordSaving, setPasswordSaving] = useState(false)
 
+  // When the session loads, pre-fill the form with user's current data
+  useEffect(() => {
+    if (session?.user) {
+      setName(session.user.name || "")
+      setEmail(session.user.email || "")
+    }
+  }, [session?.user?.name, session?.user?.email])
+
   // Handle profile info update
   async function handleSaveProfile(e: React.FormEvent) {
     e.preventDefault()
     setSaving(true)
     setSaveMessage("")
-    // TODO: Call your API to update name/email here
-    // Example: await fetch('/api/user', { method: 'POST', body: JSON.stringify({ name, email }) })
-    setTimeout(() => {
+
+    try {
+      const res = await fetch('/api/user/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to update profile.")
+      }
+
+      // Pass the updated user data to the session to trigger a refresh
+      await updateSession(data)
+
+      setSaveMessage("Profile updated successfully!")
+
+    } catch (error: any) {
+      setSaveMessage(error.message) // Display error message
+    } finally {
       setSaving(false)
-      setSaveMessage("Profile updated! (API call not yet implemented)")
-    }, 1000)
+    }
   }
 
   // Handle password change
@@ -76,13 +102,29 @@ export default function SettingsPage() {
     if (!avatarFile) return
     setAvatarSaving(true)
     setAvatarMessage("")
-    // TODO: Upload avatarFile to your backend and update user avatarUrl
-    // Example: use FormData and POST to /api/user/avatar
-    setTimeout(() => {
+    try {
+      // Prepare FormData for file upload
+      const formData = new FormData()
+      formData.append("avatar", avatarFile)
+      // POST to the avatar upload API
+      const res = await fetch("/api/user/avatar", {
+        method: "POST",
+        body: formData,
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to upload avatar.")
+      }
+      // Update the session so the new avatar appears everywhere
+      await updateSession({ avatarUrl: data.url })
+      setAvatarMessage("Avatar updated!")
+      setAvatarFile(null)
+      setAvatarPreview(null)
+    } catch (error: any) {
+      setAvatarMessage(error.message || "Failed to upload avatar.")
+    } finally {
       setAvatarSaving(false)
-      setAvatarMessage("Avatar updated! (API call not yet implemented)")
-      // Optionally, refresh session/user info here
-    }, 1000)
+    }
   }
 
   return (
@@ -94,9 +136,9 @@ export default function SettingsPage() {
         {/* Show current avatar or preview */}
         <div>
           <Avatar className="h-16 w-16">
-            <AvatarImage src={avatarPreview || session?.user?.avatarUrl || undefined} alt={name} />
+            <AvatarImage src={avatarPreview || session?.user?.avatarUrl || undefined} alt={name || "User avatar"} />
             <AvatarFallback className="bg-green-100 text-green-700 text-lg">
-              {name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0,2)}
+              {name ? name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2) : "??_"}
             </AvatarFallback>
           </Avatar>
         </div>

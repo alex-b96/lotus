@@ -78,22 +78,32 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt"
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      // On initial sign-in, add custom properties to the token
       if (user) {
-        token.bio = user.bio
-        token.avatarUrl = user.avatarUrl
-        token.website = user.website
+        token.sub = user.id // Ensure sub is set from user.id on sign-in
         token.role = user.role
+        token.avatarUrl = user.avatarUrl
       }
+
+      // On session update (e.g., after profile update), update the token
+      // with the data passed from the client.
+      if (trigger === "update" && session) {
+        token.name = session.name
+        token.email = session.email
+        token.avatarUrl = session.avatarUrl
+      }
+
       return token
     },
     async session({ session, token }) {
-      if (session.user && token) {
+      // Pass properties from the token to the client-side session object
+      if (token) {
         session.user.id = token.sub!
-        session.user.bio = token.bio as string
-        session.user.avatarUrl = token.avatarUrl as string
-        session.user.website = token.website as string
         session.user.role = token.role as string
+        session.user.name = token.name as string
+        session.user.email = token.email as string
+        session.user.avatarUrl = token.avatarUrl as string
       }
       return session
     }

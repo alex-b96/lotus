@@ -60,6 +60,17 @@ export default function AuthorProfilePage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Helper to get user initials for avatar fallback
+  const getInitials = (name?: string | null) => {
+    if (!name || typeof name !== 'string' || name.trim() === '') return '??'
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
+  }
+
   // Fetch author data
   const fetchAuthor = async () => {
     if (!authorId) return
@@ -160,9 +171,9 @@ export default function AuthorProfilePage() {
           <div className="flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-8">
             {/* Author Avatar */}
             <Avatar className="w-32 h-32 mx-auto md:mx-0 flex-shrink-0">
-              <AvatarImage src={author.avatarUrl || "/placeholder.svg"} alt={author.name} />
+              <AvatarImage src={author.avatarUrl} alt={author.name} />
               <AvatarFallback className="text-2xl bg-green-100 text-green-700">
-                {author.name.split(" ").map(n => n[0]).join("")}
+                {getInitials(author.name)}
               </AvatarFallback>
             </Avatar>
 

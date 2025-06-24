@@ -20,14 +20,8 @@ export async function GET(request: NextRequest) {
 
     const skip = (query.page - 1) * query.limit
 
-    // Build where clause - only users with published poems are considered authors
-    const where: any = {
-      poems: {
-        some: {
-          status: "PUBLISHED"
-        }
-      }
-    }
+    // Build where clause - now includes all users (not just those with published poems)
+    const where: any = {}
 
     // Add search filter if provided
     if (query.search) {

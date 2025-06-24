@@ -16,7 +16,7 @@ const testimonials = [
   {
     id: 1,
     name: "Emily Watson",
-    avatar: "/placeholder.svg?height=50&width=50",
+    avatar: "/undefined.svg?height=50&width=50",
     rating: 5,
     comment:
       "LOTUS has become my daily source of inspiration. The quality of poetry here is exceptional, and the community is so supportive.",
@@ -25,7 +25,7 @@ const testimonials = [
   {
     id: 2,
     name: "Michael Chen",
-    avatar: "/placeholder.svg?height=50&width=50",
+    avatar: "/undefined.svg?height=50&width=50",
     rating: 5,
     comment:
       "As a new poet, I was nervous about sharing my work. The feedback I received here helped me grow tremendously. Thank you!",
@@ -34,7 +34,7 @@ const testimonials = [
   {
     id: 3,
     name: "Sarah Johnson",
-    avatar: "/placeholder.svg?height=50&width=50",
+    avatar: "/undefined.svg?height=50&width=50",
     rating: 4,
     comment:
       "Beautiful platform with an intuitive design. I love discovering new poets and their unique perspectives on life.",
@@ -214,7 +214,7 @@ export default function FeedbackPage() {
               <div key={testimonial.id} className="p-4 bg-green-50 rounded-lg border border-green-100">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    <AvatarImage src={testimonial.avatar || "/placeholder.svg"} alt={testimonial.name} />
+                    <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
                     <AvatarFallback>
                       {testimonial.name
                         .split(" ")

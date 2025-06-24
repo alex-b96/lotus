@@ -1,8 +1,8 @@
 "use client"
 
+import React, { useState, useEffect } from "react"
 import type React from "react"
 
-import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -10,28 +10,53 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Mail, Send, MapPin, Phone, Clock } from "lucide-react"
+import { useSession } from "next-auth/react"
 
 export default function ContactPage() {
+  const { data: session } = useSession()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
-    category: "",
     message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
+  // Pre-fill name/email for logged-in users
+  useEffect(() => {
+    if (session?.user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: session.user.name || prev.name,
+        email: session.user.email || prev.email,
+      }))
+    }
+  }, [session])
+
+  // Handle form submission: send data to backend API
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false)
+    setError(null)
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        throw new Error(data?.error || "Failed to send message. Please try again later.")
+      }
       setSubmitted(true)
-      setFormData({ name: "", email: "", subject: "", category: "", message: "" })
-    }, 1500)
+      setFormData({ name: "", email: "", subject: "", message: "" })
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -105,28 +130,6 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="category" className="text-green-800 font-medium">
-                      Category *
-                    </Label>
-                    <Select
-                      value={formData.category}
-                      onValueChange={(value) => setFormData((prev) => ({ ...prev, category: value }))}
-                    >
-                      <SelectTrigger className="border-green-300 focus:border-green-500">
-                        <SelectValue placeholder="Select a category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="general">General Inquiry</SelectItem>
-                        <SelectItem value="technical">Technical Support</SelectItem>
-                        <SelectItem value="content">Content Issues</SelectItem>
-                        <SelectItem value="partnership">Partnership</SelectItem>
-                        <SelectItem value="feedback">Feedback</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
                     <Label htmlFor="subject" className="text-green-800 font-medium">
                       Subject *
                     </Label>
@@ -154,6 +157,9 @@ export default function ContactPage() {
                     />
                   </div>
 
+                  {error && (
+                    <div className="text-red-600 text-sm text-center">{error}</div>
+                  )}
                   <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={isSubmitting}>
                     <Send className="w-4 h-4 mr-2" />
                     {isSubmitting ? "Sending..." : "Send Message"}

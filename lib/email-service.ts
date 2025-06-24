@@ -260,3 +260,53 @@ export async function testEmailConfiguration(): Promise<{ success: boolean; erro
     }
   }
 }
+
+/**
+ * Send a generic contact email (for contact form submissions)
+ * @param fromName Name of the sender (user submitting the form)
+ * @param fromEmail Email of the sender
+ * @param subject Subject of the message
+ * @param message Message body (plain text)
+ * @returns { success: boolean, error?: string }
+ */
+export async function sendContactEmail(
+  fromName: string,
+  fromEmail: string,
+  subject: string,
+  message: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const transporter = createTransporter()
+    // Compose the email content
+    const to = process.env.SMTP_USER || process.env.SMTP_FROM || ''
+    const mailSubject = `[Contact Form] ${subject}`
+    const html = `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${fromName}</p>
+        <p><strong>Email:</strong> ${fromEmail}</p>
+        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Message:</strong></p>
+        <div style="background: #f9fafb; padding: 16px; border-radius: 8px;">${message.replace(/\n/g, '<br/>')}</div>
+      </div>
+    `
+    const text = `New Contact Form Submission\n\nName: ${fromName}\nEmail: ${fromEmail}\nSubject: ${subject}\n\nMessage:\n${message}`
+    const mailOptions = {
+      from: `Contact Form <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      to,
+      subject: mailSubject,
+      html,
+      text,
+      replyTo: fromEmail,
+    }
+    await transporter.sendMail(mailOptions)
+    console.log(`Contact form email sent from ${fromEmail} (${fromName})`)
+    return { success: true }
+  } catch (error) {
+    console.error('Error sending contact form email:', error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to send contact form email',
+    }
+  }
+}

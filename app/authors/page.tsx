@@ -23,6 +23,17 @@ import Link from "next/link"
 import { useAuthors } from "@/hooks/use-authors"
 import { FeaturedAuthors } from "@/components/featured-authors"
 
+// Helper to get user initials for avatar fallback
+const getInitials = (name?: string | null) => {
+  if (!name || typeof name !== 'string' || name.trim() === '') return '??'
+  return name
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
+
 function AuthorsPageContent() {
   const {
     authors,
@@ -166,12 +177,9 @@ function AuthorsPageContent() {
             >
               <CardHeader className="text-center">
                 <Avatar className="w-20 h-20 mx-auto mb-4">
-                  <AvatarImage src={author.avatar || "/placeholder.svg"} alt={author.name} />
+                  <AvatarImage src={author.avatar} alt={author.name} />
                   <AvatarFallback className="text-lg">
-                    {author.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
+                    {getInitials(author.name)}
                   </AvatarFallback>
                 </Avatar>
                 <CardTitle className="text-xl text-green-800">{author.name}</CardTitle>
@@ -236,6 +244,8 @@ function AuthorsPageContent() {
           totalPages={pagination.totalPages}
           onPageChange={goToPage}
           className="justify-center"
+          hasNext={pagination.page < pagination.totalPages}
+          hasPrev={pagination.page > 1}
         />
       )}
     </div>

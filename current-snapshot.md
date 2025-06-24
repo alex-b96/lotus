@@ -748,3 +748,34 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY="..." # Supabase anon key ✅
 8. **Admin Dashboard**: Approve/reject submitted poems with full workflow
 9. **Comments System**: Full CRUD operations with authentication ✅ NEW
 10. **API Endpoints**: Comprehensive poem, admin, comments, and authors APIs
+
+## Major Recent Changes
+
+- **Contact Page**
+  - Now fully functional: sends email to SMTP_USER, robust error handling.
+  - Pre-fills name/email for logged-in users, but remains public for all.
+  - Category field removed.
+
+- **Settings Page**
+  - Backend integration for updating profile (name, email) and avatar.
+  - Avatar upload uses Vercel Blob; only one avatar per user (old one deleted).
+  - Session update logic fixed—profile changes reflect everywhere instantly.
+  - Robust initials fallback for avatar everywhere (never a blank or broken image).
+
+- **Authors Page**
+  - Now shows all authors, even those with zero poems.
+  - Author profile pages work for authors with no poems (shows "No poems yet" if needed).
+
+- **Avatar Fallback**
+  - Everywhere an avatar is shown, fallback displays initials or '??' if no name.
+  - No more reliance on placeholder.svg or blank images.
+
+- **Backend**
+  - `/api/authors` and `/api/authors/[id]` updated to include all users, not just those with published poems.
+
+- **General**
+  - Improved error handling, code comments, and user experience throughout.
+
+---
+
+*This snapshot reflects the state after a major round of UX, backend, and robustness improvements.*

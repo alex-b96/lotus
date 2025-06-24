@@ -17,6 +17,17 @@ import {
 import Link from "next/link"
 import { useFeaturedAuthors } from "@/hooks/use-featured-authors"
 
+// Helper to get user initials for avatar fallback
+const getInitials = (name?: string | null) => {
+  if (!name || typeof name !== 'string' || name.trim() === '') return '??'
+  return name
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
+
 export function FeaturedAuthors() {
   const { featuredAuthors, isLoading, error, retry } = useFeaturedAuthors()
 
@@ -119,12 +130,9 @@ export function FeaturedAuthors() {
 
             <CardHeader className="text-center pt-16">
               <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-green-200">
-                <AvatarImage src={author.avatar || "/placeholder.svg"} alt={author.name} />
+                <AvatarImage src={author.avatar} alt={author.name} />
                 <AvatarFallback className="text-xl bg-green-100 text-green-700">
-                  {author.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
+                  {getInitials(author.name)}
                 </AvatarFallback>
               </Avatar>
               <CardTitle className="text-xl text-green-800 mb-2">{author.name}</CardTitle>

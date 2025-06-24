@@ -28,6 +28,17 @@ import Link from "next/link"
 import { useAdminAuthors } from "@/hooks/use-admin-authors"
 import { useState } from "react"
 
+// Helper to get user initials for avatar fallback
+const getInitials = (name?: string | null) => {
+  if (!name || typeof name !== 'string' || name.trim() === '') return '??'
+  return name
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
+
 function AdminAuthorsPageContent() {
   const {
     authors,
@@ -162,12 +173,9 @@ function AdminAuthorsPageContent() {
 
                 <div className="flex items-start space-x-4">
                   <Avatar className="w-16 h-16">
-                    <AvatarImage src={author.avatar || "/placeholder.svg"} alt={author.name} />
+                    <AvatarImage src={author.avatar} alt={author.name} />
                     <AvatarFallback className="text-lg bg-green-100 text-green-700">
-                      {author.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
+                      {getInitials(author.name)}
                     </AvatarFallback>
                   </Avatar>
 

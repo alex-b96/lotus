@@ -124,6 +124,17 @@ export default function PoemPage({ params }: PoemPageProps) {
     ? new Date(poem.publishedAt).toLocaleDateString()
     : new Date(poem.createdAt).toLocaleDateString()
 
+  // Helper to get user initials for avatar fallback
+  const getInitials = (name?: string | null) => {
+    if (!name || typeof name !== 'string' || name.trim() === '') return '??'
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
+  }
+
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Poem Content */}
@@ -142,12 +153,9 @@ export default function PoemPage({ params }: PoemPageProps) {
           <div className="flex items-center justify-center space-x-6 text-sm text-green-600">
             <div className="flex items-center space-x-2">
               <Avatar className="w-8 h-8">
-                <AvatarImage src={poem.author.avatarUrl || "/placeholder.svg"} alt={poem.author.name} />
+                <AvatarImage src={poem.author.avatarUrl} alt={poem.author.name} />
                 <AvatarFallback>
-                  {poem.author.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
+                  {getInitials(poem.author.name)}
                 </AvatarFallback>
               </Avatar>
               <Link
@@ -231,12 +239,9 @@ export default function PoemPage({ params }: PoemPageProps) {
         <CardContent>
           <div className="flex items-start space-x-4">
             <Avatar className="w-16 h-16">
-              <AvatarImage src={poem.author.avatarUrl || "/placeholder.svg"} alt={poem.author.name} />
+              <AvatarImage src={poem.author.avatarUrl} alt={poem.author.name} />
               <AvatarFallback className="text-lg">
-                {poem.author.name
-                  .split(" ")
-                  .map((n) => n[0])
-                  .join("")}
+                {getInitials(poem.author.name)}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">

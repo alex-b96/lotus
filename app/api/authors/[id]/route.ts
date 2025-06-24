@@ -79,13 +79,7 @@ export async function GET(
       )
     }
 
-    // Check if user is actually an author (has published poems)
-    if (author._count.poems === 0) {
-      return NextResponse.json(
-        { error: "Author not found" },
-        { status: 404 }
-      )
-    }
+    // Allow author profiles to be shown even if they have zero poems
 
     // Transform poems data
     const transformedPoems = author.poems.map(poem => ({
