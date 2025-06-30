@@ -66,30 +66,30 @@ function AdminAuthorsPageContent() {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="text-center">
-        <div className="flex items-center justify-center space-x-3 mb-4">
-          <Users className="w-8 h-8 text-orange-600" />
-          <h1 className="text-4xl font-bold text-green-800">Manage Authors</h1>
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-6xl mx-auto px-6 py-16 space-y-8">
+        {/* Header */}
+        <div className="text-center">
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            <Users className="w-8 h-8 text-pink-300" />
+            <h1 className="text-4xl font-light" style={{ color: '#e2e2e2' }}>Manage Authors</h1>
+          </div>
+          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+            Manage featured authors and control who appears in the featured section of the authors page.
+          </p>
         </div>
-        <p className="text-green-600 text-lg max-w-2xl mx-auto">
-          Manage featured authors and control who appears in the featured section of the authors page.
-        </p>
-      </div>
 
-      {/* Search */}
-      <Card className="bg-white/70 backdrop-blur-sm border-green-200">
-        <CardContent className="p-6">
+        {/* Search */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6">
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             {/* Search Input */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-300 w-4 h-4" />
               <Input
                 placeholder="Search authors by name, email, or bio..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 border-green-300 focus:border-green-500"
+                className="pl-10 bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                 disabled={isLoading}
               />
             </div>
@@ -101,70 +101,71 @@ function AdminAuthorsPageContent() {
                 size="sm"
                 onClick={clearFilters}
                 disabled={isLoading}
-                className="border-green-300 text-green-700 hover:bg-green-50"
+                className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
               >
                 Clear Search
               </Button>
             )}
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Pagination Info */}
-      {pagination && !isLoading && (
-        <PaginationInfo
-          currentPage={pagination.page}
-          totalPages={pagination.totalPages}
-          totalCount={pagination.totalCount}
-          limit={pagination.limit}
-          className="text-center"
-        />
-      )}
-
-      {/* Error States */}
-      {(error || localError) && (
-        <Alert variant="destructive" className="bg-red-50 border-red-200">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="flex items-center justify-between">
-            <span>Error: {error || localError}</span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={retry}
-              className="ml-4"
-            >
-              <RefreshCcw className="w-4 h-4 mr-1" />
-              Retry
-            </Button>
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {/* Loading State */}
-      {isLoading && (
-        <div className="flex justify-center items-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-green-600" />
-          <span className="ml-2 text-green-600">Loading authors...</span>
         </div>
-      )}
 
-      {/* Authors Grid */}
-      {!isLoading && !error && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Pagination Info */}
+        {pagination && !isLoading && (
+          <PaginationInfo
+            currentPage={pagination.page}
+            totalPages={pagination.totalPages}
+            totalCount={pagination.totalCount}
+            limit={pagination.limit}
+            className="text-center"
+          />
+        )}
+
+        {/* Error States */}
+        {(error || localError) && (
+        <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="h-5 w-5 text-red-400" />
+            <div className="text-red-200 flex items-center justify-between w-full">
+              <span>Error: {error || localError}</span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={retry}
+                className="ml-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
+              >
+                <RefreshCcw className="w-4 h-4 mr-1" />
+                Retry
+              </Button>
+            </div>
+          </div>
+        </div>
+        )}
+
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+            <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Loading authors...</span>
+          </div>
+        )}
+
+        {/* Authors Grid */}
+        {!isLoading && !error && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {authors.map((author) => (
-            <Card
+            <div
               key={author.id}
-              className={`bg-white/70 backdrop-blur-sm border-2 transition-all duration-300 hover:shadow-lg ${
+              className={`bg-white/5 backdrop-blur-sm rounded-xl border-2 transition-all duration-300 hover:bg-white/10 ${
                 author.featured
-                  ? 'border-yellow-300 bg-gradient-to-br from-yellow-50/90 to-white/90'
-                  : 'border-green-200 hover:border-green-300'
+                  ? 'border-pink-300 bg-pink-300/10'
+                  : 'border-white/10 hover:border-pink-300/30'
               }`}
             >
-              <CardHeader className="relative">
+              <div className="relative p-6 border-b border-white/10">
                 {/* Featured Badge */}
                 {author.featured && (
                   <div className="absolute top-4 right-4">
-                    <Badge className="bg-yellow-500 text-white hover:bg-yellow-600">
+                    <Badge className="bg-pink-300/20 text-pink-300 border border-pink-300/40 hover:bg-pink-300/30">
                       <Star className="w-3 h-3 mr-1 fill-current" />
                       Featured
                     </Badge>
@@ -174,16 +175,16 @@ function AdminAuthorsPageContent() {
                 <div className="flex items-start space-x-4">
                   <Avatar className="w-16 h-16">
                     <AvatarImage src={author.avatar} alt={author.name} />
-                    <AvatarFallback className="text-lg bg-green-100 text-green-700">
+                    <AvatarFallback className="text-lg bg-white/10 text-pink-200">
                       {getInitials(author.name)}
                     </AvatarFallback>
                   </Avatar>
 
                   <div className="flex-1">
-                    <CardTitle className="text-xl text-green-800 mb-2">{author.name}</CardTitle>
+                    <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>{author.name}</h3>
 
                     {/* Author Info */}
-                    <div className="space-y-2 text-sm text-green-600">
+                    <div className="space-y-2 text-sm" style={{ color: '#9b9b9b' }}>
                       <div className="flex items-center space-x-2">
                         <Mail className="w-4 h-4" />
                         <span>{author.email}</span>
@@ -199,22 +200,22 @@ function AdminAuthorsPageContent() {
                     </div>
                   </div>
                 </div>
-              </CardHeader>
+              </div>
 
-              <CardContent>
+              <div className="p-6">
                 {/* Bio */}
                 {author.bio && (
-                  <p className="text-green-700 mb-4 text-sm line-clamp-3">
+                  <p className="mb-4 text-sm line-clamp-3 font-light" style={{ color: '#9b9b9b' }}>
                     {author.bio}
                   </p>
                 )}
 
                 {/* Featured Toggle */}
-                <div className="border-t border-green-200 pt-4">
+                <div className="border-t border-white/10 pt-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Crown className="w-4 h-4 text-yellow-600" />
-                      <Label htmlFor={`featured-${author.id}`} className="text-sm font-medium text-green-800">
+                      <Crown className="w-4 h-4 text-pink-300" />
+                      <Label htmlFor={`featured-${author.id}`} className="text-sm font-medium" style={{ color: '#e2e2e2' }}>
                         Featured Author
                       </Label>
                     </div>
@@ -223,10 +224,10 @@ function AdminAuthorsPageContent() {
                       checked={author.featured}
                       onCheckedChange={(checked) => handleToggleFeatured(author.id, checked)}
                       disabled={isTogglingFeatured === author.id}
-                      className="data-[state=checked]:bg-yellow-500"
+                      className="data-[state=checked]:bg-pink-300"
                     />
                   </div>
-                  <p className="text-xs text-green-600 mt-1">
+                  <p className="text-xs mt-1" style={{ color: '#9b9b9b' }}>
                     {author.featured
                       ? "This author appears in the featured authors section"
                       : "Enable to feature this author on the authors page"
@@ -236,7 +237,7 @@ function AdminAuthorsPageContent() {
 
                 {/* Action Buttons */}
                 <div className="flex space-x-2 mt-4">
-                  <Button asChild variant="outline" size="sm" className="flex-1 border-green-300 text-green-700 hover:bg-green-50">
+                  <Button asChild variant="outline" size="sm" className="flex-1 bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
                     <Link href={`/authors/${author.id}`}>
                       <User className="w-4 h-4 mr-2" />
                       View Profile
@@ -247,7 +248,7 @@ function AdminAuthorsPageContent() {
                       variant="outline"
                       size="sm"
                       asChild
-                      className="border-green-300 text-green-700 hover:bg-green-50"
+                      className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
                     >
                       <a href={author.website} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4" />
@@ -258,63 +259,64 @@ function AdminAuthorsPageContent() {
 
                 {/* Loading indicator for this specific author */}
                 {isTogglingFeatured === author.id && (
-                  <div className="flex items-center justify-center mt-3 text-sm text-green-600">
+                  <div className="flex items-center justify-center mt-3 text-sm" style={{ color: '#9b9b9b' }}>
                     <Loader2 className="w-4 h-4 animate-spin mr-2" />
                     Updating featured status...
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
-        </div>
-      )}
+          </div>
+        )}
 
-      {/* No Results */}
-      {!isLoading && !error && authors.length === 0 && (
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200">
-          <CardContent className="text-center py-12">
-            <Users className="w-12 h-12 text-green-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-green-800 mb-2">No Authors Found</h3>
-            <p className="text-green-600 mb-4">
+        {/* No Results */}
+        {!isLoading && !error && authors.length === 0 && (
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 text-center py-12 px-6">
+            <Users className="w-12 h-12 text-pink-300 mx-auto mb-4" />
+            <h3 className="text-lg font-light mb-2" style={{ color: '#e2e2e2' }}>No Authors Found</h3>
+            <p className="mb-4 font-light" style={{ color: '#9b9b9b' }}>
               {searchTerm
                 ? "No authors match your search criteria. Try adjusting your search terms."
                 : "No authors with published poems found in the system."
               }
             </p>
             {searchTerm && (
-              <Button onClick={clearFilters} variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
+              <Button onClick={clearFilters} variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
                 Clear Search
               </Button>
             )}
-          </CardContent>
-        </Card>
-      )}
+          </div>
+        )}
 
-      {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
-        <Pagination
-          currentPage={pagination.page}
-          totalPages={pagination.totalPages}
-          onPageChange={goToPage}
-          showPreviousNext
-        />
-      )}
+        {/* Pagination */}
+        {pagination && pagination.totalPages > 1 && (
+          <Pagination
+            currentPage={pagination.page}
+            totalPages={pagination.totalPages}
+            onPageChange={goToPage}
+            showPreviousNext
+          />
+        )}
+      </div>
     </div>
   )
 }
 
 function AdminAuthorsPageLoading() {
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <div className="flex items-center justify-center space-x-3 mb-4">
-          <Users className="w-8 h-8 text-orange-600" />
-          <h1 className="text-4xl font-bold text-green-800">Manage Authors</h1>
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-6xl mx-auto px-6 py-16 space-y-8">
+        <div className="text-center">
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            <Users className="w-8 h-8 text-pink-300" />
+            <h1 className="text-4xl font-light" style={{ color: '#e2e2e2' }}>Manage Authors</h1>
+          </div>
+          <p className="text-lg font-light" style={{ color: '#9b9b9b' }}>Loading author management interface...</p>
         </div>
-        <p className="text-green-600 text-lg">Loading author management interface...</p>
-      </div>
-      <div className="flex justify-center items-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-green-600" />
+        <div className="flex justify-center items-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+        </div>
       </div>
     </div>
   )
@@ -322,10 +324,8 @@ function AdminAuthorsPageLoading() {
 
 export default function AdminAuthorsPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Suspense fallback={<AdminAuthorsPageLoading />}>
-        <AdminAuthorsPageContent />
-      </Suspense>
-    </div>
+    <Suspense fallback={<AdminAuthorsPageLoading />}>
+      <AdminAuthorsPageContent />
+    </Suspense>
   )
 }

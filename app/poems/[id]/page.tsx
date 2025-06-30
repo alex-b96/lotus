@@ -33,9 +33,10 @@ export default function PoemPage({ params }: PoemPageProps) {
   // Loading state
   if (loading) {
     return (
-      <div className="max-w-4xl mx-auto space-y-8">
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-          <CardHeader className="text-center border-b border-green-100">
+      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
+        <div className="relative z-10 max-w-4xl mx-auto px-6 py-16 space-y-8">
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
+          <div className="text-center border-b border-white/10 p-8">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <Skeleton className="h-6 w-16" />
               <Skeleton className="h-6 w-20" />
@@ -46,8 +47,8 @@ export default function PoemPage({ params }: PoemPageProps) {
               <Skeleton className="h-4 w-24" />
               <Skeleton className="h-4 w-20" />
             </div>
-          </CardHeader>
-          <CardContent className="p-8">
+          </div>
+          <div className="p-8">
             <div className="space-y-4 mb-8">
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-3/4" />
@@ -59,8 +60,9 @@ export default function PoemPage({ params }: PoemPageProps) {
                 <Skeleton key={i} className="h-6 w-16" />
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+        </div>
       </div>
     )
   }
@@ -68,19 +70,21 @@ export default function PoemPage({ params }: PoemPageProps) {
   // Error state
   if (error) {
     return (
-      <div className="max-w-4xl mx-auto">
-        <Alert className="border-red-200 bg-red-50">
-          <AlertCircle className="h-4 w-4 text-red-600" />
-          <AlertDescription className="text-red-800">
+      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
+        <div className="relative z-10 max-w-4xl mx-auto px-6 py-16">
+        <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="h-5 w-5 text-red-400" />
+            <div className="text-red-200">
             {error === "Poem not found" ? (
               <div>
                 <p className="font-medium mb-2">Poem Not Found</p>
                 <p>The poem you're looking for doesn't exist or may have been removed.</p>
                 <div className="mt-4 space-x-2">
-                  <Button variant="outline" size="sm" asChild>
+                  <Button variant="outline" size="sm" asChild className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black">
                     <Link href="/poems">Browse All Poems</Link>
                   </Button>
-                  <Button variant="outline" size="sm" asChild>
+                  <Button variant="outline" size="sm" asChild className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black">
                     <Link href="/">Go Home</Link>
                   </Button>
                 </div>
@@ -93,15 +97,17 @@ export default function PoemPage({ params }: PoemPageProps) {
                   variant="outline"
                   size="sm"
                   onClick={retry}
-                  className="mt-4"
+                  className="mt-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
                 >
                   <RefreshCcw className="h-4 w-4 mr-2" />
                   Try Again
                 </Button>
               </div>
             )}
-          </AlertDescription>
-        </Alert>
+            </div>
+          </div>
+        </div>
+        </div>
       </div>
     )
   }
@@ -136,21 +142,44 @@ export default function PoemPage({ params }: PoemPageProps) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
+      {/* Add custom keyframes */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          25% { transform: translateY(-8px) rotate(-0.8deg); }
+          50% { transform: translateY(-12px) rotate(1deg); }
+          75% { transform: translateY(-6px) rotate(-0.5deg); }
+        }
+      `}</style>
+
+      {/* Lotus background - positioned at top
+      <div className="absolute -top-[10rem] left-1/2 transform -translate-x-1/2 w-[25rem] h-[25rem] pointer-events-none z-0">
+        <img
+          src="/lotus-background-simple.png"
+          alt="Lotus"
+          className="w-full h-full object-contain opacity-40"
+          style={{
+            animation: 'float 10s ease-in-out infinite'
+          }}
+        />
+      </div> */}
+
+      <div className="relative z-10 max-w-4xl mx-auto px-6 py-16 space-y-8">
       {/* Poem Content */}
-      <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-        <CardHeader className="text-center border-b border-green-100">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Badge variant="outline" className="border-green-300 text-green-600">
+      <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+        <div className="border-b border-white/10 p-8">
+          <div className="flex items-center space-x-2 mb-4">
+            <Badge variant="outline" className="border-pink-300/40 text-pink-300 bg-pink-300/10">
               {poem.category}
             </Badge>
-            <div className="flex items-center space-x-1 text-sm text-green-600">
+            <div className="flex items-center space-x-1 text-sm" style={{ color: '#9b9b9b' }}>
               <BookOpen className="w-4 h-4" />
               <span>{readingTimeText}</span>
             </div>
           </div>
-          <CardTitle className="text-4xl text-green-800 mb-4">{poem.title}</CardTitle>
-          <div className="flex items-center justify-center space-x-6 text-sm text-green-600">
+          <h1 className="text-4xl lg:text-5xl font-light leading-none mb-4 drop-shadow-lg" style={{ color: '#e2e2e2' }}>{poem.title}</h1>
+          <div className="flex items-center space-x-6 text-sm" style={{ color: '#9b9b9b' }}>
             <div className="flex items-center space-x-2">
               <Avatar className="w-8 h-8">
                 <AvatarImage src={poem.author.avatarUrl} alt={poem.author.name} />
@@ -160,7 +189,7 @@ export default function PoemPage({ params }: PoemPageProps) {
               </Avatar>
               <Link
                 href={`/authors/${poem.author.id}`}
-                className="hover:text-green-800 transition-colors font-medium"
+                className="text-pink-200 hover:text-pink-100 transition-colors font-medium"
               >
                 {poem.author.name}
               </Link>
@@ -170,11 +199,11 @@ export default function PoemPage({ params }: PoemPageProps) {
               <span>{publishedDate}</span>
             </div>
           </div>
-        </CardHeader>
+        </div>
 
-        <CardContent className="p-8">
+        <div className="p-8">
           <div className="prose prose-green max-w-none mb-8">
-            <pre className="whitespace-pre-wrap font-serif text-lg leading-relaxed text-green-900 text-center">
+            <pre className="whitespace-pre-wrap font-serif text-lg leading-relaxed text-left" style={{ color: '#e2e2e2' }}>
               {poem.content}
             </pre>
           </div>
@@ -185,7 +214,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                 <Link key={tag} href={`/poems?tag=${encodeURIComponent(tag)}`}>
                   <Badge
                     variant="secondary"
-                    className="bg-green-100 text-green-700 hover:bg-green-200 cursor-pointer"
+                    className="bg-pink-300/20 text-pink-300 hover:bg-pink-300/30 cursor-pointer border border-pink-300/40"
                   >
                     #{tag}
                   </Badge>
@@ -194,14 +223,14 @@ export default function PoemPage({ params }: PoemPageProps) {
             </div>
           )}
 
-          <Separator className="my-6" />
+          <div className="my-6 h-px bg-gradient-to-r from-transparent via-pink-300/30 to-transparent"></div>
 
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               {/* Like Button */}
               <Button
                 variant="ghost"
-                className={`text-green-700 ${liked ? "text-red-500" : "hover:text-red-500 hover:bg-red-50"}`}
+                className={`${liked ? "text-pink-300" : "text-gray-400 hover:text-pink-300"} transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group`}
                 onClick={async () => {
                   if (!session?.user) {
                     window.location.href = "/login"
@@ -212,31 +241,31 @@ export default function PoemPage({ params }: PoemPageProps) {
                 }}
                 disabled={likeLoading}
               >
-                <Heart className={`w-5 h-5 mr-2 ${liked ? "fill-red-500" : ""}`} />
+                <Heart className={`w-5 h-5 mr-2 group-hover:animate-pulse ${liked ? "fill-pink-300" : ""}`} />
                 {likeCount} Likes
               </Button>
               {/* Comments count: static, not a button */}
-              <div className="flex items-center text-green-700 text-sm">
+              <div className="flex items-center text-gray-400 text-sm">
                 <MessageCircle className="w-5 h-5 mr-2" />
                 {commentCount ?? 0} Comments
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <Button variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
+              <Button variant="outline" className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
               </Button>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Author Info */}
-      <Card className="bg-white/70 backdrop-blur-sm border-green-200">
-        <CardHeader>
-          <CardTitle className="text-xl text-green-800">About the Author</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+        <div className="p-6 border-b border-white/10">
+          <h2 className="text-xl font-light" style={{ color: '#e2e2e2' }}>About the Author</h2>
+        </div>
+        <div className="p-6">
           <div className="flex items-start space-x-4">
             <Avatar className="w-16 h-16">
               <AvatarImage src={poem.author.avatarUrl} alt={poem.author.name} />
@@ -245,16 +274,16 @@ export default function PoemPage({ params }: PoemPageProps) {
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-green-800 mb-2">{poem.author.name}</h3>
+              <h3 className="text-lg font-light mb-2" style={{ color: '#e2e2e2' }}>{poem.author.name}</h3>
               {poem.author.bio && (
-                <p className="text-green-700 mb-3">{poem.author.bio}</p>
+                <p className="mb-3 font-light" style={{ color: '#9b9b9b' }}>{poem.author.bio}</p>
               )}
-              <div className="flex items-center space-x-4 text-sm text-green-600">
+              <div className="flex items-center space-x-4 text-sm" style={{ color: '#9b9b9b' }}>
                 <span>{poem.author._count.poems} poems published</span>
                 {poem.author.website && (
                   <Link
                     href={poem.author.website}
-                    className="hover:text-green-800 transition-colors"
+                    className="text-pink-200 hover:text-pink-100 transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -267,7 +296,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                   variant="outline"
                   size="sm"
                   asChild
-                  className="border-green-300 text-green-700 hover:bg-green-50"
+                  className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
                 >
                   <Link href={`/authors/${poem.author.id}`}>
                     View all poems by {poem.author.name}
@@ -276,11 +305,12 @@ export default function PoemPage({ params }: PoemPageProps) {
               </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Comments Section */}
       <CommentSection poemId={poem.id} onCommentAdded={handleCommentAdded} />
+      </div>
     </div>
   )
 }

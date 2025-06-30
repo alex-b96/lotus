@@ -52,34 +52,34 @@ function AuthorsPageContent() {
   } = useAuthors()
 
   return (
-    <div className="space-y-12">
-      {/* Featured Authors Section */}
-      <FeaturedAuthors />
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
+        {/* Featured Authors Section */}
+        <FeaturedAuthors />
 
-      {/* Divider */}
-      <div className="relative">
+        {/* Divider */}
+        <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-green-200" />
+          <div className="w-full border-t border-white/10" />
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="bg-gradient-to-r from-green-50 to-white px-6 py-2 text-green-600 font-medium rounded-full border border-green-200">
+          <span className="bg-white/5 backdrop-blur-sm px-6 py-2 text-pink-300 font-medium rounded-full border border-pink-300/40">
             Browse All Authors
           </span>
         </div>
-      </div>
+        </div>
 
-      {/* Search and Filter */}
-      <Card className="bg-white/70 backdrop-blur-sm border-green-200">
-        <CardContent className="p-6">
+        {/* Search and Filter */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search Input */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-300 w-4 h-4" />
               <Input
                 placeholder="Search authors by name or bio..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 border-green-300 focus:border-green-500"
+                className="pl-10 bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                 disabled={isLoading}
               />
             </div>
@@ -88,26 +88,26 @@ function AuthorsPageContent() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {/* Sort Options */}
               <div className="flex items-center space-x-2">
-                <Filter className="text-green-600 w-4 h-4" />
-                <span className="text-sm text-green-600">Sort by:</span>
+                <Filter className="text-pink-300 w-4 h-4" />
+                <span className="text-sm font-light" style={{ color: '#9b9b9b' }}>Sort by:</span>
                 <Select value={sortBy} onValueChange={setSortBy} disabled={isLoading}>
-                  <SelectTrigger className="w-36 border-green-300">
+                  <SelectTrigger className="w-36 bg-white/5 border-white/20 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="poems">Most Poems</SelectItem>
-                    <SelectItem value="name">Name</SelectItem>
-                    <SelectItem value="createdAt">Newest</SelectItem>
+                  <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
+                    <SelectItem value="poems" className="text-gray-300 focus:text-white focus:bg-white/5">Most Poems</SelectItem>
+                    <SelectItem value="name" className="text-gray-300 focus:text-white focus:bg-white/5">Name</SelectItem>
+                    <SelectItem value="createdAt" className="text-gray-300 focus:text-white focus:bg-white/5">Newest</SelectItem>
                   </SelectContent>
                 </Select>
 
                 <Select value={order} onValueChange={setOrder} disabled={isLoading}>
-                  <SelectTrigger className="w-24 border-green-300">
+                  <SelectTrigger className="w-24 bg-white/5 border-white/20 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="desc">↓</SelectItem>
-                    <SelectItem value="asc">↑</SelectItem>
+                  <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
+                    <SelectItem value="desc" className="text-gray-300 focus:text-white focus:bg-white/5">↓</SelectItem>
+                    <SelectItem value="asc" className="text-gray-300 focus:text-white focus:bg-white/5">↑</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -119,15 +119,14 @@ function AuthorsPageContent() {
                   size="sm"
                   onClick={clearFilters}
                   disabled={isLoading}
-                  className="border-green-300 text-green-700 hover:bg-green-50"
+                  className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
                 >
                   Clear Filters
                 </Button>
               )}
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </div>
 
       {/* Pagination Info */}
       {pagination && !isLoading && (
@@ -138,76 +137,78 @@ function AuthorsPageContent() {
           limit={pagination.limit}
           className="text-center"
         />
-      )}
+        )}
 
-      {/* Error State */}
-      {error && (
-        <Alert variant="destructive" className="bg-red-50 border-red-200">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="flex items-center justify-between">
-            <span>Failed to load authors: {error}</span>
+          {/* Error State */}
+        {error && (
+          <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="h-5 w-5 text-red-400" />
+            <div className="text-red-200 flex items-center justify-between w-full">
+              <span>Failed to load authors: {error}</span>
             <Button
               variant="outline"
               size="sm"
               onClick={retry}
-              className="ml-4"
+              className="ml-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
             >
               <RefreshCcw className="w-4 h-4 mr-1" />
               Retry
             </Button>
-          </AlertDescription>
-        </Alert>
-      )}
+            </div>
+          </div>
+          </div>
+        )}
 
-      {/* Loading State */}
-      {isLoading && (
-        <div className="flex justify-center items-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-green-600" />
-          <span className="ml-2 text-green-600">Loading authors...</span>
-        </div>
-      )}
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center items-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+          <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Loading authors...</span>
+          </div>
+        )}
 
-      {/* Authors Grid */}
-      {!isLoading && !error && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Authors Grid */}
+        {!isLoading && !error && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {authors.map((author) => (
-            <Card
+            <div
               key={author.id}
-              className="bg-white/70 backdrop-blur-sm border-green-200 hover:shadow-lg transition-all duration-300 hover:scale-105"
+              className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 hover:scale-105"
             >
-              <CardHeader className="text-center">
+              <div className="text-center p-6">
                 <Avatar className="w-20 h-20 mx-auto mb-4">
                   <AvatarImage src={author.avatar} alt={author.name} />
                   <AvatarFallback className="text-lg">
                     {getInitials(author.name)}
                   </AvatarFallback>
                 </Avatar>
-                <CardTitle className="text-xl text-green-800">{author.name}</CardTitle>
-                <div className="flex items-center justify-center space-x-4 text-sm text-green-600">
+                <h3 className="text-xl font-light" style={{ color: '#e2e2e2' }}>{author.name}</h3>
+                <div className="flex items-center justify-center space-x-4 text-sm" style={{ color: '#9b9b9b' }}>
                   <div className="flex items-center space-x-1">
                     <BookOpen className="w-4 h-4" />
                     <span>{author.poemsCount} poem{author.poemsCount !== 1 ? 's' : ''}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <User className="w-4 h-4" />
-                    <span>Author</span>
+                    <User className="w-4 h-4 text-pink-300" />
+                    <span className="text-pink-300">Author</span>
                   </div>
                 </div>
-              </CardHeader>
+              </div>
 
-              <CardContent>
+              <div className="p-6 pt-0">
                 {author.bio ? (
-                  <p className="text-green-700 mb-4 text-center line-clamp-3">
+                  <p className="mb-4 text-center line-clamp-3 font-light" style={{ color: '#9b9b9b' }}>
                     {author.bio}
                   </p>
                 ) : null}
 
                 <div className="flex flex-col space-y-2">
-                  <Button asChild className="bg-green-600 hover:bg-green-700">
+                  <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                     <Link href={`/authors/${author.id}`}>View Profile</Link>
                   </Button>
                   {author.website && (
-                    <Button variant="outline" asChild className="border-green-300 text-green-700 hover:bg-green-50">
+                    <Button variant="outline" asChild className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
                       <a href={author.website} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4 mr-2" />
                         Website
@@ -215,32 +216,32 @@ function AuthorsPageContent() {
                     </Button>
                   )}
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
-        </div>
-      )}
+          </div>
+        )}
 
-      {/* Empty State */}
-      {!isLoading && !error && authors.length === 0 && (
+        {/* Empty State */}
+        {!isLoading && !error && authors.length === 0 && (
         <div className="text-center py-12">
-          <User className="w-16 h-16 text-green-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-green-800 mb-2">No Authors Found</h3>
-          <p className="text-green-600 mb-4">
+          <User className="w-16 h-16 text-pink-300 mx-auto mb-4" />
+          <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>No Authors Found</h3>
+          <p className="mb-4 font-light" style={{ color: '#9b9b9b' }}>
             {searchTerm
               ? `No authors match your search for "${searchTerm}"`
               : "No authors available at the moment"}
           </p>
           {searchTerm && (
-            <Button onClick={clearFilters} variant="outline" className="border-green-300 text-green-700">
+            <Button onClick={clearFilters} variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
               Clear Search
             </Button>
           )}
-        </div>
-      )}
+          </div>
+        )}
 
-      {/* Pagination Controls */}
-      {pagination && pagination.totalPages > 1 && !isLoading && !error && (
+        {/* Pagination Controls */}
+        {pagination && pagination.totalPages > 1 && !isLoading && !error && (
         <Pagination
           currentPage={pagination.page}
           totalPages={pagination.totalPages}
@@ -248,8 +249,9 @@ function AuthorsPageContent() {
           className="justify-center"
           hasNext={pagination.page < pagination.totalPages}
           hasPrev={pagination.page > 1}
-        />
-      )}
+          />
+        )}
+      </div>
     </div>
   )
 }
@@ -257,16 +259,18 @@ function AuthorsPageContent() {
 // Loading fallback component
 function AuthorsPageLoading() {
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-green-800 mb-4">Our Authors</h1>
-        <p className="text-green-600 text-lg max-w-2xl mx-auto">
-          Meet the talented poets who share their hearts and souls through beautiful verse.
-        </p>
-      </div>
-      <div className="flex justify-center items-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-green-600" />
-        <span className="ml-2 text-green-600">Loading authors...</span>
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
+        <div className="text-center">
+          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Our Authors</h1>
+          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+            Meet the talented poets who share their hearts and souls through beautiful verse.
+          </p>
+        </div>
+        <div className="flex justify-center items-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+          <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Loading authors...</span>
+        </div>
       </div>
     </div>
   )

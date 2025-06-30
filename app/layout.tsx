@@ -23,9 +23,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50">
+          <div className="min-h-screen w-full flex flex-col" style={{ backgroundColor: '#0d0d0d' }}>
             <Header />
-            <main className="container mx-auto px-4 py-8">{children}</main>
+            <main className="flex-1 container mx-auto px-4 py-8 mb-10">{children}</main>
             <Footer />
           </div>
         </Providers>

@@ -76,7 +76,7 @@ export function Pagination({
         size="sm"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={!hasPrev}
-        className="border-green-300 text-green-700 hover:bg-green-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-transparent border-white/30 text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed font-light"
         aria-label="Go to previous page"
       >
         <ChevronLeft className="w-4 h-4 mr-1" />
@@ -88,7 +88,7 @@ export function Pagination({
         {pageNumbers.map((page, index) =>
           page === "..." ? (
             <div key={`ellipsis-${index}`} className="px-2 py-1">
-              <MoreHorizontal className="w-4 h-4 text-green-500" />
+              <MoreHorizontal className="w-4 h-4" style={{ color: '#9b9b9b' }} />
             </div>
           ) : (
             <Button
@@ -98,8 +98,8 @@ export function Pagination({
               onClick={() => onPageChange(page as number)}
               className={
                 page === currentPage
-                  ? "bg-green-600 text-white hover:bg-green-700"
-                  : "border-green-300 text-green-700 hover:bg-green-50"
+                  ? "bg-pink-300/20 text-pink-300 border-pink-300/40 hover:bg-pink-300/30 font-light"
+                  : "bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
               }
               aria-label={`Go to page ${page}`}
               aria-current={page === currentPage ? "page" : undefined}
@@ -116,7 +116,7 @@ export function Pagination({
         size="sm"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={!hasNext}
-        className="border-green-300 text-green-700 hover:bg-green-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-transparent border-white/30 text-white hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed font-light"
         aria-label="Go to next page"
       >
         Next
@@ -146,7 +146,7 @@ export function PaginationInfo({
   const endItem = Math.min(currentPage * limit, totalCount)
 
   return (
-    <div className={`text-sm text-green-600 ${className}`}>
+    <div className={`text-sm ${className}`} style={{ color: '#9b9b9b' }}>
       Showing {startItem} to {endItem} of {totalCount} poems
       {totalPages > 1 && (
         <span className="ml-2">

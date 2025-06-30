@@ -60,11 +60,12 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-4xl mx-auto px-6 py-16 space-y-8">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-green-800 mb-4">Get in Touch</h1>
-        <p className="text-green-600 text-lg max-w-2xl mx-auto">
+        <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Get in Touch</h1>
+        <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
           Have questions, suggestions, or need support? We'd love to hear from you. Reach out to our team.
         </p>
       </div>
@@ -72,27 +73,27 @@ export default function ContactPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Contact Form */}
         <div className="lg:col-span-2">
-          <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-2xl text-green-800 flex items-center space-x-2">
-                <Mail className="w-6 h-6" />
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+            <div className="p-6 border-b border-white/10">
+              <h2 className="text-2xl font-light flex items-center space-x-2" style={{ color: '#e2e2e2' }}>
+                <Mail className="w-6 h-6 text-pink-300" />
                 <span>Send us a Message</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+              </h2>
+            </div>
+            <div className="p-6">
               {submitted ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Send className="w-8 h-8 text-green-600" />
+                  <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Send className="w-8 h-8 text-pink-300" />
                   </div>
-                  <h3 className="text-xl font-semibold text-green-800 mb-2">Message Sent!</h3>
-                  <p className="text-green-600 mb-4">
+                  <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>Message Sent!</h3>
+                  <p className="mb-4 font-light" style={{ color: '#9b9b9b' }}>
                     Thank you for contacting us. We'll get back to you within 24 hours.
                   </p>
                   <Button
                     onClick={() => setSubmitted(false)}
                     variant="outline"
-                    className="border-green-300 text-green-700 hover:bg-green-50"
+                    className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
                   >
                     Send Another Message
                   </Button>
@@ -101,7 +102,7 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="text-green-800 font-medium">
+                      <Label htmlFor="name" className="font-medium" style={{ color: '#e2e2e2' }}>
                         Name *
                       </Label>
                       <Input
@@ -110,11 +111,11 @@ export default function ContactPage() {
                         onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
                         placeholder="Your full name"
                         required
-                        className="border-green-300 focus:border-green-500"
+                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-green-800 font-medium">
+                      <Label htmlFor="email" className="font-medium" style={{ color: '#e2e2e2' }}>
                         Email *
                       </Label>
                       <Input
@@ -124,13 +125,13 @@ export default function ContactPage() {
                         onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
                         placeholder="your.email@example.com"
                         required
-                        className="border-green-300 focus:border-green-500"
+                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="subject" className="text-green-800 font-medium">
+                    <Label htmlFor="subject" className="font-medium" style={{ color: '#e2e2e2' }}>
                       Subject *
                     </Label>
                     <Input
@@ -144,7 +145,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message" className="text-green-800 font-medium">
+                    <Label htmlFor="message" className="font-medium" style={{ color: '#e2e2e2' }}>
                       Message *
                     </Label>
                     <Textarea
@@ -153,52 +154,52 @@ export default function ContactPage() {
                       onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
                       placeholder="Please provide details about your inquiry..."
                       required
-                      className="min-h-[150px] border-green-300 focus:border-green-500"
+                      className="min-h-[150px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                     />
                   </div>
 
                   {error && (
                     <div className="text-red-600 text-sm text-center">{error}</div>
                   )}
-                  <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={isSubmitting}>
+                  <Button type="submit" className="w-full bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light" disabled={isSubmitting}>
                     <Send className="w-4 h-4 mr-2" />
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* Contact Information */}
         <div className="space-y-6">
-          <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-xl text-green-800">Contact Information</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+            <div className="p-6 border-b border-white/10">
+              <h3 className="text-xl font-light" style={{ color: '#e2e2e2' }}>Contact Information</h3>
+            </div>
+            <div className="p-6 space-y-4">
               <div className="flex items-start space-x-3">
-                <Mail className="w-5 h-5 text-green-600 mt-1" />
+                <Mail className="w-5 h-5 text-pink-300 mt-1" />
                 <div>
-                  <h4 className="font-semibold text-green-800">Email</h4>
-                  <p className="text-green-700">hello@lotus-poetry.com</p>
-                  <p className="text-green-700">support@lotus-poetry.com</p>
+                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Email</h4>
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>hello@lotus-poetry.com</p>
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>support@lotus-poetry.com</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <Phone className="w-5 h-5 text-green-600 mt-1" />
+                <Phone className="w-5 h-5 text-pink-300 mt-1" />
                 <div>
-                  <h4 className="font-semibold text-green-800">Phone</h4>
-                  <p className="text-green-700">+1 (555) 123-4567</p>
+                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Phone</h4>
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>+1 (555) 123-4567</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-green-600 mt-1" />
+                <MapPin className="w-5 h-5 text-pink-300 mt-1" />
                 <div>
-                  <h4 className="font-semibold text-green-800">Address</h4>
-                  <p className="text-green-700">
+                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Address</h4>
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>
                     123 Poetry Lane
                     <br />
                     Creative District
@@ -209,51 +210,52 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start space-x-3">
-                <Clock className="w-5 h-5 text-green-600 mt-1" />
+                <Clock className="w-5 h-5 text-pink-300 mt-1" />
                 <div>
-                  <h4 className="font-semibold text-green-800">Response Time</h4>
-                  <p className="text-green-700">We typically respond within 24 hours during business days.</p>
+                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Response Time</h4>
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>We typically respond within 24 hours during business days.</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
 
-          <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-xl text-green-800">Quick Links</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+            <div className="p-6 border-b border-white/10">
+              <h3 className="text-xl font-light" style={{ color: '#e2e2e2' }}>Quick Links</h3>
+            </div>
+            <div className="p-6 space-y-3">
               <Button
                 variant="ghost"
                 asChild
-                className="w-full justify-start text-green-700 hover:text-green-800 hover:bg-green-50"
+                className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
               >
                 <a href="/faq">Frequently Asked Questions</a>
               </Button>
               <Button
                 variant="ghost"
                 asChild
-                className="w-full justify-start text-green-700 hover:text-green-800 hover:bg-green-50"
+                className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
               >
                 <a href="/help">Help Center</a>
               </Button>
               <Button
                 variant="ghost"
                 asChild
-                className="w-full justify-start text-green-700 hover:text-green-800 hover:bg-green-50"
+                className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
               >
                 <a href="/community-guidelines">Community Guidelines</a>
               </Button>
               <Button
                 variant="ghost"
                 asChild
-                className="w-full justify-start text-green-700 hover:text-green-800 hover:bg-green-50"
+                className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
               >
                 <a href="/privacy">Privacy Policy</a>
               </Button>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
+      </div>
       </div>
     </div>
   )

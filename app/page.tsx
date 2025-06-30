@@ -79,7 +79,8 @@ export default function HomePage() {
     setIsLoadingRecent(true)
     setRecentError(null)
     try {
-      const response = await fetch('/api/poems?limit=4&sortBy=createdAt&order=desc')
+      const response = await fetch('/api/poems?limit=3&sortBy=createdAt&order=desc')
+      console.log(response)
       if (!response.ok) {
         throw new Error(`Failed to fetch recent poems: ${response.status}`)
       }
@@ -113,226 +114,219 @@ export default function HomePage() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      {/* Main Content - Poem of the Week */}
-      <div className="lg:col-span-2">
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-          <CardHeader className="text-center border-b border-green-100">
-            <div className="flex items-center justify-center space-x-2 mb-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-green-700 font-medium">Poem of the Week</span>
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            </div>
+    <div className="min-h-screen w-full relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
+      {/* Add custom keyframes */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes breathe {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.02); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          25% { transform: translateY(-8px) rotate(-0.8deg); }
+          50% { transform: translateY(-12px) rotate(1deg); }
+          75% { transform: translateY(-6px) rotate(-0.5deg); }
+        }
+      `}</style>
 
-            {isLoadingFeatured ? (
-              <>
-                <Skeleton className="h-8 w-48 mx-auto mb-2" />
-                <div className="flex items-center justify-center space-x-4">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-4 w-20" />
-                </div>
-              </>
-            ) : featuredError ? (
-              <div className="space-y-2">
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{featuredError}</AlertDescription>
-                </Alert>
-                <Button
-                  onClick={fetchFeaturedPoem}
-                  variant="outline"
-                  size="sm"
-                  className="text-green-600 border-green-300"
-                >
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Retry
-                </Button>
-              </div>
-            ) : featuredPoem ? (
-              <>
-                <CardTitle className="text-3xl text-green-800 mb-2">{featuredPoem.title}</CardTitle>
-            <div className="flex items-center justify-center space-x-4 text-sm text-green-600">
-              <div className="flex items-center space-x-1">
-                <User className="w-4 h-4" />
-                <Link
-                      href={`/authors/${featuredPoem.author.id}`}
-                  className="hover:text-green-800 transition-colors"
-                >
-                      {featuredPoem.author.name}
-                </Link>
-              </div>
-              <div className="flex items-center space-x-1">
-                <Clock className="w-4 h-4" />
-                    <span>{formatDate(featuredPoem.publishedAt)}</span>
-              </div>
-            </div>
-              </>
-            ) : (
-              <div className="text-green-600 italic">No featured poem available</div>
-            )}
-          </CardHeader>
+      {/* Lotus background with reflection - positioned at top of columns */}
+      <div className="absolute -top-[14rem] left-1/2 transform -translate-x-1/2 w-[25rem] h-[50rem] pointer-events-none">
+        {/* Main lotus */}
+        <div className="w-full h-1/2">
+          <img
+            src="/lotus-background-simple.png"
+            alt="Lotus"
+            className="w-full h-full object-contain object-bottom opacity-80"
+            style={{
+              animation: 'float 10s ease-in-out infinite'
+            }}
+          />
+        </div>
 
-          <CardContent className="p-8">
-            {isLoadingFeatured ? (
-              <div className="space-y-4">
-                <Skeleton className="h-32 w-full" />
-                <div className="flex gap-2">
-                  <Skeleton className="h-6 w-16" />
-                  <Skeleton className="h-6 w-20" />
-                  <Skeleton className="h-6 w-14" />
-                </div>
-                <div className="flex justify-between pt-4">
-                  <div className="flex gap-4">
-                    <Skeleton className="h-8 w-16" />
-                    <Skeleton className="h-8 w-20" />
-                  </div>
-                  <Skeleton className="h-8 w-16" />
-                </div>
-              </div>
-            ) : featuredPoem ? (
-              <>
-            <div className="prose prose-green max-w-none mb-6">
-              <pre className="whitespace-pre-wrap font-serif text-lg leading-relaxed text-green-900">
-                    {featuredPoem.content}
-              </pre>
-            </div>
-
-            <div className="flex flex-wrap gap-2 mb-6">
-                  {featuredPoem.tags.map((tag) => (
-                <Badge key={tag} variant="secondary" className="bg-green-100 text-green-700 hover:bg-green-200">
-                  #{tag}
-                </Badge>
-              ))}
-            </div>
-            <Button asChild className="w-full bg-green-600 hover:bg-green-700">
-                    <Link href={`/poems/${featuredPoem.id}`}>
-                      Read Full Poem
-                    </Link>
-                  </Button>
-            <div className="flex items-center justify-between pt-4 border-t border-green-100">
-              <div className="flex items-center space-x-4">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={`text-green-700 ${liked ? "text-red-500" : "hover:text-red-500 hover:bg-red-50"}`}
-                  onClick={async () => {
-                    if (!session?.user) {
-                      window.location.href = "/login"
-                      return
-                    }
-                    if (likeLoading) return
-                    liked ? await unlike() : await like()
-                  }}
-                  disabled={likeLoading}
-                >
-                  <Heart className={`w-4 h-4 mr-2 ${liked ? "fill-red-500" : ""}`} />
-                  {likeCount}
-                </Button>
-                {/* Comments count: static, not a button */}
-                <div className="flex items-center text-green-700 text-sm">
-                  <MessageCircle className="w-5 h-5 mr-2" />
-                  {featuredPoem.comments}
-                </div>
-              </div>
-              <Button variant="ghost" size="sm" className="text-green-700 hover:text-green-800">
-                <Share2 className="w-4 h-4 mr-2" />
-                Share
-              </Button>
-            </div>
-              </>
-            ) : null}
-          </CardContent>
-        </Card>
+        {/* Reflection */}
+        <div className="absolute top-[220px] left-0 w-full h-1/2 transform scale-y-[-1] overflow-hidden">
+          <div
+            className="w-full h-full"
+            style={{
+              background: `url('/lotus-background-simple.png') center/contain no-repeat`,
+              opacity: 0.3,
+              animation: 'float 10s ease-in-out infinite',
+              maskImage: 'linear-gradient(to bottom, black 0%, transparent 90%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 90%)',
+              filter: 'blur(1px)'
+            }}
+          />
+        </div>
       </div>
 
-      {/* Sidebar - Recently Added Poems */}
-      <div className="space-y-6">
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-xl text-green-800 flex items-center space-x-2">
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-              <span>Recently Added</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {isLoadingRecent ? (
-              // Loading skeleton for recent poems
-              Array.from({ length: 4 }).map((_, index) => (
-                <div key={index} className="p-4 bg-green-50 rounded-lg border border-green-100">
-                  <Skeleton className="h-5 w-32 mb-2" />
-                  <Skeleton className="h-4 w-24 mb-2" />
-                  <Skeleton className="h-4 w-full mb-3" />
-                  <div className="flex gap-1 mb-2">
-                    <Skeleton className="h-5 w-12" />
-                    <Skeleton className="h-5 w-16" />
-                  </div>
-                  <Skeleton className="h-3 w-20" />
-                </div>
-              ))
-            ) : recentError ? (
-              <div className="space-y-2">
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{recentError}</AlertDescription>
-                </Alert>
-                <Button
-                  onClick={fetchRecentPoems}
-                  variant="outline"
-                  size="sm"
-                  className="text-green-600 border-green-300"
-                >
-                  <RefreshCw className="w-4 h-4 mr-2" />
-                  Retry
-                </Button>
+      {/* Main content container */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+        {/* Main Section: Poem of the Week */}
+        <section className="lg:col-span-3 self-start relative w-[90vw] lg:w-[680px] max-w-full">
+          {/* Horizontal line above poem of the week */}
+          <div className="absolute -top-8 left-0 w-2/3">
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-pink-300/30 to-transparent drop-shadow-sm"></div>
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mt-1"></div>
+          </div>
+          {/* Poem of the Week Header */}
+          <div className="flex items-center gap-3 mb-8">
+            <span className="text-pink-300 text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-pink-300 to-pink-200 bg-clip-text text-transparent drop-shadow-sm">
+              🖊️ POEM OF THE WEEK
+            </span>
+          </div>
+
+          {isLoadingFeatured ? (
+            <>
+              <Skeleton className="h-16 w-2/3 mb-4 bg-white/10" />
+              <Skeleton className="h-6 w-1/3 mb-8 bg-white/10" />
+              <Skeleton className="h-32 w-full bg-white/10" />
+            </>
+          ) : featuredError ? (
+            <Alert variant="destructive" className="mb-4 bg-red-900/20 border-red-800">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription className="text-red-200">{featuredError}</AlertDescription>
+            </Alert>
+          ) : featuredPoem ? (
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+              {/* Title */}
+              <h1 className="text-2xl lg:text-4xl font-light leading-none mb-6 drop-shadow-lg hover:drop-shadow-2xl transition-all duration-500 cursor-default" style={{ color: '#e2e2e2' }}>
+                {featuredPoem.title}
+              </h1>
+
+              {/* Author and Date */}
+              <div className="text-lg mb-10 drop-shadow-sm" style={{ color: '#e2e2e2' }}>
+                by <span className="italic text-pink-200 drop-shadow-sm hover:text-pink-100 transition-colors duration-300">{featuredPoem.author.name}</span>
+                <span className="ml-6 text-base" style={{ color: '#9b9b9b' }}>{formatDate(featuredPoem.publishedAt)}</span>
               </div>
-            ) : recentPoems.length > 0 ? (
-              recentPoems.map((poem) => (
-              <div
-                key={poem.id}
-                className="p-4 bg-green-50 rounded-lg border border-green-100 hover:bg-green-100 transition-colors"
-              >
-                <Link href={`/poems/${poem.id}`} className="block">
-                  <h3 className="font-semibold text-green-800 mb-1 hover:text-green-900 transition-colors">
-                    {poem.title}
-                  </h3>
-                    <p className="text-sm text-green-600 mb-2">by {poem.author.name}</p>
-                    <p className="text-sm text-green-700 mb-3 italic">"{getPoemPreview(poem.content)}"</p>
-                  <div className="flex flex-wrap gap-1 mb-2">
-                    {poem.tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="text-xs border-green-300 text-green-600">
-                        #{tag}
-                      </Badge>
-                    ))}
-                  </div>
-                    <p className="text-xs text-green-500">{formatDate(poem.publishedAt)}</p>
-                </Link>
+
+              {/* Poem Content */}
+              <div className="text-md leading-relaxed whitespace-pre-line mb-12 border-l-2 border-pink-300/50 pl-8 font-light drop-shadow-sm relative" style={{ color: '#e2e2e2' }}>
+                <div className="max-h-96 overflow-hidden">
+                  {featuredPoem.content}
                 </div>
-              ))
+                {featuredPoem.content.length > 500 && (
+                  <div className="italic mt-2" style={{ color: '#9b9b9b' }}>...</div>
+                )}
+              </div>
+
+              {/* Interaction Buttons */}
+              <div className="flex items-center gap-8 mb-8">
+                <button className="flex items-center gap-2 text-gray-400 hover:text-pink-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group">
+                  <Heart className="w-5 h-5 group-hover:animate-pulse" />
+                  <span className="font-light">{likeCount ?? featuredPoem.likes ?? 0}</span>
+                </button>
+                <button className="flex items-center gap-2 text-gray-400 hover:text-pink-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group">
+                  <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
+                  <span className="font-light">{featuredPoem.comments ?? 0}</span>
+                </button>
+                <button className="flex items-center gap-2 text-gray-400 hover:text-pink-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group">
+                  <Share2 className="w-5 h-5 group-hover:animate-pulse" />
+                  <span className="font-light">Share</span>
+                </button>
+              </div>
+
+              <Link href={`/poems/${featuredPoem.id}`}>
+                <Button className="bg-gradient-to-r from-transparent via-pink-300/10 to-transparent text-white border border-pink-300/40 hover:bg-pink-300/20 hover:border-pink-300/60 transition-all duration-300 px-8 py-3 rounded-lg font-light group">
+                  <span className="flex items-center gap-2">
+                    📖 Read Full Poem
+                    <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
+                  </span>
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="text-gray-400 italic">No featured poem available</div>
+          )}
+        </section>
+
+        {/* Sidebar: Recently Added */}
+        <aside className="lg:col-span-2 self-start relative">
+          {/* Horizontal line above sidebar - desktop only */}
+          <div className="hidden lg:block absolute -top-8 left-0 right-0">
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-pink-300/30 to-transparent drop-shadow-sm"></div>
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mt-1"></div>
+          </div>
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-pink-300 text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-pink-300 to-pink-200 bg-clip-text text-transparent drop-shadow-sm">
+                📚 Recently Added
+              </span>
+            </div>
+
+            {isLoadingRecent ? (
+              <div className="space-y-6">
+                {[1,2,3].map((i) => (
+                  <div key={i} className="space-y-2">
+                    <Skeleton className="h-5 w-3/4 bg-white/10" />
+                    <Skeleton className="h-4 w-1/2 bg-white/10" />
+                    <Skeleton className="h-3 w-1/4 bg-white/10" />
+                  </div>
+                ))}
+              </div>
+            ) : recentError ? (
+              <Alert variant="destructive" className="mb-4 bg-red-900/20 border-red-800">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-red-200">{recentError}</AlertDescription>
+              </Alert>
             ) : (
-              <div className="text-center text-green-600 italic py-8">
-                No recent poems available
+              <div className="space-y-4">
+                {recentPoems.map((poem, index) => (
+                  <div
+                    key={poem.id}
+                    className="group cursor-pointer bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] hover:drop-shadow-lg"
+                    style={{
+                      animationDelay: `${index * 100}ms`,
+                      animation: 'fadeInUp 0.6s ease-out forwards'
+                    }}
+                  >
+                    <Link href={`/poems/${poem.id}`} className="block">
+                      <h3 className="group-hover:text-pink-300 transition-all duration-300 font-medium mb-2 drop-shadow-sm" style={{ color: '#e2e2e2' }}>
+                        {poem.title}
+                      </h3>
+                      <p className="text-sm mb-2 font-light" style={{ color: '#e2e2e2' }}>
+                        by <span className="text-pink-200/80">{poem.author.name}</span>
+                      </p>
+                      <p className="text-xs italic mb-3 leading-relaxed" style={{ color: '#9b9b9b' }}>
+                        "{getPoemPreview(poem.content)}"
+                      </p>
+                      <p className="text-xs font-light" style={{ color: '#9b9b9b' }}>
+                        {formatDate(poem.publishedAt)}
+                      </p>
+                    </Link>
+                  </div>
+                ))}
               </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Quick Actions */}
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-xl text-green-800">Join Our Community</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Button asChild className="w-full bg-green-600 hover:bg-green-700">
-              <Link href="/submit">Submit Your Poem</Link>
-            </Button>
-            <Button variant="outline" asChild className="w-full border-green-300 text-green-700 hover:bg-green-50">
-              <Link href="/register">Create Account</Link>
-            </Button>
-            <Button variant="ghost" asChild className="w-full text-green-600 hover:text-green-800 hover:bg-green-50">
-              <Link href="/poems">Browse All Poems</Link>
-            </Button>
-          </CardContent>
-        </Card>
+          {/* Community Section - positioned to align with lotus */}
+          <div className="bg-gradient-to-br from-white/5 via-pink-300/5 to-white/10 backdrop-blur-md rounded-xl p-8 border border-white/10 hover:border-pink-300/20 transition-all duration-500 hover:from-white/10 hover:via-pink-300/10 hover:to-white/15 group">
+            <h3 className="text-xl text-white mb-4 drop-shadow-sm bg-gradient-to-r from-white to-pink-100 bg-clip-text text-transparent">
+              Join Our Community
+            </h3>
+            <p className="mb-6 text-sm leading-relaxed font-light drop-shadow-sm" style={{ color: '#9b9b9b' }}>
+              Connect with fellow poets and share creative journey in our growing community of word art.
+            </p>
+            <Link href="/submit">
+              <Button className="w-full bg-gradient-to-r from-pink-300/20 via-pink-200/20 to-pink-300/20 text-white border border-pink-300/30 hover:bg-pink-300/30 hover:border-pink-300/50 transition-all duration-300 py-3 rounded-lg font-light group">
+                <span className="flex items-center justify-center gap-2">
+                  Submit Your Poem
+                  <span className="group-hover:translate-y-[-2px] transition-transform duration-300">✨</span>
+                </span>
+              </Button>
+            </Link>
+          </div>
+        </aside>
       </div>
     </div>
   )

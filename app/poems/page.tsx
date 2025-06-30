@@ -41,27 +41,27 @@ function PoemsPageContent() {
   } = usePoemListing()
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-green-800 mb-4">Poetry Collection</h1>
-        <p className="text-green-600 text-lg max-w-2xl mx-auto">
-          Discover beautiful poems from talented writers around the world. Each piece tells a unique story.
-        </p>
-      </div>
+    <div className="min-h-screen text-white" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Poetry Collection</h1>
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">
+            Discover beautiful poems from talented writers around the world. Each piece tells a unique story.
+          </p>
+        </div>
 
-      {/* Search and Filter */}
-      <Card className="bg-white/70 backdrop-blur-sm border-green-200">
-        <CardContent className="p-6">
-          <div className="flex flex-col lg:flex-row gap-4">
+        {/* Search and Filter */}
+        <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/10 p-8">
+          <div className="flex flex-col lg:flex-row gap-6">
             {/* Search Input */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500 w-4 h-4" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-pink-300 w-5 h-5" />
               <Input
                 placeholder="Search poems, authors, or content..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 border-green-300 focus:border-green-500"
+                className="pl-12 bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 h-12 font-light"
                 disabled={isLoading}
               />
             </div>
@@ -69,43 +69,43 @@ function PoemsPageContent() {
             {/* Filters Row */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {/* Category Filter */}
-            <div className="flex items-center space-x-2">
-              <Filter className="text-green-600 w-4 h-4" />
+              <div className="flex items-center space-x-3">
+                <Filter className="text-pink-300 w-5 h-5" />
                 <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={isLoading}>
-                <SelectTrigger className="w-48 border-green-300">
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                  <SelectTrigger className="w-48 bg-white/5 border-white/20 text-white">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
+                    {categories.map((category) => (
+                      <SelectItem key={category} value={category} className="text-gray-300 focus:text-white focus:bg-white/5">
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Sort Options */}
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-green-600">Sort by:</span>
+              <div className="flex items-center space-x-3">
+                <span className="text-sm text-gray-300 font-light">Sort by:</span>
                 <Select value={sortBy} onValueChange={setSortBy} disabled={isLoading}>
-                  <SelectTrigger className="w-32 border-green-300">
+                  <SelectTrigger className="w-32 bg-white/5 border-white/20 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="createdAt">Newest</SelectItem>
-                    <SelectItem value="title">Title</SelectItem>
-                    <SelectItem value="likes">Most Liked</SelectItem>
+                  <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
+                    <SelectItem value="createdAt" className="text-gray-300 focus:text-white focus:bg-white/5">Newest</SelectItem>
+                    <SelectItem value="title" className="text-gray-300 focus:text-white focus:bg-white/5">Title</SelectItem>
+                    <SelectItem value="likes" className="text-gray-300 focus:text-white focus:bg-white/5">Most Liked</SelectItem>
                   </SelectContent>
                 </Select>
 
                 <Select value={order} onValueChange={setOrder} disabled={isLoading}>
-                  <SelectTrigger className="w-24 border-green-300">
+                  <SelectTrigger className="w-24 bg-white/5 border-white/20 text-white">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="desc">↓</SelectItem>
-                    <SelectItem value="asc">↑</SelectItem>
+                  <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
+                    <SelectItem value="desc" className="text-gray-300 focus:text-white focus:bg-white/5">↓</SelectItem>
+                    <SelectItem value="asc" className="text-gray-300 focus:text-white focus:bg-white/5">↑</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -117,179 +117,176 @@ function PoemsPageContent() {
                   size="sm"
                   onClick={clearFilters}
                   disabled={isLoading}
-                  className="border-green-300 text-green-700 hover:bg-green-50"
+                  className="bg-transparent border-white/30 text-white hover:bg-white hover:text-black font-light"
                 >
                   Clear Filters
                 </Button>
               )}
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Pagination Info */}
-      {pagination && !isLoading && (
-        <PaginationInfo
-          currentPage={pagination.page}
-          totalPages={pagination.totalPages}
-          totalCount={pagination.totalCount}
-          limit={pagination.limit}
-          className="text-center"
-        />
-      )}
-
-      {/* Error State */}
-      {error && (
-        <Alert variant="destructive" className="bg-red-50 border-red-200">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="flex items-center justify-between">
-            <span>Failed to load poems: {error}</span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={retry}
-              className="ml-4"
-            >
-              <RefreshCcw className="w-4 h-4 mr-1" />
-              Retry
-            </Button>
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {/* Loading State */}
-      {isLoading && (
-        <div className="flex justify-center items-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-green-600" />
-          <span className="ml-2 text-green-600">Loading poems...</span>
         </div>
-      )}
 
-      {/* Poems Grid */}
-      {!isLoading && !error && (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {poems.map((poem) => (
-          <Card
-            key={poem.id}
-            className="bg-white/70 backdrop-blur-sm border-green-200 hover:shadow-lg transition-all duration-300 hover:scale-105"
-          >
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <Badge variant="outline" className="border-green-300 text-green-600 mb-2">
-                  {poem.category}
-                </Badge>
-                  {poem.readingTime && (
-                    <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">
-                      {poem.readingTime} min read
-                    </Badge>
-                  )}
+        {/* Pagination Info */}
+        {pagination && !isLoading && (
+          <div className="text-center">
+            <p className="text-gray-400 font-light">
+              Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.totalCount)} of {pagination.totalCount} poems
+            </p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <AlertCircle className="h-5 w-5 text-red-400" />
+                <span className="text-red-200">Failed to load poems: {error}</span>
               </div>
-              <CardTitle className="text-xl text-green-800 hover:text-green-900 transition-colors">
-                <Link href={`/poems/${poem.id}`}>{poem.title}</Link>
-              </CardTitle>
-              <div className="flex items-center space-x-4 text-sm text-green-600">
-                <div className="flex items-center space-x-1">
-                  <User className="w-4 h-4" />
-                  <Link
-                      href={`/authors/${poem.authorData.id}`}
-                    className="hover:text-green-800 transition-colors"
-                  >
-                    {poem.author}
-                  </Link>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <Clock className="w-4 h-4" />
-                    <span>{new Date(poem.publishedAt).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </CardHeader>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={retry}
+                className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black font-light"
+              >
+                <RefreshCcw className="w-4 h-4 mr-1" />
+                Retry
+              </Button>
+            </div>
+          </div>
+        )}
 
-            <CardContent>
-              <p className="text-green-700 mb-4 italic line-clamp-3">"{poem.preview}"</p>
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+            <span className="ml-3 text-gray-300 font-light">Loading poems...</span>
+          </div>
+        )}
 
-              <div className="flex flex-wrap gap-1 mb-4">
-                {poem.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary" className="text-xs bg-green-100 text-green-700">
-                    #{tag}
-                  </Badge>
-                ))}
-              </div>
-
-              <div className="flex items-center justify-between pt-4 border-t border-green-100">
-                {/* Like and comment counts: static, not buttons */}
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center text-green-700 text-sm">
-                    <Heart className="w-4 h-4 mr-1" />
-                    {poem.likes}
+        {/* Poems Grid */}
+        {!isLoading && !error && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {poems.map((poem) => (
+              <div
+                key={poem.id}
+                className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:border-pink-300/30 transition-all duration-300 hover:transform hover:scale-105 group"
+              >
+                <div className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <span className="px-3 py-1 bg-pink-300/20 text-pink-300 text-xs font-light rounded-full border border-pink-300/30">
+                      {poem.category}
+                    </span>
+                    {poem.readingTime && (
+                      <span className="px-2 py-1 bg-white/10 text-gray-400 text-xs font-light rounded">
+                        {poem.readingTime} min read
+                      </span>
+                    )}
                   </div>
-                  <div className="flex items-center text-green-700 text-sm">
-                    <MessageCircle className="w-4 h-4 mr-1" />
-                    {poem.comments}
+                  
+                  <h3 className="text-xl font-light text-white mb-3 group-hover:text-pink-300 transition-colors">
+                    <Link href={`/poems/${poem.id}`}>{poem.title}</Link>
+                  </h3>
+                  
+                  <div className="flex items-center space-x-4 text-sm text-gray-400 mb-4">
+                    <div className="flex items-center space-x-1">
+                      <User className="w-4 h-4" />
+                      <Link
+                        href={`/authors/${poem.authorData.id}`}
+                        className="hover:text-pink-300 transition-colors font-light"
+                      >
+                        {poem.author}
+                      </Link>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Clock className="w-4 h-4" />
+                      <span className="font-light">{new Date(poem.publishedAt).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+
+                  <p className="text-gray-300 mb-4 italic line-clamp-3 font-light leading-relaxed">
+                    "{poem.preview}"
+                  </p>
+
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {poem.tags.map((tag) => (
+                      <span key={tag} className="px-2 py-1 bg-white/5 text-gray-400 text-xs font-light rounded border border-white/10">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                    <div className="flex items-center space-x-4">
+                      <div className="flex items-center text-gray-400 text-sm">
+                        <Heart className="w-4 h-4 mr-1" />
+                        <span className="font-light">{poem.likes}</span>
+                      </div>
+                      <div className="flex items-center text-gray-400 text-sm">
+                        <MessageCircle className="w-4 h-4 mr-1" />
+                        <span className="font-light">{poem.comments}</span>
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      asChild
+                      className="bg-transparent border-white/30 text-white hover:bg-pink-300 hover:text-black hover:border-pink-300 font-light"
+                    >
+                      <Link href={`/poems/${poem.id}`}>Read More</Link>
+                    </Button>
                   </div>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                  className="border-green-300 text-green-700 hover:bg-green-50"
-                >
-                  <Link href={`/poems/${poem.id}`}>Read More</Link>
-                </Button>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-      )}
+            ))}
+          </div>
+        )}
 
-      {/* No Results */}
-      {!isLoading && !error && poems.length === 0 && (
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200">
-          <CardContent className="p-12 text-center">
-            <div className="text-green-600 mb-4">
+        {/* No Results */}
+        {!isLoading && !error && poems.length === 0 && (
+          <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-12 text-center">
+            <div className="text-pink-300 mb-6">
               <Search className="w-16 h-16 mx-auto opacity-50" />
             </div>
-            <h3 className="text-xl font-semibold text-green-800 mb-2">No poems found</h3>
-            <p className="text-green-600 mb-4">
+            <h3 className="text-xl font-light text-white mb-4">No poems found</h3>
+            <p className="text-gray-300 mb-6 font-light">
               {searchTerm || selectedCategory !== "All"
                 ? "Try adjusting your search terms or category filter."
                 : "There are no published poems available at the moment."
               }
             </p>
             {(searchTerm || selectedCategory !== "All") && (
-            <Button
-              variant="outline"
+              <Button
+                variant="outline"
                 onClick={clearFilters}
-              className="border-green-300 text-green-700 hover:bg-green-50"
-            >
-              Clear Filters
-            </Button>
+                className="bg-transparent border-white/30 text-white hover:bg-white hover:text-black font-light"
+              >
+                Clear Filters
+              </Button>
             )}
-          </CardContent>
-        </Card>
-      )}
+          </div>
+        )}
 
-      {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && !isLoading && !error && (
-        <div className="space-y-4">
-          <Pagination
-            currentPage={pagination.page}
-            totalPages={pagination.totalPages}
-            hasNext={pagination.hasNext}
-            hasPrev={pagination.hasPrev}
-            onPageChange={goToPage}
-            className="mt-8"
-          />
+        {/* Pagination */}
+        {pagination && pagination.totalPages > 1 && !isLoading && !error && (
+          <div className="space-y-6">
+            <Pagination
+              currentPage={pagination.page}
+              totalPages={pagination.totalPages}
+              hasNext={pagination.hasNext}
+              hasPrev={pagination.hasPrev}
+              onPageChange={goToPage}
+              className="mt-8"
+            />
 
-          <PaginationInfo
-            currentPage={pagination.page}
-            totalPages={pagination.totalPages}
-            totalCount={pagination.totalCount}
-            limit={pagination.limit}
-            className="text-center"
-          />
-        </div>
-      )}
+            <div className="text-center">
+              <p className="text-gray-400 font-light">
+                Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.totalCount)} of {pagination.totalCount} poems
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -297,16 +294,18 @@ function PoemsPageContent() {
 // Loading fallback component
 function PoemsPageLoading() {
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-green-800 mb-4">Poetry Collection</h1>
-        <p className="text-green-600 text-lg max-w-2xl mx-auto">
-          Discover beautiful poems from talented writers around the world. Each piece tells a unique story.
-        </p>
-      </div>
-      <div className="flex justify-center items-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-green-600" />
-        <span className="ml-2 text-green-600">Loading poems...</span>
+    <div className="min-h-screen text-white" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
+        <div className="text-center">
+          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Poetry Collection</h1>
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">
+            Discover beautiful poems from talented writers around the world. Each piece tells a unique story.
+          </p>
+        </div>
+        <div className="flex justify-center items-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+          <span className="ml-3 text-gray-300 font-light">Loading poems...</span>
+        </div>
       </div>
     </div>
   )

@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { useSession, signOut } from "next-auth/react"
+import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -20,12 +21,13 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { data: session, status } = useSession()
   const { isAdmin } = useAdminStatus()
+  const pathname = usePathname()
 
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Poems", href: "/poems" },
     { name: "Authors", href: "/authors" },
-    { name: "Feedback", href: "/feedback" },
+    // { name: "Feedback", href: "/feedback" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ]
@@ -49,29 +51,44 @@ export function Header() {
   }
 
   return (
-    <header className="bg-white/80 backdrop-blur-sm border-b border-green-100 sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+    <header className="backdrop-blur-md sticky top-0 z-50" style={{ backgroundColor: 'rgba(13, 13, 13, 0.6)' }}>
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
           {/* Logo and Brand */}
-          <Link href="/" className="flex items-center space-x-3">
-            <LotusLogo />
-            <div>
-              <h1 className="text-2xl font-bold text-green-800">LOTUS</h1>
-              <p className="text-xs text-green-600 italic">Open up like a lotus</p>
-            </div>
+          <Link href="/" className="flex items-center space-x-3 group">
+            <img
+              src="/logo-simple.png"
+              alt="Lotus Logo"
+              className="w-20 h-20 object-contain filter brightness-200 contrast-100"
+            />
+            {/* <div>
+              <h1 className="text-2xl font-light text-white group-hover:text-pink-300 transition-colors">LOTUS</h1>
+              <p className="text-xs text-pink-200/70 italic tracking-wide">Open up like a lotus</p>
+            </div> */}
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-green-700 hover:text-green-900 transition-colors font-medium"
-              >
-                {item.name}
-              </Link>
-            ))}
+          <nav className="hidden md:flex items-center space-x-10">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`relative font-light text-sm tracking-wide uppercase transition-colors ${
+                    isActive
+                      ? 'text-pink-300'
+                      : 'hover:text-pink-300'
+                  }`}
+                  style={{ color: isActive ? undefined : '#9b9b9b' }}
+                >
+                  {item.name}
+                  {isActive && (
+                    <div className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pink-300 to-transparent"></div>
+                  )}
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Auth Section - Desktop */}
@@ -84,7 +101,7 @@ export function Header() {
             ) : session ? (
               // Logged in user menu
               <div className="flex items-center space-x-4">
-                <Button variant="outline" size="sm" asChild>
+                <Button variant="outline" size="sm" asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 hover:text-white transition-all font-light">
                   <Link href="/submit">
                     <PenTool className="w-4 h-4 mr-2" />
                     Submit Poem
@@ -92,49 +109,49 @@ export function Header() {
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-10 w-10 rounded-full p-0">
+                    <Button variant="ghost" className="h-10 w-10 rounded-full p-0 text-white">
                       <Avatar className="h-8 w-8">
                         <AvatarImage
                           src={session.user.avatarUrl || undefined}
                           alt={session.user.name}
                         />
-                        <AvatarFallback className="bg-green-100 text-green-700 text-sm">
+                        <AvatarFallback className="bg-white/20 text-white text-sm">
                           {getUserInitials(session.user.name)}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuContent align="end" className="w-56 backdrop-blur-md border-white/10" style={{ backgroundColor: 'rgba(13, 13, 13, 0.8)' }}>
                     <div className="px-2 py-1.5 text-sm">
-                      <div className="font-medium text-green-800">{session.user.name}</div>
-                      <div className="text-green-600 text-xs">{session.user.email}</div>
+                      <div className="font-medium" style={{ color: '#e2e2e2' }}>{session.user.name}</div>
+                      <div className="text-xs" style={{ color: '#9b9b9b' }}>{session.user.email}</div>
                     </div>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link href={`/authors/${session.user.id}`} className="cursor-pointer">
+                    <DropdownMenuSeparator className="bg-white/10" />
+                    <DropdownMenuItem asChild className="focus:bg-white/5" style={{ color: '#e2e2e2' }}>
+                      <Link href={`/authors/${session.user.id}`} className="cursor-pointer font-light" style={{ color: '#9b9b9b' }}>
                         <User className="w-4 h-4 mr-2" />
                         My Profile
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href="/settings" className="cursor-pointer">
+                    <DropdownMenuItem asChild className="focus:bg-white/5 focus:text-white">
+                      <Link href="/settings" className="cursor-pointer text-gray-300 hover:text-white font-light">
                         <Settings className="w-4 h-4 mr-2" />
                         Settings
                       </Link>
                     </DropdownMenuItem>
                     {isAdmin && (
                       <>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                          <Link href="/admin" className="cursor-pointer text-orange-600">
+                        <DropdownMenuSeparator className="bg-white/10" />
+                        <DropdownMenuItem asChild className="focus:bg-orange-900/20 focus:text-orange-300">
+                          <Link href="/admin" className="cursor-pointer text-orange-400 hover:text-orange-300 font-light">
                             <Shield className="w-4 h-4 mr-2" />
                             Admin Panel
                           </Link>
                         </DropdownMenuItem>
                       </>
                     )}
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-600">
+                    <DropdownMenuSeparator className="bg-white/10" />
+                    <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-400 hover:text-red-300 font-light focus:bg-red-900/20 focus:text-red-300">
                       <LogOut className="w-4 h-4 mr-2" />
                       Sign Out
                     </DropdownMenuItem>
@@ -144,76 +161,86 @@ export function Header() {
             ) : (
               // Not logged in - show login/register buttons
               <>
-            <Button variant="ghost" size="sm" asChild>
-              <Link href="/login">
-                <LogIn className="w-4 h-4 mr-2" />
-                Login
-              </Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/register">
-                <User className="w-4 h-4 mr-2" />
-                Register
-              </Link>
-            </Button>
+                <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light">
+                  <Link href="/login">
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Login
+                  </Link>
+                </Button>
+                <Button size="sm" asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
+                  <Link href="/register">
+                    <User className="w-4 h-4 mr-2" />
+                    Register
+                  </Link>
+                </Button>
               </>
             )}
           </div>
 
           {/* Mobile Menu Button */}
-          <Button variant="ghost" size="sm" className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <Button variant="ghost" size="sm" className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-green-100">
+          <div className="md:hidden py-6 border-t border-white/10">
             <nav className="flex flex-col space-y-4">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-green-700 hover:text-green-900 transition-colors font-medium"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map((item) => {
+                const isActive = pathname === item.href
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`relative font-light tracking-wide transition-colors ${
+                      isActive
+                        ? 'text-pink-300'
+                        : 'text-gray-300 hover:text-pink-300'
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                    {isActive && (
+                      <div className="absolute -bottom-1 left-0 w-8 h-px bg-pink-300"></div>
+                    )}
+                  </Link>
+                )
+              })}
 
               {/* Mobile Auth Section */}
-              <div className="flex flex-col space-y-2 pt-4 border-t border-green-100">
+              <div className="flex flex-col space-y-3 pt-6 border-t border-white/10">
                 {isLoading ? (
                   <div className="py-2">
-                    <div className="w-full h-8 bg-green-100 rounded animate-pulse" />
+                    <div className="w-full h-8 bg-white/10 rounded animate-pulse" />
                   </div>
                 ) : session ? (
                   // Logged in mobile menu
                   <>
-                    <div className="px-2 py-2 text-sm border-b border-green-100">
-                      <div className="font-medium text-green-800">{session.user.name}</div>
-                      <div className="text-green-600 text-xs">{session.user.email}</div>
+                    <div className="px-2 py-3 text-sm border-b border-white/10">
+                      <div className="font-medium text-white">{session.user.name}</div>
+                      <div className="text-gray-400 text-xs">{session.user.email}</div>
                     </div>
-                    <Button variant="outline" size="sm" asChild>
+                    <Button variant="outline" size="sm" asChild className="bg-transparent border-white/30 text-white hover:bg-white hover:text-black font-light">
                       <Link href="/submit" onClick={() => setIsMenuOpen(false)}>
                         <PenTool className="w-4 h-4 mr-2" />
                         Submit Poem
                       </Link>
                     </Button>
-                    <Button variant="ghost" size="sm" asChild>
+                    <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light justify-start">
                       <Link href={`/authors/${session.user.id}`} onClick={() => setIsMenuOpen(false)}>
                         <User className="w-4 h-4 mr-2" />
                         My Profile
                       </Link>
                     </Button>
-                    <Button variant="ghost" size="sm" asChild>
+                    <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light justify-start">
                       <Link href="/settings" onClick={() => setIsMenuOpen(false)}>
                         <Settings className="w-4 h-4 mr-2" />
                         Settings
                       </Link>
                     </Button>
                     {isAdmin && (
-                      <Button variant="ghost" size="sm" asChild>
+                      <Button variant="ghost" size="sm" asChild className="text-orange-400 hover:text-orange-300 font-light justify-start">
                         <Link href="/admin" onClick={() => setIsMenuOpen(false)}>
                           <Shield className="w-4 h-4 mr-2" />
                           Admin Panel
@@ -227,7 +254,7 @@ export function Header() {
                         setIsMenuOpen(false)
                         handleSignOut()
                       }}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="text-red-400 hover:text-red-300 hover:bg-red-900/20 font-light justify-start"
                     >
                       <LogOut className="w-4 h-4 mr-2" />
                       Sign Out
@@ -236,12 +263,18 @@ export function Header() {
                 ) : (
                   // Not logged in mobile menu
                   <>
-                <Button variant="ghost" size="sm" asChild>
-                      <Link href="/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
-                </Button>
-                <Button size="sm" asChild>
-                      <Link href="/register" onClick={() => setIsMenuOpen(false)}>Register</Link>
-                </Button>
+                    <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light justify-start">
+                      <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                        <LogIn className="w-4 h-4 mr-2" />
+                        Login
+                      </Link>
+                    </Button>
+                    <Button size="sm" asChild className="bg-transparent border-white/30 text-white hover:bg-white hover:text-black font-light">
+                      <Link href="/register" onClick={() => setIsMenuOpen(false)}>
+                        <User className="w-4 h-4 mr-2" />
+                        Register
+                      </Link>
+                    </Button>
                   </>
                 )}
               </div>

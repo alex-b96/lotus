@@ -105,9 +105,13 @@ export default function AuthorProfilePage() {
   // Loading state
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-green-600" />
-        <span className="ml-2 text-green-600">Loading author profile...</span>
+      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+        <div className="max-w-6xl mx-auto px-6 py-16">
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+            <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Loading author profile...</span>
+          </div>
+        </div>
       </div>
     )
   }
@@ -115,19 +119,40 @@ export default function AuthorProfilePage() {
   // Error state
   if (error) {
     return (
-      <div className="max-w-2xl mx-auto">
-        <Alert variant="destructive" className="bg-red-50 border-red-200">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="flex items-center justify-between">
-            <span>Failed to load author: {error}</span>
-            <Button variant="outline" size="sm" onClick={fetchAuthor} className="ml-4">
-              <RefreshCcw className="w-4 h-4 mr-1" />
-              Retry
+      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+        <div className="max-w-2xl mx-auto px-6 py-16">
+          <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="h-5 w-5 text-red-400" />
+              <div className="text-red-200 flex items-center justify-between w-full">
+                <span>Failed to load author: {error}</span>
+                <Button variant="outline" size="sm" onClick={fetchAuthor} className="ml-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black">
+                  <RefreshCcw className="w-4 h-4 mr-1" />
+                  Retry
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 text-center">
+            <Button asChild variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
+              <Link href="/authors">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Authors
+              </Link>
             </Button>
-          </AlertDescription>
-        </Alert>
-        <div className="mt-6 text-center">
-          <Button asChild variant="outline" className="border-green-300 text-green-700">
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (!author) {
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+        <div className="max-w-2xl mx-auto px-6 py-16 text-center">
+          <h1 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Author Not Found</h1>
+          <p className="mb-6 font-light" style={{ color: '#9b9b9b' }}>The author you're looking for doesn't exist or has no published poems.</p>
+          <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
             <Link href="/authors">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Authors
@@ -138,61 +163,47 @@ export default function AuthorProfilePage() {
     )
   }
 
-  if (!author) {
-    return (
-      <div className="max-w-2xl mx-auto text-center">
-        <h1 className="text-2xl font-bold text-green-800 mb-4">Author Not Found</h1>
-        <p className="text-green-600 mb-6">The author you're looking for doesn't exist or has no published poems.</p>
-        <Button asChild className="bg-green-600 hover:bg-green-700">
-          <Link href="/authors">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Authors
-          </Link>
-        </Button>
-      </div>
-    )
-  }
-
   return (
-    <div className="space-y-8">
-      {/* Back Navigation */}
-      <div>
-        <Button asChild variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-6xl mx-auto px-6 py-16 space-y-8">
+        {/* Back Navigation */}
+        <div>
+          <Button asChild variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
           <Link href="/authors">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Authors
           </Link>
         </Button>
-      </div>
+        </div>
 
-      {/* Author Profile Header */}
-      <Card className="bg-white/70 backdrop-blur-sm border-green-200">
-        <CardContent className="p-8">
+        {/* Author Profile Header */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+          <div className="p-8">
           <div className="flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-8">
             {/* Author Avatar */}
             <Avatar className="w-32 h-32 mx-auto md:mx-0 flex-shrink-0">
               <AvatarImage src={author.avatarUrl} alt={author.name} />
-              <AvatarFallback className="text-2xl bg-green-100 text-green-700">
+              <AvatarFallback className="text-2xl bg-white/10 text-pink-200">
                 {getInitials(author.name)}
               </AvatarFallback>
             </Avatar>
 
             {/* Author Info */}
             <div className="flex-1 text-center md:text-left">
-              <h1 className="text-3xl font-bold text-green-800 mb-3">{author.name}</h1>
+              <h1 className="text-3xl font-light mb-3" style={{ color: '#e2e2e2' }}>{author.name}</h1>
 
               {/* Stats */}
               <div className="flex flex-wrap justify-center md:justify-start items-center gap-4 mb-4">
-                <div className="flex items-center space-x-1 text-green-600">
+                <div className="flex items-center space-x-1" style={{ color: '#9b9b9b' }}>
                   <BookOpen className="w-5 h-5" />
                   <span className="font-medium">{author.totalPoems}</span>
                   <span>poem{author.totalPoems !== 1 ? 's' : ''}</span>
                 </div>
-                <div className="flex items-center space-x-1 text-green-600">
-                  <User className="w-5 h-5" />
-                  <span>Author</span>
+                <div className="flex items-center space-x-1" style={{ color: '#9b9b9b' }}>
+                  <User className="w-5 h-5 text-pink-300" />
+                  <span className="text-pink-300">Author</span>
                 </div>
-                <div className="flex items-center space-x-1 text-green-600">
+                <div className="flex items-center space-x-1" style={{ color: '#9b9b9b' }}>
                   <Calendar className="w-5 h-5" />
                   <span>Joined {formatDistanceToNow(new Date(author.createdAt), { addSuffix: true })}</span>
                 </div>
@@ -200,14 +211,14 @@ export default function AuthorProfilePage() {
 
               {/* Bio */}
               {author.bio && (
-                <p className="text-green-700 leading-relaxed mb-4 max-w-2xl">
+                <p className="leading-relaxed mb-4 max-w-2xl font-light" style={{ color: '#9b9b9b' }}>
                   {author.bio}
                 </p>
               )}
 
               {/* Website Link */}
               {author.website && (
-                <Button asChild variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
+                <Button asChild variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
                   <a href={author.website} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Visit Website
@@ -216,58 +227,58 @@ export default function AuthorProfilePage() {
               )}
             </div>
           </div>
-        </CardContent>
-      </Card>
-
-      {/* Poems Section */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-green-800">
-            Published Poems ({author.totalPoems})
-          </h2>
+          </div>
         </div>
 
-        {/* Poems Grid */}
-        {author.poems.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {author.poems.map((poem) => (
-              <Card
-                key={poem.id}
-                className="bg-white/70 backdrop-blur-sm border-green-200 hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
-              >
-                <CardHeader>
+        {/* Poems Section */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-light" style={{ color: '#e2e2e2' }}>
+              Published Poems ({author.totalPoems})
+            </h2>
+          </div>
+
+          {/* Poems Grid */}
+          {author.poems.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {author.poems.map((poem) => (
+                <div
+                  key={poem.id}
+                  className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02]"
+                >
+                  <div className="p-6 border-b border-white/10">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <CardTitle className="text-lg text-green-800 mb-2 line-clamp-2">
+                      <h3 className="text-lg font-light mb-2 line-clamp-2" style={{ color: '#e2e2e2' }}>
                         {poem.title}
-                      </CardTitle>
+                      </h3>
                       <div className="flex flex-wrap items-center gap-2">
-                        <Badge variant="secondary" className="bg-green-100 text-green-700">
+                        <Badge variant="secondary" className="bg-pink-300/20 text-pink-300 border border-pink-300/40">
                           {poem.category}
                         </Badge>
                         {poem.tags.slice(0, 2).map((tag) => (
-                          <Badge key={tag} variant="outline" className="border-green-300 text-green-600">
+                          <Badge key={tag} variant="outline" className="border-white/30 text-white bg-white/5">
                             {tag}
                           </Badge>
                         ))}
                         {poem.tags.length > 2 && (
-                          <Badge variant="outline" className="border-green-300 text-green-600">
+                          <Badge variant="outline" className="border-white/30 text-white bg-white/5">
                             +{poem.tags.length - 2}
                           </Badge>
                         )}
                       </div>
                     </div>
                   </div>
-                </CardHeader>
+                  </div>
 
-                <CardContent>
+                  <div className="p-6">
                   {/* Poem Excerpt */}
-                  <p className="text-green-700 mb-4 line-clamp-3 leading-relaxed">
+                    <p className="mb-4 line-clamp-3 leading-relaxed font-light" style={{ color: '#9b9b9b' }}>
                     {poem.content}
                   </p>
 
-                  {/* Poem Meta */}
-                  <div className="flex items-center justify-between text-sm text-green-600 mb-4">
+                    {/* Poem Meta */}
+                    <div className="flex items-center justify-between text-sm mb-4" style={{ color: '#9b9b9b' }}>
                     <div className="flex items-center space-x-4">
                       <div className="flex items-center space-x-1">
                         <Heart className="w-4 h-4" />
@@ -287,27 +298,26 @@ export default function AuthorProfilePage() {
                     </span>
                   </div>
 
-                  {/* Read More Button */}
-                  <Button asChild className="w-full bg-green-600 hover:bg-green-700">
+                    {/* Read More Button */}
+                    <Button asChild className="w-full bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                     <Link href={`/poems/${poem.id}`}>
                       Read Full Poem
                     </Link>
                   </Button>
-                </CardContent>
-              </Card>
+                  </div>
+                </div>
             ))}
-          </div>
-        ) : (
-          <Card className="bg-white/70 backdrop-blur-sm border-green-200">
-            <CardContent className="p-12 text-center">
-              <BookOpen className="w-16 h-16 mx-auto text-green-400 mb-4" />
-              <h3 className="text-xl font-semibold text-green-800 mb-2">No Published Poems Yet</h3>
-              <p className="text-green-600">
+            </div>
+          ) : (
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-12 text-center">
+              <BookOpen className="w-16 h-16 mx-auto text-pink-300 mb-4" />
+              <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>No Published Poems Yet</h3>
+              <p className="font-light" style={{ color: '#9b9b9b' }}>
                 {author.name} hasn't published any poems yet. Check back later!
               </p>
-            </CardContent>
-          </Card>
-        )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

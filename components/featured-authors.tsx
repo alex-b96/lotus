@@ -37,16 +37,16 @@ export function FeaturedAuthors() {
       <div className="space-y-6">
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <Crown className="w-6 h-6 text-yellow-600" />
-            <h2 className="text-3xl font-bold text-green-800">Featured Authors</h2>
-            <Crown className="w-6 h-6 text-yellow-600" />
+            <Crown className="w-6 h-6 text-pink-300" />
+            <h2 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Featured Authors</h2>
+            <Crown className="w-6 h-6 text-pink-300" />
           </div>
-          <p className="text-green-600">Discover our most celebrated poets</p>
+          <p style={{ color: '#9b9b9b' }}>Discover our most celebrated poets</p>
         </div>
 
         <div className="flex justify-center items-center py-8">
-          <Loader2 className="w-6 h-6 animate-spin text-green-600" />
-          <span className="ml-2 text-green-600">Loading featured authors...</span>
+          <Loader2 className="w-6 h-6 animate-spin text-pink-300" />
+          <span className="ml-2" style={{ color: '#9b9b9b' }}>Loading featured authors...</span>
         </div>
       </div>
     )
@@ -58,28 +58,30 @@ export function FeaturedAuthors() {
       <div className="space-y-6">
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <Crown className="w-6 h-6 text-yellow-600" />
-            <h2 className="text-3xl font-bold text-green-800">Featured Authors</h2>
-            <Crown className="w-6 h-6 text-yellow-600" />
+            <Crown className="w-6 h-6 text-pink-300" />
+            <h2 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Featured Authors</h2>
+            <Crown className="w-6 h-6 text-pink-300" />
           </div>
-          <p className="text-green-600">Discover our most celebrated poets</p>
+          <p style={{ color: '#9b9b9b' }}>Discover our most celebrated poets</p>
         </div>
 
-        <Alert variant="destructive" className="bg-red-50 border-red-200">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="flex items-center justify-between">
-            <span>Failed to load featured authors: {error}</span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={retry}
-              className="ml-4"
-            >
-              <RefreshCcw className="w-4 h-4 mr-1" />
-              Retry
-            </Button>
-          </AlertDescription>
-        </Alert>
+        <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+          <div className="flex items-center gap-3">
+            <AlertCircle className="h-5 w-5 text-red-400" />
+            <div className="text-red-200 flex items-center justify-between w-full">
+              <span>Failed to load featured authors: {error}</span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={retry}
+                className="ml-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
+              >
+                <RefreshCcw className="w-4 h-4 mr-1" />
+                Retry
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
@@ -94,11 +96,11 @@ export function FeaturedAuthors() {
       {/* Header */}
       <div className="text-center">
         <div className="flex items-center justify-center space-x-2 mb-4">
-          <Crown className="w-6 h-6 text-yellow-600" />
-          <h2 className="text-3xl font-bold text-green-800">Featured Authors</h2>
-          <Crown className="w-6 h-6 text-yellow-600" />
+          <Crown className="w-6 h-6 text-pink-300" />
+          <h2 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Featured Authors</h2>
+          <Crown className="w-6 h-6 text-pink-300" />
         </div>
-        <p className="text-green-600 text-lg">
+        <p className="text-lg" style={{ color: '#9b9b9b' }}>
           Discover our most celebrated poets who have enriched our community with their creativity
         </p>
       </div>
@@ -106,11 +108,11 @@ export function FeaturedAuthors() {
       {/* Featured Authors Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {featuredAuthors.map((author, index) => (
-          <Card
+          <div
             key={author.id}
-            className="bg-gradient-to-br from-white/90 to-green-50/90 backdrop-blur-sm border-2 border-green-300 hover:shadow-xl transition-all duration-300 hover:scale-105 relative overflow-hidden"
+            className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 hover:scale-105 relative overflow-hidden"
           >
-            {/* Ranking Badge */}
+            {/* // Ranking Badge
             <div className="absolute top-4 right-4 z-10">
               <div className={`
                 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm
@@ -118,48 +120,48 @@ export function FeaturedAuthors() {
               `}>
                 {index + 1}
               </div>
-            </div>
+            </div> */}
 
             {/* Featured Star Badge */}
             <div className="absolute top-4 left-4 z-10">
-              <div className="bg-green-600 text-white px-2 py-1 rounded-full flex items-center space-x-1 text-xs font-medium">
+              <div className="bg-pink-300/20 text-pink-300 border border-pink-300/40 px-2 py-1 rounded-full flex items-center space-x-1 text-xs font-medium">
                 <Star className="w-3 h-3 fill-current" />
                 <span>Featured</span>
               </div>
             </div>
 
-            <CardHeader className="text-center pt-16">
-              <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-green-200">
+            <div className="text-center pt-16 p-6">
+              <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-pink-300/30">
                 <AvatarImage src={author.avatar} alt={author.name} />
-                <AvatarFallback className="text-xl bg-green-100 text-green-700">
+                <AvatarFallback className="text-xl bg-white/10 text-pink-200">
                   {getInitials(author.name)}
                 </AvatarFallback>
               </Avatar>
-              <CardTitle className="text-xl text-green-800 mb-2">{author.name}</CardTitle>
+              <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>{author.name}</h3>
 
               {/* Stats */}
-              <div className="flex items-center justify-center space-x-4 text-sm text-green-600">
-                <div className="flex items-center space-x-1 bg-green-100 px-2 py-1 rounded-full">
+              <div className="flex items-center justify-center space-x-4 text-sm">
+                <div className="flex items-center space-x-1 bg-white/10 px-2 py-1 rounded-full" style={{ color: '#9b9b9b' }}>
                   <BookOpen className="w-4 h-4" />
                   <span className="font-semibold">{author.poemsCount}</span>
                   <span>poem{author.poemsCount !== 1 ? 's' : ''}</span>
                 </div>
-                <div className="flex items-center space-x-1 bg-yellow-100 px-2 py-1 rounded-full">
-                  <User className="w-4 h-4 text-yellow-600" />
-                  <span className="text-yellow-600 font-medium">Top Author</span>
+                <div className="flex items-center space-x-1 bg-pink-300/20 px-2 py-1 rounded-full">
+                  <User className="w-4 h-4 text-pink-300" />
+                  <span className="text-pink-300 font-medium">Top Author</span>
                 </div>
               </div>
-            </CardHeader>
+            </div>
 
-            <CardContent className="pt-0">
+            <div className="pt-0 p-6">
               {author.bio ? (
-                <p className="text-green-700 mb-6 text-center line-clamp-3 text-sm leading-relaxed">
+                <p className="mb-6 text-center line-clamp-3 text-sm leading-relaxed font-light" style={{ color: '#9b9b9b' }}>
                   {author.bio}
                 </p>
               ) : null}
 
               <div className="flex flex-col space-y-3">
-                <Button asChild className="bg-green-600 hover:bg-green-700 shadow-md">
+                <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                   <Link href={`/authors/${author.id}`}>
                     <Crown className="w-4 h-4 mr-2" />
                     View Profile
@@ -169,7 +171,7 @@ export function FeaturedAuthors() {
                   <Button
                     variant="outline"
                     asChild
-                    className="border-green-300 text-green-700 hover:bg-green-50"
+                    className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
                   >
                     <a href={author.website} target="_blank" rel="noopener noreferrer">
                       <ExternalLink className="w-4 h-4 mr-2" />
@@ -178,14 +180,14 @@ export function FeaturedAuthors() {
                   </Button>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
 
       {/* View All Authors CTA */}
       <div className="text-center pt-4">
-        <p className="text-green-600 mb-4">Explore more talented authors in our community</p>
+        <p className="mb-4" style={{ color: '#9b9b9b' }}>Explore more talented authors in our community</p>
       </div>
     </div>
   )

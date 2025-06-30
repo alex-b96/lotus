@@ -131,77 +131,79 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="max-w-xl mx-auto py-10 px-4">
-      <h2 className="text-2xl font-bold mb-6 text-green-800">Settings</h2>
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-xl mx-auto py-16 px-6">
+        <h2 className="text-4xl lg:text-5xl font-light mb-8" style={{ color: '#e2e2e2' }}>Settings</h2>
 
-      {/* Avatar upload section */}
-      <form onSubmit={handleSaveAvatar} className="bg-white p-6 rounded shadow mb-8 flex items-center space-x-6">
+        {/* Avatar upload section */}
+        <form onSubmit={handleSaveAvatar} className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6 mb-8 flex items-center space-x-6">
         {/* Show current avatar or preview */}
         <div>
           <Avatar className="h-16 w-16">
             <AvatarImage src={avatarPreview || session?.user?.avatarUrl || undefined} alt={name || "User avatar"} />
-            <AvatarFallback className="bg-green-100 text-green-700 text-lg">
+            <AvatarFallback className="bg-white/10 text-pink-200 text-lg">
               {name ? name.split(" ").map(w => w[0]).join("").toUpperCase().slice(0, 2) : "??_"}
             </AvatarFallback>
           </Avatar>
         </div>
         <div className="flex-1">
-          <label className="block text-sm font-medium text-green-700 mb-1">Change Avatar</label>
-          <Input type="file" accept="image/*" onChange={handleAvatarChange} />
-          <Button type="submit" disabled={!avatarFile || avatarSaving} className="mt-2">
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Change Avatar</label>
+          <Input type="file" accept="image/*" onChange={handleAvatarChange} className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
+          <Button type="submit" disabled={!avatarFile || avatarSaving} className="mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
             {avatarSaving ? "Saving..." : "Save Avatar"}
           </Button>
-          {avatarMessage && <div className="text-green-600 text-sm mt-2">{avatarMessage}</div>}
+          {avatarMessage && <div className="text-pink-300 text-sm mt-2">{avatarMessage}</div>}
         </div>
       </form>
 
-      {/* Profile info form */}
-      <form onSubmit={handleSaveProfile} className="space-y-4 bg-white p-6 rounded shadow">
+        {/* Profile info form */}
+        <form onSubmit={handleSaveProfile} className="space-y-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6">
         <div>
-          <label className="block text-sm font-medium text-green-700 mb-1">Name</label>
-          <Input value={name} onChange={e => setName(e.target.value)} required />
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Name</label>
+          <Input value={name} onChange={e => setName(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-green-700 mb-1">Email</label>
-          <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Email</label>
+          <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-green-700 mb-1">Bio <span className="text-xs text-green-600">(This will appear on your public author profile)</span></label>
-          <Textarea value={bio} onChange={e => setBio(e.target.value)} maxLength={500} placeholder="Tell the world about yourself as a poet..." className="min-h-[100px]" />
-          <div className="text-xs text-gray-500 mt-1">Max 500 characters.</div>
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Bio <span className="text-xs" style={{ color: '#9b9b9b' }}>(This will appear on your public author profile)</span></label>
+          <Textarea value={bio} onChange={e => setBio(e.target.value)} maxLength={500} placeholder="Tell the world about yourself as a poet..." className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
+          <div className="text-xs mt-1" style={{ color: '#9b9b9b' }}>Max 500 characters.</div>
         </div>
-        <Button type="submit" disabled={saving} className="w-full mt-2">
+        <Button type="submit" disabled={saving} className="w-full mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
           {saving ? "Saving..." : "Save Changes"}
         </Button>
-        {saveMessage && <div className="text-green-600 text-sm mt-2">{saveMessage}</div>}
+        {saveMessage && <div className="text-pink-300 text-sm mt-2">{saveMessage}</div>}
       </form>
 
-      {/* Password change form */}
-      <form onSubmit={handleChangePassword} className="space-y-4 bg-white p-6 rounded shadow mt-8">
-        <h3 className="text-lg font-semibold text-green-800 mb-2">Change Password</h3>
+        {/* Password change form */}
+        <form onSubmit={handleChangePassword} className="space-y-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6 mt-8">
+          <h3 className="text-lg font-light mb-2" style={{ color: '#e2e2e2' }}>Change Password</h3>
         <div>
-          <label className="block text-sm font-medium text-green-700 mb-1">Current Password</label>
-          <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} required />
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Current Password</label>
+          <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-green-700 mb-1">New Password</label>
-          <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} required />
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>New Password</label>
+          <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-green-700 mb-1">Confirm New Password</label>
-          <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Confirm New Password</label>
+          <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
-        <Button type="submit" disabled={passwordSaving} className="w-full mt-2">
+        <Button type="submit" disabled={passwordSaving} className="w-full mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
           {passwordSaving ? "Changing..." : "Change Password"}
         </Button>
-        {passwordMessage && <div className="text-green-600 text-sm mt-2">{passwordMessage}</div>}
-      </form>
-      {/*
-        TODO:
-        - Implement API endpoints for updating user info and password
-        - Add better error handling and validation
-        - Consider requiring email verification for email changes
-      */}
+        {passwordMessage && <div className="text-pink-300 text-sm mt-2">{passwordMessage}</div>}
+        </form>
+        {/*
+          TODO:
+          - Implement API endpoints for updating user info and password
+          - Add better error handling and validation
+          - Consider requiring email verification for email changes
+        */}
+      </div>
     </div>
   )
 }
