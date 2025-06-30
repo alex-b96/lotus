@@ -5,7 +5,6 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -200,109 +199,117 @@ export default function SubmitPoemPage() {
   // Don't render the form if not authenticated
   if (status === "loading") {
     return (
-      <div className="max-w-2xl mx-auto">
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-          <CardContent className="p-12 text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-              <PenTool className="w-8 h-8 text-green-600" />
+      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+        <div className="max-w-2xl mx-auto pt-16 px-6">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
+            <div className="p-12 text-center">
+              <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                <PenTool className="w-8 h-8 text-pink-300" />
+              </div>
+              <p className="font-light" style={{ color: '#9b9b9b' }}>Loading...</p>
             </div>
-            <p className="text-green-600">Loading...</p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (!session) {
     return (
-      <div className="max-w-2xl mx-auto">
-        <Card className="bg-white/70 backdrop-blur-sm border-red-200 shadow-lg">
-          <CardContent className="p-12 text-center">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <AlertCircle className="w-8 h-8 text-red-600" />
+      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+        <div className="max-w-2xl mx-auto pt-16 px-6">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
+            <div className="p-12 text-center">
+              <div className="w-16 h-16 bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <AlertCircle className="w-8 h-8 text-red-400" />
+              </div>
+              <h2 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Authentication Required</h2>
+              <p className="mb-6 font-light" style={{ color: '#9b9b9b' }}>
+                You must be logged in to submit a poem. You will be redirected to the login page.
+              </p>
             </div>
-            <h2 className="text-2xl font-bold text-red-800 mb-4">Authentication Required</h2>
-            <p className="text-red-600 mb-6">
-              You must be logged in to submit a poem. You will be redirected to the login page.
-            </p>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (submitted) {
     return (
-      <div className="max-w-2xl mx-auto">
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-          <CardContent className="p-12 text-center">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <PenTool className="w-8 h-8 text-green-600" />
+      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+        <div className="max-w-2xl mx-auto pt-16 px-6">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
+            <div className="p-12 text-center">
+              <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <PenTool className="w-8 h-8 text-pink-300" />
+              </div>
+              <h2 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Poem Submitted for Review!</h2>
+              <p className="mb-6 font-light" style={{ color: '#9b9b9b' }}>
+                Thank you for sharing your creativity with our community. Your poem has been sent for review and will be
+                published once approved by our moderators.
+              </p>
+              <div className="space-y-4">
+                <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
+                  <a href="/poems">Browse Other Poems</a>
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSubmitted(false)
+                    setFormData({
+                      title: "",
+                      content: "",
+                      category: "",
+                      tags: [],
+                      authorNote: "",
+                    })
+                    setErrors({})
+                  }}
+                  className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
+                >
+                  Submit Another Poem
+                </Button>
+              </div>
             </div>
-            <h2 className="text-2xl font-bold text-green-800 mb-4">Poem Submitted for Review!</h2>
-            <p className="text-green-600 mb-6">
-              Thank you for sharing your creativity with our community. Your poem has been sent for review and will be
-              published once approved by our moderators.
-            </p>
-            <div className="space-y-4">
-              <Button asChild className="bg-green-600 hover:bg-green-700">
-                <a href="/poems">Browse Other Poems</a>
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setSubmitted(false)
-                  setFormData({
-                    title: "",
-                    content: "",
-                    category: "",
-                    tags: [],
-                    authorNote: "",
-                  })
-                  setErrors({})
-                }}
-                className="border-green-300 text-green-700 hover:bg-green-50"
-              >
-                Submit Another Poem
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <>
-      <div className="max-w-4xl mx-auto space-y-8">
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-4xl mx-auto pt-16 px-6 space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-green-800 mb-4">Submit Your Poem</h1>
-          <p className="text-green-600 text-lg max-w-2xl mx-auto">
+          <h1 className="text-4xl font-light mb-4" style={{ color: '#e2e2e2' }}>Submit Your Poem</h1>
+          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
             Share your creative expression with our community. All submissions are reviewed before publication.
           </p>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-2xl text-green-800 flex items-center space-x-2">
-                <PenTool className="w-6 h-6" />
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 shadow-lg">
+            <div className="p-6 border-b border-white/10">
+              <h2 className="text-2xl font-light flex items-center space-x-2" style={{ color: '#e2e2e2' }}>
+                <PenTool className="w-6 h-6 text-pink-300" />
                 <span>Poem Details</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
+              </h2>
+            </div>
+            <div className="p-6 space-y-6">
               {/* General Error Alert */}
               {errors.general && (
-                <Alert variant="destructive">
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>{errors.general}</AlertDescription>
-                </Alert>
+                <div className="bg-red-900/20 border border-red-800 rounded-xl p-4">
+                  <div className="flex items-center gap-3">
+                    <AlertCircle className="h-4 w-4 text-red-400" />
+                    <span className="text-red-200">{errors.general}</span>
+                  </div>
+                </div>
               )}
 
               {/* Title */}
               <div className="space-y-2">
-                <Label htmlFor="title" className="text-green-800 font-medium">
+                <Label htmlFor="title" className="font-medium" style={{ color: '#e2e2e2' }}>
                   Poem Title *
                 </Label>
                 <Input
@@ -318,19 +325,19 @@ export default function SubmitPoemPage() {
                   placeholder="Enter your poem's title"
                   required
                   maxLength={VALIDATION_LIMITS.TITLE_MAX}
-                  className={`border-green-300 focus:border-green-500 ${errors.title ? "border-red-500" : ""}`}
+                  className={`bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light ${errors.title ? "border-red-500" : ""}`}
                 />
                 {errors.title && (
-                  <p className="text-sm text-red-600">{errors.title}</p>
+                  <p className="text-sm text-red-400">{errors.title}</p>
                 )}
-                <p className="text-sm text-green-600">
+                <p className="text-sm font-light" style={{ color: '#9b9b9b' }}>
                   {formData.title.length}/{VALIDATION_LIMITS.TITLE_MAX} characters
                 </p>
               </div>
 
               {/* Category */}
               <div className="space-y-2">
-                <Label htmlFor="category" className="text-green-800 font-medium">
+                <Label htmlFor="category" className="font-medium" style={{ color: '#e2e2e2' }}>
                   Category *
                 </Label>
                 <Select
@@ -343,25 +350,25 @@ export default function SubmitPoemPage() {
                     }
                   }}
                 >
-                  <SelectTrigger className={`border-green-300 focus:border-green-500 ${errors.category ? "border-red-500" : ""}`}>
+                  <SelectTrigger className={`bg-white/5 border-white/20 text-white focus:border-pink-300 ${errors.category ? "border-red-500" : ""}`}>
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
                     {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
+                      <SelectItem key={category} value={category} className="text-gray-300 focus:text-white focus:bg-white/5">
                         {category}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
                 {errors.category && (
-                  <p className="text-sm text-red-600">{errors.category}</p>
+                  <p className="text-sm text-red-400">{errors.category}</p>
                 )}
               </div>
 
               {/* Content */}
               <div className="space-y-2">
-                <Label htmlFor="content" className="text-green-800 font-medium">
+                <Label htmlFor="content" className="font-medium" style={{ color: '#e2e2e2' }}>
                   Poem Content *
                 </Label>
                 <Textarea
@@ -377,16 +384,16 @@ export default function SubmitPoemPage() {
                   placeholder="Write your poem here..."
                   required
                   maxLength={VALIDATION_LIMITS.CONTENT_MAX}
-                  className={`min-h-[300px] border-green-300 focus:border-green-500 font-serif ${errors.content ? "border-red-500" : ""}`}
+                  className={`min-h-[300px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-serif ${errors.content ? "border-red-500" : ""}`}
                 />
                 {errors.content && (
-                  <p className="text-sm text-red-600">{errors.content}</p>
+                  <p className="text-sm text-red-400">{errors.content}</p>
                 )}
                 <div className="flex justify-between text-sm">
-                  <p className="text-green-600">
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>
                     Tip: Use line breaks to format your poem. Your formatting will be preserved.
                   </p>
-                  <p className="text-green-600">
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>
                     {formData.content.length}/{VALIDATION_LIMITS.CONTENT_MAX} characters
                   </p>
                 </div>
@@ -394,20 +401,20 @@ export default function SubmitPoemPage() {
 
               {/* Tags */}
               <div className="space-y-2">
-                <Label className="text-green-800 font-medium">Tags</Label>
+                <Label className="font-medium" style={{ color: '#e2e2e2' }}>Tags</Label>
                 <div className="flex space-x-2">
                   <Input
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
                     placeholder="Add a tag"
-                    className="border-green-300 focus:border-green-500"
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                     onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddTag())}
                   />
                   <Button
                     type="button"
                     onClick={handleAddTag}
                     variant="outline"
-                    className="border-green-300 text-green-700 hover:bg-green-50"
+                    className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
                   >
                     <Plus className="w-4 h-4" />
                   </Button>
@@ -415,21 +422,21 @@ export default function SubmitPoemPage() {
                 {formData.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-2">
                     {formData.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="bg-green-100 text-green-700">
+                      <Badge key={tag} variant="secondary" className="bg-pink-300/20 text-pink-300 border border-pink-300/40">
                         #{tag}
-                        <button type="button" onClick={() => handleRemoveTag(tag)} className="ml-2 hover:text-red-500">
+                        <button type="button" onClick={() => handleRemoveTag(tag)} className="ml-2 hover:text-red-400">
                           <X className="w-3 h-3" />
                         </button>
                       </Badge>
                     ))}
                   </div>
                 )}
-                <p className="text-sm text-green-600">Add relevant tags to help readers discover your poem.</p>
+                <p className="text-sm font-light" style={{ color: '#9b9b9b' }}>Add relevant tags to help readers discover your poem.</p>
               </div>
 
               {/* Author Note */}
               <div className="space-y-2">
-                <Label htmlFor="authorNote" className="text-green-800 font-medium">
+                <Label htmlFor="authorNote" className="font-medium" style={{ color: '#e2e2e2' }}>
                   Author's Note (Optional)
                 </Label>
                 <Textarea
@@ -437,34 +444,34 @@ export default function SubmitPoemPage() {
                   value={formData.authorNote}
                   onChange={(e) => setFormData((prev) => ({ ...prev, authorNote: e.target.value }))}
                   placeholder="Share any inspiration or context behind your poem..."
-                  className="min-h-[100px] border-green-300 focus:border-green-500"
+                  className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                 />
               </div>
 
               {/* Submit Button */}
-              <div className="pt-6 border-t border-green-100">
+              <div className="pt-6 border-t border-white/10">
                 <div className="flex justify-end space-x-4">
-                  <Button type="button" variant="outline" className="border-green-300 text-green-700 hover:bg-green-50">
+                  <Button type="button" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
                     Save as Draft
                   </Button>
                   <Button
                     type="submit"
                     disabled={isSubmitting || !formData.title.trim() || !formData.content.trim() || !formData.category}
-                    className="bg-green-600 hover:bg-green-700"
+                    className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
                   >
                     <Send className="w-4 h-4 mr-2" />
                     {isSubmitting ? "Submitting..." : "Submit for Review"}
                   </Button>
                 </div>
-                <p className="text-sm text-green-600 mt-4">
+                <p className="text-sm font-light mt-4" style={{ color: '#9b9b9b' }}>
                   By submitting, you agree that your poem is original work and grant permission for publication on LOTUS.
                 </p>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </form>
       </div>
       <Toaster />
-    </>
+    </div>
   )
 }
