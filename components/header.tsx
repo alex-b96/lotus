@@ -161,7 +161,7 @@ export function Header() {
             ) : (
               // Not logged in - show login/register buttons
               <>
-                <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light">
+                <Button size="sm" asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                   <Link href="/login">
                     <LogIn className="w-4 h-4 mr-2" />
                     Login

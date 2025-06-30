@@ -5,7 +5,6 @@ import type React from "react"
 import { useState } from "react"
 import { signIn, getSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -52,26 +51,27 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-16">
-      <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-        <CardHeader className="text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <LogIn className="w-8 h-8 text-green-600" />
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-md mx-auto pt-16 px-6">
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
+          <div className="p-6 border-b border-white/10 text-center">
+            <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <LogIn className="w-8 h-8 text-pink-300" />
+            </div>
+            <h1 className="text-2xl font-light" style={{ color: '#e2e2e2' }}>Welcome Back</h1>
+            <p className="font-light" style={{ color: '#9b9b9b' }}>Sign in to your LOTUS account</p>
           </div>
-          <CardTitle className="text-2xl text-green-800">Welcome Back</CardTitle>
-          <p className="text-green-600">Sign in to your LOTUS account</p>
-        </CardHeader>
 
-        <CardContent>
+          <div className="p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                {error}
+              <div className="bg-red-900/20 border border-red-800 rounded-xl p-4 mb-4">
+                <span className="text-red-200">{error}</span>
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-green-800 font-medium">
+              <Label htmlFor="email" className="font-medium" style={{ color: '#e2e2e2' }}>
                 Email
               </Label>
               <Input
@@ -81,12 +81,12 @@ export default function LoginPage() {
                 onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
                 placeholder="Enter your email"
                 required
-                className="border-green-300 focus:border-green-500"
+                className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-green-800 font-medium">
+              <Label htmlFor="password" className="font-medium" style={{ color: '#e2e2e2' }}>
                 Password
               </Label>
               <div className="relative">
@@ -97,12 +97,12 @@ export default function LoginPage() {
                   onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
                   placeholder="Enter your password"
                   required
-                  className="border-green-300 focus:border-green-500 pr-10"
+                  className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light pr-10"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600 hover:text-green-800"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-pink-300 hover:text-pink-200"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -116,36 +116,37 @@ export default function LoginPage() {
                   checked={formData.rememberMe}
                   onCheckedChange={(checked) => setFormData((prev) => ({ ...prev, rememberMe: checked as boolean }))}
                 />
-                <Label htmlFor="rememberMe" className="text-sm text-green-700">
+                <Label htmlFor="rememberMe" className="text-sm font-light" style={{ color: '#9b9b9b' }}>
                   Remember me
                 </Label>
               </div>
-              <Link href="/forgot-password" className="text-sm text-green-600 hover:text-green-800 transition-colors">
+              <Link href="/forgot-password" className="text-sm text-pink-300 hover:text-pink-200 transition-colors font-light">
                 Forgot password?
               </Link>
             </div>
 
-            <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={isLoading}>
+            <Button type="submit" className="w-full bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light" disabled={isLoading}>
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-green-600">
+            <p className="font-light" style={{ color: '#9b9b9b' }}>
               Don't have an account?{" "}
-              <Link href="/register" className="text-green-800 hover:text-green-900 font-medium transition-colors">
+              <Link href="/register" className="text-pink-300 hover:text-pink-200 font-medium transition-colors">
                 Sign up
               </Link>
             </p>
           </div>
 
-          <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
+          <div className="mt-4 p-3 bg-blue-900/20 border border-blue-300/40 rounded-xl text-sm" style={{ color: '#9bb3e0' }}>
             <strong>Test Account:</strong><br />
             Email: sarah@example.com<br />
             Password: password123
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
+    </div>
     </div>
   )
 }

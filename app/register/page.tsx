@@ -5,7 +5,6 @@ import type React from "react"
 import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -132,194 +131,198 @@ export default function RegisterPage() {
   // Show success state
   if (success && !error) {
     return (
-      <div className="max-w-md mx-auto mt-16">
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-          <CardContent className="pt-6">
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                <CheckCircle className="w-8 h-8 text-green-600" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-green-800 mb-2">Welcome to LOTUS!</h2>
-                <p className="text-green-600">
-                  Your account has been created successfully. You're being logged in automatically...
-                </p>
-              </div>
-              <div className="w-full bg-green-100 rounded-full h-2">
-                <div className="bg-green-600 h-2 rounded-full animate-pulse" style={{ width: "100%" }}></div>
+      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+        <div className="max-w-md mx-auto pt-16 px-6">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
+            <div className="p-6">
+              <div className="text-center space-y-4">
+                <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle className="w-8 h-8 text-pink-300" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-light mb-2" style={{ color: '#e2e2e2' }}>Welcome to LOTUS!</h2>
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>
+                    Your account has been created successfully. You're being logged in automatically...
+                  </p>
+                </div>
+                <div className="w-full bg-pink-300/20 rounded-full h-2">
+                  <div className="bg-pink-300 h-2 rounded-full animate-pulse" style={{ width: "100%" }}></div>
+                </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8">
-      <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-        <CardHeader className="text-center">
-          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <UserPlus className="w-8 h-8 text-green-600" />
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-md mx-auto pt-8 px-6">
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
+          <div className="p-6 border-b border-white/10 text-center">
+            <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <UserPlus className="w-8 h-8 text-pink-300" />
+            </div>
+            <h1 className="text-2xl font-light" style={{ color: '#e2e2e2' }}>Join LOTUS</h1>
+            <p className="font-light" style={{ color: '#9b9b9b' }}>Create your poetry account</p>
           </div>
-          <CardTitle className="text-2xl text-green-800">Join LOTUS</CardTitle>
-          <p className="text-green-600">Create your poetry account</p>
-        </CardHeader>
 
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {error && (
-              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-                {error}
+          <div className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {error && (
+                <div className="bg-red-900/20 border border-red-800 rounded-xl p-4 mb-4">
+                  <span className="text-red-200">{error}</span>
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="firstName" className="font-medium" style={{ color: '#e2e2e2' }}>
+                    First Name
+                  </Label>
+                  <Input
+                    id="firstName"
+                    value={formData.firstName}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, firstName: e.target.value }))}
+                    placeholder="First name"
+                    required
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="lastName" className="font-medium" style={{ color: '#e2e2e2' }}>
+                    Last Name
+                  </Label>
+                  <Input
+                    id="lastName"
+                    value={formData.lastName}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, lastName: e.target.value }))}
+                    placeholder="Last name"
+                    required
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                  />
+                </div>
               </div>
-            )}
 
-            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="firstName" className="text-green-800 font-medium">
-                  First Name
+                <Label htmlFor="email" className="font-medium" style={{ color: '#e2e2e2' }}>
+                  Email
                 </Label>
                 <Input
-                  id="firstName"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, firstName: e.target.value }))}
-                  placeholder="First name"
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+                  placeholder="Enter your email"
                   required
-                  className="border-green-300 focus:border-green-500"
+                  className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                 />
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="lastName" className="text-green-800 font-medium">
-                  Last Name
+                <Label htmlFor="password" className="font-medium" style={{ color: '#e2e2e2' }}>
+                  Password
                 </Label>
-                <Input
-                  id="lastName"
-                  value={formData.lastName}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, lastName: e.target.value }))}
-                  placeholder="Last name"
-                  required
-                  className="border-green-300 focus:border-green-500"
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
+                    placeholder="Create a password (min 6 characters)"
+                    required
+                    minLength={6}
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-pink-300 hover:text-pink-200"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-green-800 font-medium">
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                placeholder="Enter your email"
-                required
-                className="border-green-300 focus:border-green-500"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-green-800 font-medium">
-                Password
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  value={formData.password}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
-                  placeholder="Create a password (min 6 characters)"
-                  required
-                  minLength={6}
-                  className="border-green-300 focus:border-green-500 pr-10"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600 hover:text-green-800"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="font-medium" style={{ color: '#e2e2e2' }}>
+                  Confirm Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={formData.confirmPassword}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, confirmPassword: e.target.value }))}
+                    placeholder="Confirm your password"
+                    required
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-pink-300 hover:text-pink-200"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-green-800 font-medium">
-                Confirm Password
-              </Label>
-              <div className="relative">
-                <Input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, confirmPassword: e.target.value }))}
-                  placeholder="Confirm your password"
-                  required
-                  className="border-green-300 focus:border-green-500 pr-10"
+              <div className="space-y-2">
+                <Label htmlFor="bio" className="font-medium" style={{ color: '#e2e2e2' }}>
+                  Bio <span className="text-xs font-light" style={{ color: '#9b9b9b' }}>(This will appear on your public author profile, optional)</span>
+                </Label>
+                <Textarea
+                  id="bio"
+                  value={formData.bio}
+                  onChange={e => setFormData(prev => ({ ...prev, bio: e.target.value.slice(0, 500) }))}
+                  maxLength={500}
+                  placeholder="Tell the world about yourself as a poet... (optional)"
+                  className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-green-600 hover:text-green-800"
-                >
-                  {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
+                <div className="text-xs font-light mt-1" style={{ color: '#9b9b9b' }}>Max 500 characters.</div>
               </div>
-            </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="bio" className="text-green-800 font-medium">
-                Bio <span className="text-xs text-green-600">(This will appear on your public author profile, optional)</span>
-              </Label>
-              <Textarea
-                id="bio"
-                value={formData.bio}
-                onChange={e => setFormData(prev => ({ ...prev, bio: e.target.value.slice(0, 500) }))}
-                maxLength={500}
-                placeholder="Tell the world about yourself as a poet... (optional)"
-                className="min-h-[100px]"
-              />
-              <div className="text-xs text-gray-500 mt-1">Max 500 characters.</div>
-            </div>
+              <div className="flex items-start space-x-2">
+                <Checkbox
+                  id="agreeToTerms"
+                  checked={formData.agreeToTerms}
+                  onCheckedChange={(checked) => setFormData((prev) => ({ ...prev, agreeToTerms: checked as boolean }))}
+                  className="mt-1"
+                />
+                <Label htmlFor="agreeToTerms" className="text-sm font-light leading-relaxed" style={{ color: '#9b9b9b' }}>
+                  I agree to the{" "}
+                  <Link href="/terms" className="text-pink-300 hover:text-pink-200 underline">
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link href="/privacy" className="text-pink-300 hover:text-pink-200 underline">
+                    Privacy Policy
+                  </Link>
+                </Label>
+              </div>
 
-            <div className="flex items-start space-x-2">
-              <Checkbox
-                id="agreeToTerms"
-                checked={formData.agreeToTerms}
-                onCheckedChange={(checked) => setFormData((prev) => ({ ...prev, agreeToTerms: checked as boolean }))}
-                className="mt-1"
-              />
-              <Label htmlFor="agreeToTerms" className="text-sm text-green-700 leading-relaxed">
-                I agree to the{" "}
-                <Link href="/terms" className="text-green-800 hover:text-green-900 underline">
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link href="/privacy" className="text-green-800 hover:text-green-900 underline">
-                  Privacy Policy
+              <Button
+                type="submit"
+                className="w-full bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
+                disabled={isLoading || !formData.agreeToTerms}
+              >
+                {isLoading ? "Creating account..." : "Create Account"}
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="font-light" style={{ color: '#9b9b9b' }}>
+                Already have an account?{" "}
+                <Link href="/login" className="text-pink-300 hover:text-pink-200 font-medium transition-colors">
+                  Sign in
                 </Link>
-              </Label>
+              </p>
             </div>
-
-            <Button
-              type="submit"
-              className="w-full bg-green-600 hover:bg-green-700"
-              disabled={isLoading || !formData.agreeToTerms}
-            >
-              {isLoading ? "Creating account..." : "Create Account"}
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-green-600">
-              Already have an account?{" "}
-              <Link href="/login" className="text-green-800 hover:text-green-900 font-medium transition-colors">
-                Sign in
-              </Link>
-            </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }
