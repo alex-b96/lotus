@@ -364,8 +364,8 @@ export default function AdminDashboard() {
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex gap-2 ml-4">
+                    {/* Action Buttons - Desktop Only */}
+                    <div className="hidden sm:flex gap-2 ml-4">
                       <Button
                         onClick={() => handleApprove(poem.id)}
                         disabled={actionLoading === poem.id}
@@ -442,7 +442,7 @@ export default function AdminDashboard() {
 
                   {/* Tags */}
                   {poem.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-4">
                       {poem.tags.map((tag) => (
                         <Badge key={tag} variant="outline" className="text-xs border-white/30 text-white bg-white/5">
                           #{tag}
@@ -450,6 +450,74 @@ export default function AdminDashboard() {
                       ))}
                     </div>
                   )}
+
+                  {/* Action Buttons - Mobile (Below Poem Content) */}
+                  <div className="sm:hidden flex flex-col gap-3 mt-4">
+                    <Button
+                      onClick={() => handleApprove(poem.id)}
+                      disabled={actionLoading === poem.id}
+                      className="w-full bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
+                    >
+                      {actionLoading === poem.id ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <CheckCircle className="h-4 w-4" />
+                      )}
+                      <span className="ml-2">Approve</span>
+                    </Button>
+
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="destructive"
+                          disabled={actionLoading === poem.id}
+                          onClick={() => setSelectedPoemForRejection(poem.id)}
+                          className="w-full"
+                        >
+                          <XCircle className="h-4 w-4" />
+                          <span className="ml-2">Reject</span>
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="bg-black/90 backdrop-blur-md border border-white/10">
+                        <DialogHeader>
+                          <DialogTitle className="font-light" style={{ color: '#e2e2e2' }}>Reject Poem</DialogTitle>
+                          <DialogDescription className="font-light" style={{ color: '#9b9b9b' }}>
+                            Are you sure you want to reject "{poem.title}"? You can optionally provide a reason for the author.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          <div>
+                            <Label htmlFor="reason-mobile" className="font-medium" style={{ color: '#e2e2e2' }}>Rejection Reason (Optional)</Label>
+                            <Textarea
+                              id="reason-mobile"
+                              placeholder="Provide feedback for the author..."
+                              value={rejectionReason}
+                              onChange={(e) => setRejectionReason(e.target.value)}
+                              className="mt-2 bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                            />
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button variant="outline" onClick={() => {
+                            setSelectedPoemForRejection(null)
+                            setRejectionReason("")
+                          }} className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
+                            Cancel
+                          </Button>
+                          <Button
+                            variant="destructive"
+                            onClick={() => handleReject(poem.id, rejectionReason)}
+                            disabled={actionLoading === poem.id}
+                          >
+                            {actionLoading === poem.id ? (
+                              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                            ) : null}
+                            Reject Poem
+                          </Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                 </div>
               </div>
             ))}

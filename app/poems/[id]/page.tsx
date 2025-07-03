@@ -13,6 +13,8 @@ import Link from "next/link"
 import { CommentSection } from "@/components/comment-section"
 import { usePoemDetail } from "@/hooks/use-poem-detail"
 import { usePoemLike } from "@/hooks/use-poem-like"
+import { sharePoem, ShareData } from "@/lib/share-utils"
+import { ShareModal } from "@/components/share-modal"
 
 interface PoemPageProps {
   params: Promise<{ id: string }>
@@ -22,6 +24,10 @@ export default function PoemPage({ params }: PoemPageProps) {
   const { id } = use(params)
   const { poem, loading, error, retry } = usePoemDetail(id)
   const [commentCount, setCommentCount] = useState<number | undefined>(undefined)
+  
+  // Share modal state
+  const [shareModalOpen, setShareModalOpen] = useState(false)
+  const [shareData, setShareData] = useState<ShareData | null>(null)
 
   // Like state management (always call the hook)
   const { liked, count: likeCount, loading: likeLoading, like, unlike, session } = usePoemLike(poem?.id)
@@ -141,6 +147,23 @@ export default function PoemPage({ params }: PoemPageProps) {
       .slice(0, 2)
   }
 
+  // Handle share button click
+  const handleShare = async () => {
+    if (!poem) return
+    
+    const success = await sharePoem(
+      {
+        id: poem.id,
+        title: poem.title,
+        author: poem.author
+      },
+      (data) => {
+        setShareData(data)
+        setShareModalOpen(true)
+      }
+    )
+  }
+
   return (
     <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
       {/* Add custom keyframes */}
@@ -242,18 +265,24 @@ export default function PoemPage({ params }: PoemPageProps) {
                 disabled={likeLoading}
               >
                 <Heart className={`w-5 h-5 mr-2 group-hover:animate-pulse ${liked ? "fill-pink-300" : ""}`} />
-                {likeCount} Aprecieri
+                <span className="hidden sm:inline">{likeCount} Aprecieri</span>
+                <span className="sm:hidden">{likeCount}</span>
               </Button>
               {/* Comments count: static, not a button */}
               <div className="flex items-center text-gray-400 text-sm">
                 <MessageCircle className="w-5 h-5 mr-2" />
-                {commentCount ?? 0} Comentarii
+                <span className="hidden sm:inline">{commentCount ?? 0} Comentarii</span>
+                <span className="sm:hidden">{commentCount ?? 0}</span>
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <Button variant="outline" className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
+              <Button 
+                onClick={handleShare}
+                variant="outline" 
+                className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
+              >
                 <Share2 className="w-4 h-4 mr-2" />
-                Partajează
+                <span className="hidden sm:inline">Partajează</span>
               </Button>
             </div>
           </div>
@@ -310,6 +339,18 @@ export default function PoemPage({ params }: PoemPageProps) {
 
       {/* Comments Section */}
       <CommentSection poemId={poem.id} onCommentAdded={handleCommentAdded} />
+
+      {/* Share Modal */}
+      {shareData && (
+        <ShareModal
+          shareData={shareData}
+          isOpen={shareModalOpen}
+          onClose={() => {
+            setShareModalOpen(false)
+            setShareData(null)
+          }}
+        />
+      )}
       </div>
     </div>
   )

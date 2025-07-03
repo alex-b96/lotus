@@ -3,8 +3,8 @@ import { LotusLogo } from "@/components/lotus-logo"
 
 export function Footer() {
   return (
-    <footer className="backdrop-blur-md border-t border-white/5 mt-20" style={{ backgroundColor: 'rgba(13, 13, 13, 0.4)', color: '#e2e2e2' }}>
-      <div className="max-w-7xl mx-auto px-6 py-16">
+    <footer className="backdrop-blur-md border-t border-white/5" style={{ backgroundColor: 'rgba(13, 13, 13, 0.4)', color: '#e2e2e2' }}>
+      <div className="max-w-7xl mx-auto px-6 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="flex items-center space-x-3">
             <LotusLogo />

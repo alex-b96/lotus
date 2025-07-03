@@ -185,7 +185,7 @@ export function Header() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-6 border-t border-white/10">
+          <div className="md:hidden py-6 border-t border-white/10 max-h-[calc(100vh-5rem)] overflow-y-auto">
             <nav className="flex flex-col space-y-4">
               {navigation.map((item) => {
                 const isActive = pathname === item.href

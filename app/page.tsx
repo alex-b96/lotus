@@ -9,6 +9,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Heart, MessageCircle, Share2, Clock, User, AlertCircle, RefreshCw } from "lucide-react"
 import Link from "next/link"
 import { usePoemLike } from "@/hooks/use-poem-like"
+import { sharePoem, ShareData } from "@/lib/share-utils"
+import { ShareModal } from "@/components/share-modal"
 
 interface Author {
   id: string
@@ -50,6 +52,10 @@ export default function HomePage() {
   const [isLoadingRecent, setIsLoadingRecent] = useState(true)
   const [featuredError, setFeaturedError] = useState<string | null>(null)
   const [recentError, setRecentError] = useState<string | null>(null)
+  
+  // Share modal state
+  const [shareModalOpen, setShareModalOpen] = useState(false)
+  const [shareData, setShareData] = useState<ShareData | null>(null)
 
   // Like state for featured poem
   const likeHook = usePoemLike(featuredPoem?.id)
@@ -113,6 +119,23 @@ export default function HomePage() {
     return content.length > 50 ? content.substring(0, 50) + '...' : content
   }
 
+  // Handle share button click
+  const handleShare = async () => {
+    if (!featuredPoem) return
+    
+    const success = await sharePoem(
+      {
+        id: featuredPoem.id,
+        title: featuredPoem.title,
+        author: featuredPoem.author
+      },
+      (data) => {
+        setShareData(data)
+        setShareModalOpen(true)
+      }
+    )
+  }
+
   return (
     <div className="min-h-screen w-full relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
       {/* Add custom keyframes */}
@@ -140,7 +163,7 @@ export default function HomePage() {
       `}</style>
 
       {/* Lotus background with reflection - positioned at top of columns */}
-      <div className="absolute -top-[14rem] left-1/2 transform -translate-x-1/2 w-[25rem] h-[50rem] pointer-events-none">
+      <div className="absolute -top-[14rem] left-[calc(50%+100px)] transform -translate-x-1/2 sm:left-1/2 w-[25rem] h-[50rem] pointer-events-none">
         {/* Main lotus */}
         <div className="w-full h-1/2">
           <img
@@ -170,7 +193,7 @@ export default function HomePage() {
       </div>
 
       {/* Main content container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-16 grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
         {/* Main Section: Poem of the Week */}
         <section className="lg:col-span-3 self-start relative w-[90vw] lg:w-[680px] max-w-full">
           {/* Horizontal line above poem of the week */}
@@ -204,7 +227,7 @@ export default function HomePage() {
               </h1>
 
               {/* Author and Date */}
-              <div className="text-lg mb-10 drop-shadow-sm" style={{ color: '#e2e2e2' }}>
+              <div className="text-lg mb-2 drop-shadow-sm" style={{ color: '#e2e2e2' }}>
                 by <span className="italic text-pink-200 drop-shadow-sm hover:text-pink-100 transition-colors duration-300">{featuredPoem.author.name}</span>
                 <span className="ml-6 text-base" style={{ color: '#9b9b9b' }}>{formatDate(featuredPoem.publishedAt)}</span>
               </div>
@@ -221,7 +244,7 @@ export default function HomePage() {
 
               {/* Interaction Buttons */}
               <div className="flex items-center gap-8 mb-8">
-                <button 
+                <button
                   className={`flex items-center gap-2 ${liked ? "text-pink-300" : "text-gray-400 hover:text-pink-300"} transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group`}
                   onClick={async () => {
                     if (!session?.user) {
@@ -240,7 +263,10 @@ export default function HomePage() {
                   <MessageCircle className="w-5 h-5" />
                   <span className="font-light">{featuredPoem.comments ?? 0}</span>
                 </div>
-                <button className="flex items-center gap-2 text-gray-400 hover:text-pink-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group">
+                <button 
+                  onClick={handleShare}
+                  className="flex items-center gap-2 text-gray-400 hover:text-pink-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group"
+                >
                   <Share2 className="w-5 h-5 group-hover:animate-pulse" />
                   <span className="font-light">Distribuie</span>
                 </button>
@@ -339,6 +365,18 @@ export default function HomePage() {
           </div>
         </aside>
       </div>
+
+      {/* Share Modal */}
+      {shareData && (
+        <ShareModal
+          shareData={shareData}
+          isOpen={shareModalOpen}
+          onClose={() => {
+            setShareModalOpen(false)
+            setShareData(null)
+          }}
+        />
+      )}
     </div>
   )
 }
