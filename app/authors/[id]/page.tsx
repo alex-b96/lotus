@@ -109,7 +109,7 @@ export default function AuthorProfilePage() {
         <div className="max-w-6xl mx-auto px-6 py-16">
           <div className="flex justify-center items-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
-            <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Loading author profile...</span>
+            <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Se încarcă profilul autorului...</span>
           </div>
         </div>
       </div>
@@ -125,10 +125,10 @@ export default function AuthorProfilePage() {
             <div className="flex items-center gap-3">
               <AlertCircle className="h-5 w-5 text-red-400" />
               <div className="text-red-200 flex items-center justify-between w-full">
-                <span>Failed to load author: {error}</span>
+                <span>Eroare la încărcarea profilului autorului: {error}</span>
                 <Button variant="outline" size="sm" onClick={fetchAuthor} className="ml-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black">
                   <RefreshCcw className="w-4 h-4 mr-1" />
-                  Retry
+                  Reîncarcă
                 </Button>
               </div>
             </div>
@@ -137,7 +137,7 @@ export default function AuthorProfilePage() {
             <Button asChild variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
               <Link href="/authors">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Authors
+                Înapoi la autori
               </Link>
             </Button>
           </div>
@@ -150,12 +150,12 @@ export default function AuthorProfilePage() {
     return (
       <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
         <div className="max-w-2xl mx-auto px-6 py-16 text-center">
-          <h1 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Author Not Found</h1>
-          <p className="mb-6 font-light" style={{ color: '#9b9b9b' }}>The author you're looking for doesn't exist or has no published poems.</p>
+          <h1 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Autorul nu a fost găsit</h1>
+          <p className="mb-6 font-light" style={{ color: '#9b9b9b' }}>Autorul căutat nu există sau nu are poezii publicate.</p>
           <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
             <Link href="/authors">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Authors
+              Înapoi la autori
             </Link>
           </Button>
         </div>
@@ -171,7 +171,7 @@ export default function AuthorProfilePage() {
           <Button asChild variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
           <Link href="/authors">
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Authors
+            Înapoi la autori
           </Link>
         </Button>
         </div>
@@ -201,11 +201,11 @@ export default function AuthorProfilePage() {
                 </div>
                 <div className="flex items-center space-x-1" style={{ color: '#9b9b9b' }}>
                   <User className="w-5 h-5 text-pink-300" />
-                  <span className="text-pink-300">Author</span>
+                  <span className="text-pink-300">Autor</span>
                 </div>
                 <div className="flex items-center space-x-1" style={{ color: '#9b9b9b' }}>
                   <Calendar className="w-5 h-5" />
-                  <span>Joined {formatDistanceToNow(new Date(author.createdAt), { addSuffix: true })}</span>
+                  <span>Aderat la {formatDistanceToNow(new Date(author.createdAt), { addSuffix: true })}</span>
                 </div>
               </div>
 
@@ -221,7 +221,7 @@ export default function AuthorProfilePage() {
                 <Button asChild variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
                   <a href={author.website} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="w-4 h-4 mr-2" />
-                    Visit Website
+                    Vezi website-ul
                   </a>
                 </Button>
               )}
@@ -234,7 +234,7 @@ export default function AuthorProfilePage() {
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-light" style={{ color: '#e2e2e2' }}>
-              Published Poems ({author.totalPoems})
+              Părți publicate ({author.totalPoems})
             </h2>
           </div>
 
@@ -290,7 +290,7 @@ export default function AuthorProfilePage() {
                       </div>
                       <div className="flex items-center space-x-1">
                         <Clock className="w-4 h-4" />
-                        <span>{poem.readingTime} min read</span>
+                        <span>{poem.readingTime} min citit</span>
                       </div>
                     </div>
                     <span className="text-xs">
@@ -301,7 +301,7 @@ export default function AuthorProfilePage() {
                     {/* Read More Button */}
                     <Button asChild className="w-full bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                     <Link href={`/poems/${poem.id}`}>
-                      Read Full Poem
+                      Citește poezia completă
                     </Link>
                   </Button>
                   </div>
@@ -311,9 +311,9 @@ export default function AuthorProfilePage() {
           ) : (
             <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-12 text-center">
               <BookOpen className="w-16 h-16 mx-auto text-pink-300 mb-4" />
-              <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>No Published Poems Yet</h3>
+              <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>Nu există poezii publicate</h3>
               <p className="font-light" style={{ color: '#9b9b9b' }}>
-                {author.name} hasn't published any poems yet. Check back later!
+                {author.name} nu a publicat încă nicio poezie. Revino mai târziu!
               </p>
             </div>
           )}

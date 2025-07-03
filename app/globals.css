@@ -120,3 +120,8 @@
 ::-webkit-scrollbar-thumb:hover {
   background: theme(colors.green.400);
 }
+
+/* Cormorant Garamond font class for poem content */
+.font-cormorant {
+  font-family: var(--font-cormorant-garamond), serif;
+}

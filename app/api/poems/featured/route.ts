@@ -60,9 +60,13 @@ export async function GET(request: NextRequest) {
         })
       }
 
-      // Get a random offset
-      const randomOffset = Math.floor(Math.random() * totalCount)
-      console.log("Random offset:", randomOffset)
+      // Use a consistent "random" offset based on the current week
+      // This ensures the same poem shows for the entire week unless admin sets one
+      const now = new Date()
+      const startOfYear = new Date(now.getFullYear(), 0, 1)
+      const weekNumber = Math.ceil(((now.getTime() - startOfYear.getTime()) / 86400000 + 1) / 7)
+      const consistentOffset = (weekNumber * 7) % totalCount
+      console.log("Consistent offset for week", weekNumber, ":", consistentOffset)
 
       // Fetch the random poem
       console.log("Fetching random poem...")
@@ -93,7 +97,7 @@ export async function GET(request: NextRequest) {
             }
           }
         },
-        skip: randomOffset,
+        skip: consistentOffset,
       })
     } else {
       console.log("Found featured poem:", poem.title)

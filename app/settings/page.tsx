@@ -133,7 +133,7 @@ export default function SettingsPage() {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
       <div className="max-w-xl mx-auto py-16 px-6">
-        <h2 className="text-4xl lg:text-5xl font-light mb-8" style={{ color: '#e2e2e2' }}>Settings</h2>
+        <h2 className="text-4xl lg:text-5xl font-light mb-8" style={{ color: '#e2e2e2' }}>Setări</h2>
 
         {/* Avatar upload section */}
         <form onSubmit={handleSaveAvatar} className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6 mb-8 flex items-center space-x-6">
@@ -147,10 +147,10 @@ export default function SettingsPage() {
           </Avatar>
         </div>
         <div className="flex-1">
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Change Avatar</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Schimbă avatarul</label>
           <Input type="file" accept="image/*" onChange={handleAvatarChange} className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
           <Button type="submit" disabled={!avatarFile || avatarSaving} className="mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
-            {avatarSaving ? "Saving..." : "Save Avatar"}
+            {avatarSaving ? "Se salvează..." : "Salvează avatarul"}
           </Button>
           {avatarMessage && <div className="text-pink-300 text-sm mt-2">{avatarMessage}</div>}
         </div>
@@ -159,41 +159,41 @@ export default function SettingsPage() {
         {/* Profile info form */}
         <form onSubmit={handleSaveProfile} className="space-y-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6">
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Name</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Nume</label>
           <Input value={name} onChange={e => setName(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Email</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Adresă de email</label>
           <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Bio <span className="text-xs" style={{ color: '#9b9b9b' }}>(This will appear on your public author profile)</span></label>
-          <Textarea value={bio} onChange={e => setBio(e.target.value)} maxLength={500} placeholder="Tell the world about yourself as a poet..." className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
-          <div className="text-xs mt-1" style={{ color: '#9b9b9b' }}>Max 500 characters.</div>
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Bio <span className="text-xs" style={{ color: '#9b9b9b' }}>(Aceasta va apărea pe profilul dumneavoastră public)</span></label>
+          <Textarea value={bio} onChange={e => setBio(e.target.value)} maxLength={500} placeholder="Spune-ne despre tine ca poet..." className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
+          <div className="text-xs mt-1" style={{ color: '#9b9b9b' }}>Max 500 caractere.</div>
         </div>
         <Button type="submit" disabled={saving} className="w-full mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
-          {saving ? "Saving..." : "Save Changes"}
+          {saving ? "Se salvează..." : "Salvează modificările"}
         </Button>
         {saveMessage && <div className="text-pink-300 text-sm mt-2">{saveMessage}</div>}
       </form>
 
         {/* Password change form */}
         <form onSubmit={handleChangePassword} className="space-y-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6 mt-8">
-          <h3 className="text-lg font-light mb-2" style={{ color: '#e2e2e2' }}>Change Password</h3>
+          <h3 className="text-lg font-light mb-2" style={{ color: '#e2e2e2' }}>Schimbă parola</h3>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Current Password</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Parola actuală</label>
           <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>New Password</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Nouă parolă</label>
           <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Confirm New Password</label>
+          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Confirmă noua parolă</label>
           <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <Button type="submit" disabled={passwordSaving} className="w-full mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
-          {passwordSaving ? "Changing..." : "Change Password"}
+          {passwordSaving ? "Se schimbă..." : "Schimbă parola"}
         </Button>
         {passwordMessage && <div className="text-pink-300 text-sm mt-2">{passwordMessage}</div>}
         </form>

@@ -1,254 +1,215 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
+import { Suspense } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Star, Send, MessageSquare } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Pagination, PaginationInfo } from "@/components/pagination"
+import {
+  MessageSquare,
+  ExternalLink,
+  Loader2,
+  AlertCircle,
+  RefreshCcw,
+  User,
+  Calendar
+} from "lucide-react"
+import Link from "next/link"
+import { useFeedback } from "@/hooks/use-feedback"
 
-// Mock testimonials data
-const testimonials = [
-  {
-    id: 1,
-    name: "Emily Watson",
-    avatar: "/undefined.svg?height=50&width=50",
-    rating: 5,
-    comment:
-      "LOTUS has become my daily source of inspiration. The quality of poetry here is exceptional, and the community is so supportive.",
-    date: "2024-01-10",
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    avatar: "/undefined.svg?height=50&width=50",
-    rating: 5,
-    comment:
-      "As a new poet, I was nervous about sharing my work. The feedback I received here helped me grow tremendously. Thank you!",
-    date: "2024-01-08",
-  },
-  {
-    id: 3,
-    name: "Sarah Johnson",
-    avatar: "/undefined.svg?height=50&width=50",
-    rating: 4,
-    comment:
-      "Beautiful platform with an intuitive design. I love discovering new poets and their unique perspectives on life.",
-    date: "2024-01-05",
-  },
-]
+// Helper to get user initials for avatar fallback
+const getInitials = (name?: string | null) => {
+  if (!name || typeof name !== 'string' || name.trim() === '') return '??'
+  return name
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2)
+}
 
-export default function FeedbackPage() {
-  const [rating, setRating] = useState(0)
-  const [hoveredRating, setHoveredRating] = useState(0)
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    comment: "",
+// Helper to format date
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
+}
 
-  const handleStarClick = (starRating: number) => {
-    setRating(starRating)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (rating === 0) {
-      alert("Please select a rating")
-      return
-    }
-
-    setIsSubmitting(true)
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setSubmitted(true)
-      setFormData({ name: "", email: "", comment: "" })
-      setRating(0)
-    }, 1500)
-  }
+function FeedbackPageContent() {
+  const {
+    comments,
+    pagination,
+    isLoading,
+    error,
+    goToPage,
+    retry,
+  } = useFeedback()
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      {/* Header */}
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-green-800 mb-4">Your Feedback Matters</h1>
-        <p className="text-green-600 text-lg max-w-2xl mx-auto">
-          Help us improve LOTUS by sharing your thoughts and experiences. Your feedback shapes our community.
-        </p>
-      </div>
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Parerea cititorilor</h1>
+          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+            Vezi ce au spus cititorii despre poeziile noastre. Toate comentariile de la comunitate într-un singur loc.
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Feedback Form */}
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-2xl text-green-800 flex items-center space-x-2">
-              <MessageSquare className="w-6 h-6" />
-              <span>Share Your Experience</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {submitted ? (
-              <div className="text-center py-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Send className="w-8 h-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-semibold text-green-800 mb-2">Thank You!</h3>
-                <p className="text-green-600 mb-4">
-                  Your feedback has been submitted successfully. We appreciate you taking the time to help us improve.
-                </p>
+        {/* Pagination Info */}
+        {pagination && !isLoading && (
+          <PaginationInfo
+            currentPage={pagination.page}
+            totalPages={pagination.totalPages}
+            totalCount={pagination.totalCount}
+            limit={pagination.limit}
+            className="text-center"
+          />
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="h-5 w-5 text-red-400" />
+              <div className="text-red-200 flex items-center justify-between w-full">
+                <span>Eroare la încărcarea feedback-ului: {error}</span>
                 <Button
-                  onClick={() => setSubmitted(false)}
                   variant="outline"
-                  className="border-green-300 text-green-700 hover:bg-green-50"
+                  size="sm"
+                  onClick={retry}
+                  className="ml-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
                 >
-                  Submit Another Review
+                  <RefreshCcw className="w-4 h-4 mr-1" />
+                  Reîncarcă
                 </Button>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Rating */}
-                <div className="space-y-2">
-                  <Label className="text-green-800 font-medium">Overall Rating *</Label>
-                  <div className="flex space-x-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        onClick={() => handleStarClick(star)}
-                        onMouseEnter={() => setHoveredRating(star)}
-                        onMouseLeave={() => setHoveredRating(0)}
-                        className="focus:outline-none"
-                      >
-                        <Star
-                          className={`w-8 h-8 transition-colors ${
-                            star <= (hoveredRating || rating) ? "text-yellow-400 fill-current" : "text-gray-300"
-                          }`}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                  <p className="text-sm text-green-600">
-                    {rating === 0 && "Please select a rating"}
-                    {rating === 1 && "Poor - Needs significant improvement"}
-                    {rating === 2 && "Fair - Some issues to address"}
-                    {rating === 3 && "Good - Meets expectations"}
-                    {rating === 4 && "Very Good - Exceeds expectations"}
-                    {rating === 5 && "Excellent - Outstanding experience"}
-                  </p>
-                </div>
+            </div>
+          </div>
+        )}
 
-                {/* Name */}
-                <div className="space-y-2">
-                  <Label htmlFor="name" className="text-green-800 font-medium">
-                    Name *
-                  </Label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-                    placeholder="Your name"
-                    required
-                    className="border-green-300 focus:border-green-500"
-                  />
-                </div>
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+            <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Se încarcă feedback-ul...</span>
+          </div>
+        )}
 
-                {/* Email */}
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-green-800 font-medium">
-                    Email *
-                  </Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
-                    placeholder="your.email@example.com"
-                    required
-                    className="border-green-300 focus:border-green-500"
-                  />
-                </div>
-
-                {/* Comment */}
-                <div className="space-y-2">
-                  <Label htmlFor="comment" className="text-green-800 font-medium">
-                    Your Feedback *
-                  </Label>
-                  <Textarea
-                    id="comment"
-                    value={formData.comment}
-                    onChange={(e) => setFormData((prev) => ({ ...prev, comment: e.target.value }))}
-                    placeholder="Tell us about your experience with LOTUS..."
-                    required
-                    className="min-h-[120px] border-green-300 focus:border-green-500"
-                  />
-                </div>
-
-                <Button
-                  type="submit"
-                  className="w-full bg-green-600 hover:bg-green-700"
-                  disabled={isSubmitting || rating === 0}
-                >
-                  <Send className="w-4 h-4 mr-2" />
-                  {isSubmitting ? "Submitting..." : "Submit Feedback"}
-                </Button>
-              </form>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Testimonials */}
-        <Card className="bg-white/70 backdrop-blur-sm border-green-200 shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-2xl text-green-800">What Our Community Says</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {testimonials.map((testimonial) => (
-              <div key={testimonial.id} className="p-4 bg-green-50 rounded-lg border border-green-100">
-                <div className="flex items-start space-x-3">
-                  <Avatar className="w-12 h-12">
-                    <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                    <AvatarFallback>
-                      {testimonial.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
+        {/* Comments List */}
+        {!isLoading && !error && (
+          <div className="space-y-6">
+            {comments.map((comment) => (
+              <div
+                key={comment.id}
+                className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6"
+              >
+                <div className="flex items-start space-x-4">
+                  <Avatar className="w-12 h-12 flex-shrink-0">
+                    <AvatarImage src={comment.author.avatarUrl || undefined} alt={comment.author.name} />
+                    <AvatarFallback className="text-sm">
+                      {getInitials(comment.author.name)}
                     </AvatarFallback>
                   </Avatar>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className="font-semibold text-green-800">{testimonial.name}</h4>
-                      <div className="flex space-x-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star
-                            key={star}
-                            className={`w-4 h-4 ${
-                              star <= testimonial.rating ? "text-yellow-400 fill-current" : "text-gray-300"
-                            }`}
-                          />
-                        ))}
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                      <div className="flex items-center space-x-2">
+                        <h3 className="font-light" style={{ color: '#e2e2e2' }}>{comment.author.name}</h3>
+                        <div className="flex items-center space-x-1 text-sm" style={{ color: '#9b9b9b' }}>
+                          <User className="w-4 h-4" />
+                          <span>a comentat</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm" style={{ color: '#9b9b9b' }}>
+                        <Calendar className="w-4 h-4" />
+                        <span>{formatDate(comment.createdAt)}</span>
                       </div>
                     </div>
-                    <p className="text-green-700 mb-2">"{testimonial.comment}"</p>
-                    <p className="text-sm text-green-600">{testimonial.date}</p>
+
+                    <div className="mb-4">
+                      <Link
+                        href={`/poems/${comment.poem.id}`}
+                        className="text-pink-300 hover:text-pink-200 transition-colors flex items-center space-x-2 text-lg font-light"
+                      >
+                        <MessageSquare className="w-5 h-5" />
+                        <span>{comment.poem.title}</span>
+                        <ExternalLink className="w-4 h-4" />
+                      </Link>
+                    </div>
+
+                    <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                      <p className="font-light leading-relaxed" style={{ color: '#e2e2e2' }}>
+                        {comment.content}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+        )}
 
-            <div className="text-center pt-4">
-              <p className="text-green-600 text-sm">Join our community and share your own experience!</p>
-            </div>
-          </CardContent>
-        </Card>
+        {/* Empty State */}
+        {!isLoading && !error && comments.length === 0 && (
+          <div className="text-center py-12">
+            <MessageSquare className="w-16 h-16 text-pink-300 mx-auto mb-4" />
+            <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>Nu există feedback</h3>
+            <p className="mb-4 font-light" style={{ color: '#9b9b9b' }}>
+              Nu există comentarii. Fii primul care împărtășește-ne opinia despre poeziile noastre!
+            </p>
+            <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
+              <Link href="/poems">Vezi poeziile</Link>
+            </Button>
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {pagination && pagination.totalPages > 1 && !isLoading && !error && (
+          <Pagination
+            currentPage={pagination.page}
+            totalPages={pagination.totalPages}
+            onPageChange={goToPage}
+            className="justify-center"
+            hasNext={pagination.page < pagination.totalPages}
+            hasPrev={pagination.page > 1}
+          />
+        )}
       </div>
     </div>
+  )
+}
+
+// Loading fallback component
+function FeedbackPageLoading() {
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
+        <div className="text-center">
+          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Parerea cititorilor</h1>
+          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+            Vezi ce au spus cititorii despre poeziile noastre. Toate comentariile de la comunitate într-un singur loc.
+          </p>
+        </div>
+        <div className="flex justify-center items-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+          <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Se încarcă feedback-ul...</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function FeedbackPage() {
+  return (
+    <Suspense fallback={<FeedbackPageLoading />}>
+      <FeedbackPageContent />
+    </Suspense>
   )
 }

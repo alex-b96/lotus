@@ -49,16 +49,16 @@ export function usePoemDetail(poemId: string): UsePoemDetailResult {
 
       if (!response.ok) {
         if (response.status === 404) {
-          throw new Error("Poem not found")
+          throw new Error("Poezia nu a fost găsită")
         }
-        throw new Error("Failed to fetch poem")
+        throw new Error("Eroare la încărcarea poeziei")
       }
 
       const data = await response.json()
       setPoem(data.poem)
 
     } catch (err) {
-      const message = err instanceof Error ? err.message : "An error occurred"
+      const message = err instanceof Error ? err.message : "A apărut o eroare"
       setError(message)
       console.error("Error fetching poem:", err)
     } finally {

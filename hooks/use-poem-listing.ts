@@ -131,7 +131,7 @@ export function usePoemListing(options: UsePoemListingOptions = {}): UsePoemList
     searchParams.get("search") || options.initialSearch || ""
   )
   const [selectedCategory, setSelectedCategoryState] = useState(() =>
-    searchParams.get("category") || options.initialCategory || "All"
+    searchParams.get("category") || options.initialCategory || "Toate"
   )
   const [selectedTag, setSelectedTagState] = useState(() =>
     searchParams.get("tag") || options.initialTag || ""
@@ -169,7 +169,7 @@ export function usePoemListing(options: UsePoemListingOptions = {}): UsePoemList
     const url = new URL("/api/poems", window.location.origin)
 
     Object.entries(params).forEach(([key, value]) => {
-      if (value !== "" && value !== "All" && value !== null && value !== undefined) {
+      if (value !== "" && value !== "Toate" && value !== null && value !== undefined) {
         url.searchParams.set(key, String(value))
       }
     })
@@ -182,7 +182,7 @@ export function usePoemListing(options: UsePoemListingOptions = {}): UsePoemList
     const params = new URLSearchParams()
 
     if (debouncedSearchTerm) params.set("search", debouncedSearchTerm)
-    if (selectedCategory !== "All") params.set("category", selectedCategory)
+    if (selectedCategory !== "Toate") params.set("category", selectedCategory)
     if (selectedTag) params.set("tag", selectedTag)
     if (sortBy !== "createdAt") params.set("sortBy", sortBy)
     if (order !== "desc") params.set("order", order)
@@ -202,7 +202,7 @@ export function usePoemListing(options: UsePoemListingOptions = {}): UsePoemList
         page: currentPage,
         limit: options.initialLimit || 20,
         search: debouncedSearchTerm,
-        category: selectedCategory !== "All" ? selectedCategory : "",
+        category: selectedCategory !== "Toate" ? selectedCategory : "",
         tag: selectedTag,
         sortBy,
         order,
@@ -211,7 +211,7 @@ export function usePoemListing(options: UsePoemListingOptions = {}): UsePoemList
       const response = await fetch(apiUrl)
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch poems: ${response.status} ${response.statusText}`)
+        throw new Error(`Eroare la încărcarea poeziilor: ${response.status} ${response.statusText}`)
       }
 
       const data: ApiResponse = await response.json()
@@ -222,7 +222,7 @@ export function usePoemListing(options: UsePoemListingOptions = {}): UsePoemList
       setPoems(transformedPoems)
       setPagination(data.pagination)
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Failed to fetch poems"
+      const errorMessage = err instanceof Error ? err.message : "Eroare la încărcarea poeziilor"
       setError(errorMessage)
       console.error("Error fetching poems:", err)
     } finally {
@@ -281,7 +281,7 @@ export function usePoemListing(options: UsePoemListingOptions = {}): UsePoemList
 
   const clearFilters = useCallback(() => {
     setSearchTermState("")
-    setSelectedCategoryState("All")
+    setSelectedCategoryState("Toate")
     setSelectedTagState("")
     setSortByState("createdAt")
     setOrderState("desc")

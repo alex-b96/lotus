@@ -12,7 +12,7 @@ import Link from "next/link"
 import { usePoemListing } from "@/hooks/use-poem-listing"
 import { Pagination, PaginationInfo } from "@/components/pagination"
 
-const categories = ["All", "Lyric", "Haiku", "Modern", "Classic", "Experimental"]
+const categories = ["Toate", "Liric", "Haiku", "Modern", "Clasic", "Experimental"]
 
 function PoemsPageContent() {
   const {
@@ -45,9 +45,9 @@ function PoemsPageContent() {
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Poetry Collection</h1>
+          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Colecția de Poezii</h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">
-            Discover beautiful poems from talented writers around the world. Each piece tells a unique story.
+            Descoperă poezii frumoase de la scriitori talentați din întreaga lume. Fiecare piesă spune o poveste unică.
           </p>
         </div>
 
@@ -58,7 +58,7 @@ function PoemsPageContent() {
             <div className="flex-1 relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-pink-300 w-5 h-5" />
               <Input
-                placeholder="Search poems, authors, or content..."
+                placeholder="Caută poezii, autori sau conținut..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-12 bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 h-12 font-light"
@@ -73,7 +73,7 @@ function PoemsPageContent() {
                 <Filter className="text-pink-300 w-5 h-5" />
                 <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={isLoading}>
                   <SelectTrigger className="w-48 bg-white/5 border-white/20 text-white">
-                    <SelectValue placeholder="Select category" />
+                    <SelectValue placeholder="Alege categoria" />
                   </SelectTrigger>
                   <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
                     {categories.map((category) => (
@@ -87,15 +87,15 @@ function PoemsPageContent() {
 
               {/* Sort Options */}
               <div className="flex items-center space-x-3">
-                <span className="text-sm text-gray-300 font-light">Sort by:</span>
+                <span className="text-sm text-gray-300 font-light">Sortează după:</span>
                 <Select value={sortBy} onValueChange={setSortBy} disabled={isLoading}>
                   <SelectTrigger className="w-32 bg-white/5 border-white/20 text-white">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
-                    <SelectItem value="createdAt" className="text-gray-300 focus:text-white focus:bg-white/5">Newest</SelectItem>
-                    <SelectItem value="title" className="text-gray-300 focus:text-white focus:bg-white/5">Title</SelectItem>
-                    <SelectItem value="likes" className="text-gray-300 focus:text-white focus:bg-white/5">Most Liked</SelectItem>
+                    <SelectItem value="createdAt" className="text-gray-300 focus:text-white focus:bg-white/5">Cele mai recente</SelectItem>
+                    <SelectItem value="title" className="text-gray-300 focus:text-white focus:bg-white/5">Titlu</SelectItem>
+                    <SelectItem value="likes" className="text-gray-300 focus:text-white focus:bg-white/5">Cele mai apreciate</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -111,7 +111,7 @@ function PoemsPageContent() {
               </div>
 
               {/* Clear Filters */}
-              {(searchTerm || selectedCategory !== "All" || sortBy !== "createdAt" || order !== "desc") && (
+              {(searchTerm || selectedCategory !== "Toate" || sortBy !== "createdAt" || order !== "desc") && (
                 <Button
                   variant="outline"
                   size="sm"
@@ -119,7 +119,7 @@ function PoemsPageContent() {
                   disabled={isLoading}
                   className="bg-transparent border-white/30 text-white hover:bg-white hover:text-black font-light"
                 >
-                  Clear Filters
+                  Șterge filtrele
                 </Button>
               )}
             </div>
@@ -130,7 +130,7 @@ function PoemsPageContent() {
         {pagination && !isLoading && (
           <div className="text-center">
             <p className="text-gray-400 font-light">
-              Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.totalCount)} of {pagination.totalCount} poems
+              Afișând {((pagination.page - 1) * pagination.limit) + 1} la {Math.min(pagination.page * pagination.limit, pagination.totalCount)} din {pagination.totalCount} poezii
             </p>
           </div>
         )}
@@ -141,7 +141,7 @@ function PoemsPageContent() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <AlertCircle className="h-5 w-5 text-red-400" />
-                <span className="text-red-200">Failed to load poems: {error}</span>
+                <span className="text-red-200">Eroare la încărcarea poeziilor: {error}</span>
               </div>
               <Button
                 variant="outline"
@@ -150,7 +150,7 @@ function PoemsPageContent() {
                 className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black font-light"
               >
                 <RefreshCcw className="w-4 h-4 mr-1" />
-                Retry
+                Încearcă din nou
               </Button>
             </div>
           </div>
@@ -160,7 +160,7 @@ function PoemsPageContent() {
         {isLoading && (
           <div className="flex justify-center items-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
-            <span className="ml-3 text-gray-300 font-light">Loading poems...</span>
+            <span className="ml-3 text-gray-300 font-light">Se încarcă poeziile...</span>
           </div>
         )}
 
@@ -179,7 +179,7 @@ function PoemsPageContent() {
                     </span>
                     {poem.readingTime && (
                       <span className="px-2 py-1 bg-white/10 text-gray-400 text-xs font-light rounded">
-                        {poem.readingTime} min read
+                        {poem.readingTime} min citire
                       </span>
                     )}
                   </div>
@@ -233,7 +233,7 @@ function PoemsPageContent() {
                       asChild
                       className="bg-transparent border-white/30 text-white hover:bg-pink-300 hover:text-black hover:border-pink-300 font-light"
                     >
-                      <Link href={`/poems/${poem.id}`}>Read More</Link>
+                      <Link href={`/poems/${poem.id}`}>Citește mai mult</Link>
                     </Button>
                   </div>
                 </div>
@@ -248,14 +248,14 @@ function PoemsPageContent() {
             <div className="text-pink-300 mb-6">
               <Search className="w-16 h-16 mx-auto opacity-50" />
             </div>
-            <h3 className="text-xl font-light text-white mb-4">No poems found</h3>
+            <h3 className="text-xl font-light text-white mb-4">Nu s-au găsit poezii</h3>
             <p className="text-gray-300 mb-6 font-light">
-              {searchTerm || selectedCategory !== "All"
-                ? "Try adjusting your search terms or category filter."
-                : "There are no published poems available at the moment."
+              {searchTerm || selectedCategory !== "Toate"
+                ? "Încearcă să modifici termenii de căutare sau filtrul categoriei."
+                : "Nu sunt poezii publicate disponibile în acest moment."
               }
             </p>
-            {(searchTerm || selectedCategory !== "All") && (
+            {(searchTerm || selectedCategory !== "Toate") && (
               <Button
                 variant="outline"
                 onClick={clearFilters}
@@ -281,7 +281,7 @@ function PoemsPageContent() {
 
             <div className="text-center">
               <p className="text-gray-400 font-light">
-                Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.totalCount)} of {pagination.totalCount} poems
+                Afișând {((pagination.page - 1) * pagination.limit) + 1} la {Math.min(pagination.page * pagination.limit, pagination.totalCount)} din {pagination.totalCount} poezii
               </p>
             </div>
           </div>
@@ -297,14 +297,14 @@ function PoemsPageLoading() {
     <div className="min-h-screen text-white" style={{ backgroundColor: '#0d0d0d' }}>
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
         <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Poetry Collection</h1>
+          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Colecția de Poezii</h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">
-            Discover beautiful poems from talented writers around the world. Each piece tells a unique story.
+            Descoperă poezii frumoase de la scriitori talentați din întreaga lume. Fiecare piesă spune o poveste unică.
           </p>
         </div>
         <div className="flex justify-center items-center py-12">
           <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
-          <span className="ml-3 text-gray-300 font-light">Loading poems...</span>
+          <span className="ml-3 text-gray-300 font-light">Se încarcă poeziile...</span>
         </div>
       </div>
     </div>

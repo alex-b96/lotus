@@ -70,7 +70,7 @@ export function useComments(poemId: string): UseCommentsReturn {
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to fetch comments")
+        throw new Error(errorData.error || "Eroare la încărcarea comentariilor")
       }
 
       const data: CommentsResponse = await response.json()
@@ -86,7 +86,7 @@ export function useComments(poemId: string): UseCommentsReturn {
       setCurrentPage(page)
 
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch comments")
+      setError(err instanceof Error ? err.message : "Eroare la încărcarea comentariilor")
       console.error("Error fetching comments:", err)
     } finally {
       setLoading(false)
@@ -103,7 +103,7 @@ export function useComments(poemId: string): UseCommentsReturn {
   // Add a new comment
   const addComment = useCallback(async (content: string): Promise<boolean> => {
     if (!session?.user) {
-      setError("You must be logged in to comment")
+      setError("Trebuie să fii autentificat pentru a comenta")
       return false
     }
 
@@ -123,7 +123,7 @@ export function useComments(poemId: string): UseCommentsReturn {
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to add comment")
+        throw new Error(errorData.error || "Eroare la adăugarea comentariului")
       }
 
       const newComment: Comment = await response.json()
@@ -135,7 +135,7 @@ export function useComments(poemId: string): UseCommentsReturn {
       return true
 
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to add comment")
+      setError(err instanceof Error ? err.message : "Eroare la adăugarea comentariului")
       console.error("Error adding comment:", err)
       return false
     }
@@ -144,7 +144,7 @@ export function useComments(poemId: string): UseCommentsReturn {
   // Update an existing comment
   const updateComment = useCallback(async (commentId: string, content: string): Promise<boolean> => {
     if (!session?.user) {
-      setError("You must be logged in to edit comments")
+      setError("Trebuie să fii autentificat pentru a edita comentarii")
       return false
     }
 
@@ -161,7 +161,7 @@ export function useComments(poemId: string): UseCommentsReturn {
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to update comment")
+        throw new Error(errorData.error || "Eroare la actualizarea comentariului")
       }
 
       const updatedComment: Comment = await response.json()
@@ -176,7 +176,7 @@ export function useComments(poemId: string): UseCommentsReturn {
       return true
 
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to update comment")
+      setError(err instanceof Error ? err.message : "Eroare la actualizarea comentariului")
       console.error("Error updating comment:", err)
       return false
     }
@@ -185,7 +185,7 @@ export function useComments(poemId: string): UseCommentsReturn {
   // Delete a comment
   const deleteComment = useCallback(async (commentId: string): Promise<boolean> => {
     if (!session?.user) {
-      setError("You must be logged in to delete comments")
+      setError("Trebuie să fii autentificat pentru a șterge comentarii")
       return false
     }
 
@@ -198,7 +198,7 @@ export function useComments(poemId: string): UseCommentsReturn {
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to delete comment")
+        throw new Error(errorData.error || "Eroare la ștergerea comentariului")
       }
 
       // Remove the comment from the list
@@ -208,7 +208,7 @@ export function useComments(poemId: string): UseCommentsReturn {
       return true
 
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete comment")
+      setError(err instanceof Error ? err.message : "Eroare la ștergerea comentariului")
       console.error("Error deleting comment:", err)
       return false
     }

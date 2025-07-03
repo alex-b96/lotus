@@ -59,12 +59,12 @@ export function useAdminPoems() {
 
       if (!response.ok) {
         if (response.status === 403) {
-          throw new Error('Admin access required')
+          throw new Error('Acces de administrator necesar')
         }
         if (response.status === 401) {
-          throw new Error('Please log in')
+          throw new Error('Te rog să te autentifici')
         }
-        throw new Error('Failed to fetch submitted poems')
+        throw new Error('Eroare la încărcarea poeziilor trimise')
       }
 
       const data: AdminApiResponse = await response.json()
@@ -73,7 +73,7 @@ export function useAdminPoems() {
       setCurrentPage(page)
 
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred')
+      setError(err instanceof Error ? err.message : 'A apărut o eroare')
       console.error('Error fetching admin poems:', err)
     } finally {
       setLoading(false)
@@ -95,7 +95,7 @@ export function useAdminPoems() {
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to approve poem')
+        throw new Error(errorData.error || 'Eroare la aprobarea poeziei')
       }
 
       // Remove the approved poem from the list
@@ -111,7 +111,7 @@ export function useAdminPoems() {
 
       return true
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to approve poem')
+      setError(err instanceof Error ? err.message : 'Eroare la aprobarea poeziei')
       return false
     } finally {
       setActionLoading(null)
@@ -134,7 +134,7 @@ export function useAdminPoems() {
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || 'Failed to reject poem')
+        throw new Error(errorData.error || 'Eroare la respingerea poeziei')
       }
 
       // Remove the rejected poem from the list
@@ -150,7 +150,7 @@ export function useAdminPoems() {
 
       return true
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to reject poem')
+      setError(err instanceof Error ? err.message : 'Eroare la respingerea poeziei')
       return false
     } finally {
       setActionLoading(null)

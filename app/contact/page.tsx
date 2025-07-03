@@ -64,9 +64,9 @@ export default function ContactPage() {
       <div className="max-w-4xl mx-auto px-6 py-16 space-y-8">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Get in Touch</h1>
+        <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Contactează-ne</h1>
         <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
-          Have questions, suggestions, or need support? We'd love to hear from you. Reach out to our team.
+          Ai întrebări, sugestii sau ai nevoie de asistență? Vrem să auzim de la tine. Contactează-ne.
         </p>
       </div>
 
@@ -77,7 +77,7 @@ export default function ContactPage() {
             <div className="p-6 border-b border-white/10">
               <h2 className="text-2xl font-light flex items-center space-x-2" style={{ color: '#e2e2e2' }}>
                 <Mail className="w-6 h-6 text-pink-300" />
-                <span>Send us a Message</span>
+                <span>Trimite-ne un mesaj</span>
               </h2>
             </div>
             <div className="p-6">
@@ -86,16 +86,16 @@ export default function ContactPage() {
                   <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Send className="w-8 h-8 text-pink-300" />
                   </div>
-                  <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>Message Sent!</h3>
+                  <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>Mesaj trimis!</h3>
                   <p className="mb-4 font-light" style={{ color: '#9b9b9b' }}>
-                    Thank you for contacting us. We'll get back to you within 24 hours.
+                    Vă mulțumim pentru contact. Vă vom răspunde în cel mai scurt timp posibil.
                   </p>
                   <Button
                     onClick={() => setSubmitted(false)}
                     variant="outline"
                     className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
                   >
-                    Send Another Message
+                    Trimite un alt mesaj
                   </Button>
                 </div>
               ) : (
@@ -103,13 +103,13 @@ export default function ContactPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="font-medium" style={{ color: '#e2e2e2' }}>
-                        Name *
+                        Nume *
                       </Label>
                       <Input
                         id="name"
                         value={formData.name}
                         onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-                        placeholder="Your full name"
+                        placeholder="Numele complet"
                         required
                         className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                       />
@@ -138,7 +138,7 @@ export default function ContactPage() {
                       id="subject"
                       value={formData.subject}
                       onChange={(e) => setFormData((prev) => ({ ...prev, subject: e.target.value }))}
-                      placeholder="Brief description of your inquiry"
+                      placeholder="Descriere rapidă a întrebării"
                       required
                       className="border-green-300 focus:border-green-500"
                     />
@@ -152,7 +152,7 @@ export default function ContactPage() {
                       id="message"
                       value={formData.message}
                       onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
-                      placeholder="Please provide details about your inquiry..."
+                      placeholder="Vă rugăm să furnizați detalii despre întrebarea dumneavoastră..."
                       required
                       className="min-h-[150px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                     />
@@ -163,7 +163,7 @@ export default function ContactPage() {
                   )}
                   <Button type="submit" className="w-full bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light" disabled={isSubmitting}>
                     <Send className="w-4 h-4 mr-2" />
-                    {isSubmitting ? "Sending..." : "Send Message"}
+                    {isSubmitting ? "Se trimite..." : "Trimite mesajul"}
                   </Button>
                 </form>
               )}
@@ -182,8 +182,7 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-pink-300 mt-1" />
                 <div>
                   <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Email</h4>
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>hello@lotus-poetry.com</p>
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>support@lotus-poetry.com</p>
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>contact@lotus-poetry.com</p>
                 </div>
               </div>
 
@@ -212,8 +211,8 @@ export default function ContactPage() {
               <div className="flex items-start space-x-3">
                 <Clock className="w-5 h-5 text-pink-300 mt-1" />
                 <div>
-                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Response Time</h4>
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>We typically respond within 24 hours during business days.</p>
+                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Răspunsul</h4>
+                  <p className="font-light" style={{ color: '#9b9b9b' }}>Vă vom răspunde în cel mai scurt timp posibil.</p>
                 </div>
               </div>
             </div>
@@ -229,28 +228,28 @@ export default function ContactPage() {
                 asChild
                 className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
               >
-                <a href="/faq">Frequently Asked Questions</a>
+                <a href="/faq">Întrebări frecvente</a>
               </Button>
               <Button
                 variant="ghost"
                 asChild
                 className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
               >
-                <a href="/help">Help Center</a>
+                <a href="/help">Centru de ajutor</a>
               </Button>
               <Button
                 variant="ghost"
                 asChild
                 className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
               >
-                <a href="/community-guidelines">Community Guidelines</a>
+                <a href="/community-guidelines">Reguli de comunitate</a>
               </Button>
               <Button
                 variant="ghost"
                 asChild
                 className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
               >
-                <a href="/privacy">Privacy Policy</a>
+                <a href="/privacy">Politica de confidențialitate</a>
               </Button>
             </div>
           </div>

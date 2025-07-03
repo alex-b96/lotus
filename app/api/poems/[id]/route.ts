@@ -34,7 +34,11 @@ export async function GET(
             website: true,
             _count: {
               select: {
-                poems: true,
+                poems: {
+                  where: {
+                    status: "PUBLISHED"
+                  }
+                },
               }
             }
           }

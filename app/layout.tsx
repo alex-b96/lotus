@@ -1,12 +1,17 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Cormorant_Garamond } from "next/font/google"
 import "./globals.css"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Providers } from "@/components/providers"
 
 const inter = Inter({ subsets: ["latin"] })
+const cormorantGaramond = Cormorant_Garamond({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-cormorant-garamond"
+})
 
 export const metadata: Metadata = {
   title: "LOTUS - Poetry Website",
@@ -21,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} ${cormorantGaramond.variable}`}>
         <Providers>
           <div className="min-h-screen w-full flex flex-col" style={{ backgroundColor: '#0d0d0d' }}>
             <Header />

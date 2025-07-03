@@ -22,7 +22,7 @@ export function usePoemLike(poemId?: string) {
         setLiked(data.liked)
         setCount(data.count)
       })
-      .catch(() => setError("Failed to load like state"))
+      .catch(() => setError("Eroare la încărcarea stării de apreciere"))
       .finally(() => setLoading(false))
   }, [poemId, session])
 
@@ -39,11 +39,11 @@ export function usePoemLike(poemId?: string) {
         setCount(data.count)
         return true
       } else {
-        setError(data.error || "Failed to like poem")
+        setError(data.error || "Eroare la aprecierea poeziei")
         return false
       }
     } catch {
-      setError("Failed to like poem")
+      setError("Eroare la aprecierea poeziei")
       return false
     } finally {
       setLoading(false)
@@ -63,11 +63,11 @@ export function usePoemLike(poemId?: string) {
         setCount(data.count)
         return true
       } else {
-        setError(data.error || "Failed to unlike poem")
+        setError(data.error || "Eroare la anularea aprecierii")
         return false
       }
     } catch {
-      setError("Failed to unlike poem")
+      setError("Eroare la anularea aprecierii")
       return false
     } finally {
       setLoading(false)

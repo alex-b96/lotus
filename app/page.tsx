@@ -181,7 +181,7 @@ export default function HomePage() {
           {/* Poem of the Week Header */}
           <div className="flex items-center gap-3 mb-8">
             <span className="text-pink-300 text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-pink-300 to-pink-200 bg-clip-text text-transparent drop-shadow-sm">
-              🖊️ POEM OF THE WEEK
+              🖊️ POEZIA SĂPTĂMÂNII
             </span>
           </div>
 
@@ -210,7 +210,7 @@ export default function HomePage() {
               </div>
 
               {/* Poem Content */}
-              <div className="text-md leading-relaxed whitespace-pre-line mb-12 border-l-2 border-pink-300/50 pl-8 font-light drop-shadow-sm relative" style={{ color: '#e2e2e2' }}>
+              <div className="text-md leading-relaxed whitespace-pre-line mb-12 border-l-2 border-pink-300/50 pl-8 font-cormorant drop-shadow-sm relative" style={{ color: '#e2e2e2' }}>
                 <div className="max-h-96 overflow-hidden">
                   {featuredPoem.content}
                 </div>
@@ -221,31 +221,42 @@ export default function HomePage() {
 
               {/* Interaction Buttons */}
               <div className="flex items-center gap-8 mb-8">
-                <button className="flex items-center gap-2 text-gray-400 hover:text-pink-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group">
-                  <Heart className="w-5 h-5 group-hover:animate-pulse" />
+                <button 
+                  className={`flex items-center gap-2 ${liked ? "text-pink-300" : "text-gray-400 hover:text-pink-300"} transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group`}
+                  onClick={async () => {
+                    if (!session?.user) {
+                      window.location.href = "/login"
+                      return
+                    }
+                    if (likeLoading) return
+                    liked ? await unlike() : await like()
+                  }}
+                  disabled={likeLoading}
+                >
+                  <Heart className={`w-5 h-5 group-hover:animate-pulse ${liked ? "fill-pink-300" : ""}`} />
                   <span className="font-light">{likeCount ?? featuredPoem.likes ?? 0}</span>
                 </button>
-                <button className="flex items-center gap-2 text-gray-400 hover:text-pink-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group">
-                  <MessageCircle className="w-5 h-5 group-hover:animate-pulse" />
+                <div className="flex items-center gap-2 text-gray-400">
+                  <MessageCircle className="w-5 h-5" />
                   <span className="font-light">{featuredPoem.comments ?? 0}</span>
-                </button>
+                </div>
                 <button className="flex items-center gap-2 text-gray-400 hover:text-pink-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group">
                   <Share2 className="w-5 h-5 group-hover:animate-pulse" />
-                  <span className="font-light">Share</span>
+                  <span className="font-light">Distribuie</span>
                 </button>
               </div>
 
               <Link href={`/poems/${featuredPoem.id}`}>
                 <Button className="bg-gradient-to-r from-transparent via-pink-300/10 to-transparent text-white border border-pink-300/40 hover:bg-pink-300/20 hover:border-pink-300/60 transition-all duration-300 px-8 py-3 rounded-lg font-light group">
                   <span className="flex items-center gap-2">
-                    📖 Read Full Poem
+                    📖 Citește Întreaga Poezie
                     <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
                   </span>
                 </Button>
               </Link>
             </div>
           ) : (
-            <div className="text-gray-400 italic">No featured poem available</div>
+            <div className="text-gray-400 italic">Nu este disponibilă nicio poezie recomandată</div>
           )}
         </section>
 
@@ -259,7 +270,7 @@ export default function HomePage() {
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-6">
               <span className="text-pink-300 text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-pink-300 to-pink-200 bg-clip-text text-transparent drop-shadow-sm">
-                📚 Recently Added
+                📚 Adăugate Recent
               </span>
             </div>
 
@@ -312,15 +323,15 @@ export default function HomePage() {
           {/* Community Section - positioned to align with lotus */}
           <div className="bg-gradient-to-br from-white/5 via-pink-300/5 to-white/10 backdrop-blur-md rounded-xl p-8 border border-white/10 hover:border-pink-300/20 transition-all duration-500 hover:from-white/10 hover:via-pink-300/10 hover:to-white/15 group">
             <h3 className="text-xl text-white mb-4 drop-shadow-sm bg-gradient-to-r from-white to-pink-100 bg-clip-text text-transparent">
-              Join Our Community
+              Alătură-te Comunității
             </h3>
             <p className="mb-6 text-sm leading-relaxed font-light drop-shadow-sm" style={{ color: '#9b9b9b' }}>
-              Connect with fellow poets and share creative journey in our growing community of word art.
+              Conectează-te cu ceilalți poeți și împărtășește călătoria creativă în comunitatea noastră în creștere de artă a cuvintelor.
             </p>
             <Link href="/submit">
               <Button className="w-full bg-gradient-to-r from-pink-300/20 via-pink-200/20 to-pink-300/20 text-white border border-pink-300/30 hover:bg-pink-300/30 hover:border-pink-300/50 transition-all duration-300 py-3 rounded-lg font-light group">
                 <span className="flex items-center justify-center gap-2">
-                  Submit Your Poem
+                  Trimite Poezia Ta
                   <span className="group-hover:translate-y-[-2px] transition-transform duration-300">✨</span>
                 </span>
               </Button>

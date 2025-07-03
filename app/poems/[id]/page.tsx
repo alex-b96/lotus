@@ -78,20 +78,20 @@ export default function PoemPage({ params }: PoemPageProps) {
             <div className="text-red-200">
             {error === "Poem not found" ? (
               <div>
-                <p className="font-medium mb-2">Poem Not Found</p>
-                <p>The poem you're looking for doesn't exist or may have been removed.</p>
+                <p className="font-medium mb-2">Poezia nu a fost găsită</p>
+                <p>Poezia pe care o cauți nu există sau ar putea fi ștearsă.</p>
                 <div className="mt-4 space-x-2">
                   <Button variant="outline" size="sm" asChild className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black">
-                    <Link href="/poems">Browse All Poems</Link>
+                    <Link href="/poems">Navighează toate poeziile</Link>
                   </Button>
                   <Button variant="outline" size="sm" asChild className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black">
-                    <Link href="/">Go Home</Link>
+                    <Link href="/">Mergi acasă</Link>
                   </Button>
                 </div>
               </div>
             ) : (
               <div>
-                <p className="font-medium mb-2">Error loading poem</p>
+                <p className="font-medium mb-2">Eroare la încărcarea poeziei</p>
                 <p>{error}</p>
                 <Button
                   variant="outline"
@@ -100,7 +100,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                   className="mt-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
                 >
                   <RefreshCcw className="h-4 w-4 mr-2" />
-                  Try Again
+                  Încearcă din nou
                 </Button>
               </div>
             )}
@@ -123,7 +123,7 @@ export default function PoemPage({ params }: PoemPageProps) {
   }
 
   // Format reading time
-  const readingTimeText = poem.readingTime === 1 ? "1 min read" : `${poem.readingTime} min read`
+  const readingTimeText = poem.readingTime === 1 ? "1 min citire" : `${poem.readingTime} min citire`
 
   // Format published date
   const publishedDate = poem.publishedAt
@@ -203,7 +203,7 @@ export default function PoemPage({ params }: PoemPageProps) {
 
         <div className="p-8">
           <div className="prose prose-green max-w-none mb-8">
-            <pre className="whitespace-pre-wrap font-serif text-lg leading-relaxed text-left" style={{ color: '#e2e2e2' }}>
+            <pre className="whitespace-pre-wrap font-cormorant text-lg leading-relaxed text-left" style={{ color: '#e2e2e2' }}>
               {poem.content}
             </pre>
           </div>
@@ -242,18 +242,18 @@ export default function PoemPage({ params }: PoemPageProps) {
                 disabled={likeLoading}
               >
                 <Heart className={`w-5 h-5 mr-2 group-hover:animate-pulse ${liked ? "fill-pink-300" : ""}`} />
-                {likeCount} Likes
+                {likeCount} Aprecieri
               </Button>
               {/* Comments count: static, not a button */}
               <div className="flex items-center text-gray-400 text-sm">
                 <MessageCircle className="w-5 h-5 mr-2" />
-                {commentCount ?? 0} Comments
+                {commentCount ?? 0} Comentarii
               </div>
             </div>
             <div className="flex items-center space-x-2">
               <Button variant="outline" className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                 <Share2 className="w-4 h-4 mr-2" />
-                Share
+                Partajează
               </Button>
             </div>
           </div>
@@ -263,7 +263,7 @@ export default function PoemPage({ params }: PoemPageProps) {
       {/* Author Info */}
       <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
         <div className="p-6 border-b border-white/10">
-          <h2 className="text-xl font-light" style={{ color: '#e2e2e2' }}>About the Author</h2>
+          <h2 className="text-xl font-light" style={{ color: '#e2e2e2' }}>Despre autor</h2>
         </div>
         <div className="p-6">
           <div className="flex items-start space-x-4">
@@ -279,7 +279,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                 <p className="mb-3 font-light" style={{ color: '#9b9b9b' }}>{poem.author.bio}</p>
               )}
               <div className="flex items-center space-x-4 text-sm" style={{ color: '#9b9b9b' }}>
-                <span>{poem.author._count.poems} poems published</span>
+                <span>{poem.author._count.poems} poezii publicate</span>
                 {poem.author.website && (
                   <Link
                     href={poem.author.website}
@@ -287,7 +287,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Visit website
+                    Vizitează site-ul
                   </Link>
                 )}
               </div>
@@ -299,7 +299,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                   className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
                 >
                   <Link href={`/authors/${poem.author.id}`}>
-                    View all poems by {poem.author.name}
+                    Vezi toate poeziile de {poem.author.name}
                   </Link>
                 </Button>
               </div>

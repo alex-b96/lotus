@@ -147,10 +147,10 @@ export function PaginationInfo({
 
   return (
     <div className={`text-sm ${className}`} style={{ color: '#9b9b9b' }}>
-      Showing {startItem} to {endItem} of {totalCount} poems
+      Afișează {startItem} la {endItem} din {totalCount} poezii
       {totalPages > 1 && (
         <span className="ml-2">
-          (Page {currentPage} of {totalPages})
+          (Pagina {currentPage} din {totalPages})
         </span>
       )}
     </div>

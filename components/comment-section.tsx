@@ -83,7 +83,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
 
   // Handle deleting a comment
   const handleDeleteComment = async (commentId: string) => {
-    if (window.confirm("Are you sure you want to delete this comment?")) {
+    if (window.confirm("Ești sigur că vrei să ștergi acest comentariu?")) {
       await deleteComment(commentId)
     }
   }
@@ -109,7 +109,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
       <div className="p-6 border-b border-white/10">
         <h2 className="text-xl font-light flex items-center space-x-2" style={{ color: '#e2e2e2' }}>
           <MessageCircle className="w-5 h-5" />
-          <span>Comments ({totalCount})</span>
+          <span>Comentarii ({totalCount})</span>
         </h2>
       </div>
       <div className="p-6 space-y-6">
@@ -124,7 +124,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
         {session?.user ? (
           <div className="space-y-4">
             <Textarea
-              placeholder="Share your thoughts about this poem..."
+              placeholder="Partajează părerile tale despre această poezie..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300"
@@ -136,19 +136,19 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                 className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
               >
                 <Send className="w-4 h-4 mr-2" />
-                {isSubmitting ? "Posting..." : "Post Comment"}
+                {isSubmitting ? "Se postează..." : "Postează comentariu"}
               </Button>
             </div>
           </div>
         ) : (
           <div className="p-4 bg-white/5 rounded-lg text-center" style={{ color: '#9b9b9b' }}>
-            <p>Please log in to leave a comment</p>
+            <p>Te rog să te autentifici pentru a lăsa un comentariu</p>
             <Button
               variant="outline"
               className="mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
               onClick={() => window.location.href = '/login'}
             >
-              Log In
+              Autentificare
             </Button>
           </div>
         )}
@@ -158,7 +158,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
           {loading && comments.length === 0 ? (
             <div className="text-center py-8" style={{ color: '#9b9b9b' }}>
               <div className="animate-spin w-8 h-8 border-2 border-pink-300 border-t-transparent rounded-full mx-auto mb-4"></div>
-              <p>Loading comments...</p>
+              <p>Se încarcă comentariile...</p>
             </div>
           ) : comments.length > 0 ? (
             <>
@@ -195,14 +195,14 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                                 onClick={() => handleStartEdit(comment.id, comment.content)}
                               >
                                 <Edit className="w-4 h-4 mr-2" />
-                                Edit
+                                Editează
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() => handleDeleteComment(comment.id)}
                                 className="text-red-600"
                               >
                                 <Trash2 className="w-4 h-4 mr-2" />
-                                Delete
+                                Șterge
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -223,7 +223,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                               onClick={handleSaveEdit}
                               className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
                             >
-                              Save
+                              Salvează
                             </Button>
                             <Button
                               size="sm"
@@ -231,7 +231,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                               onClick={handleCancelEdit}
                               className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
                             >
-                              Cancel
+                              Anulează
                             </Button>
                           </div>
                         </div>
@@ -252,7 +252,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                     disabled={loading}
                     className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
                   >
-                    {loading ? "Loading..." : "Load More Comments"}
+                    {loading ? "Se încarcă..." : "Mai multe comentarii"}
                   </Button>
                 </div>
               )}
@@ -260,7 +260,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
           ) : (
             <div className="text-center py-8" style={{ color: '#9b9b9b' }}>
               <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p>No comments yet. Be the first to share your thoughts!</p>
+              <p>Niciun comentariu încă. Fii primul care își partajează părerile!</p>
             </div>
           )}
         </div>

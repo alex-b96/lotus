@@ -24,11 +24,11 @@ export function Header() {
   const pathname = usePathname()
 
   const navigation = [
-    { name: "Home", href: "/" },
-    { name: "Poems", href: "/poems" },
-    { name: "Authors", href: "/authors" },
-    // { name: "Feedback", href: "/feedback" },
-    { name: "About", href: "/about" },
+    { name: "Acasă", href: "/" },
+    { name: "Poezii", href: "/poems" },
+    { name: "Autori", href: "/authors" },
+    { name: "Feedback", href: "/feedback" },
+    { name: "Despre", href: "/about" },
     { name: "Contact", href: "/contact" },
   ]
 
@@ -104,7 +104,7 @@ export function Header() {
                 <Button variant="outline" size="sm" asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 hover:text-white transition-all font-light">
                   <Link href="/submit">
                     <PenTool className="w-4 h-4 mr-2" />
-                    Submit Poem
+                    Trimite Poezie
                   </Link>
                 </Button>
                 <DropdownMenu>
@@ -130,13 +130,13 @@ export function Header() {
                     <DropdownMenuItem asChild className="focus:bg-white/5" style={{ color: '#e2e2e2' }}>
                       <Link href={`/authors/${session.user.id}`} className="cursor-pointer font-light" style={{ color: '#9b9b9b' }}>
                         <User className="w-4 h-4 mr-2" />
-                        My Profile
+                        Profilul Meu
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild className="focus:bg-white/5 focus:text-white">
                       <Link href="/settings" className="cursor-pointer text-gray-300 hover:text-white font-light">
                         <Settings className="w-4 h-4 mr-2" />
-                        Settings
+                        Setări
                       </Link>
                     </DropdownMenuItem>
                     {isAdmin && (
@@ -145,7 +145,7 @@ export function Header() {
                         <DropdownMenuItem asChild className="focus:bg-orange-900/20 focus:text-orange-300">
                           <Link href="/admin" className="cursor-pointer text-orange-400 hover:text-orange-300 font-light">
                             <Shield className="w-4 h-4 mr-2" />
-                            Admin Panel
+                            Panoul Admin
                           </Link>
                         </DropdownMenuItem>
                       </>
@@ -153,7 +153,7 @@ export function Header() {
                     <DropdownMenuSeparator className="bg-white/10" />
                     <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-400 hover:text-red-300 font-light focus:bg-red-900/20 focus:text-red-300">
                       <LogOut className="w-4 h-4 mr-2" />
-                      Sign Out
+                      Deconectare
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -164,13 +164,13 @@ export function Header() {
                 <Button size="sm" asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                   <Link href="/login">
                     <LogIn className="w-4 h-4 mr-2" />
-                    Login
+                    Conectare
                   </Link>
                 </Button>
                 <Button size="sm" asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                   <Link href="/register">
                     <User className="w-4 h-4 mr-2" />
-                    Register
+                    Înregistrare
                   </Link>
                 </Button>
               </>
@@ -224,26 +224,26 @@ export function Header() {
                     <Button variant="outline" size="sm" asChild className="bg-transparent border-white/30 text-white hover:bg-white hover:text-black font-light">
                       <Link href="/submit" onClick={() => setIsMenuOpen(false)}>
                         <PenTool className="w-4 h-4 mr-2" />
-                        Submit Poem
+                        Trimite Poezie
                       </Link>
                     </Button>
                     <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light justify-start">
                       <Link href={`/authors/${session.user.id}`} onClick={() => setIsMenuOpen(false)}>
                         <User className="w-4 h-4 mr-2" />
-                        My Profile
+                        Profilul Meu
                       </Link>
                     </Button>
                     <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light justify-start">
                       <Link href="/settings" onClick={() => setIsMenuOpen(false)}>
                         <Settings className="w-4 h-4 mr-2" />
-                        Settings
+                        Setări
                       </Link>
                     </Button>
                     {isAdmin && (
                       <Button variant="ghost" size="sm" asChild className="text-orange-400 hover:text-orange-300 font-light justify-start">
                         <Link href="/admin" onClick={() => setIsMenuOpen(false)}>
                           <Shield className="w-4 h-4 mr-2" />
-                          Admin Panel
+                          Panoul Admin
                         </Link>
                       </Button>
                     )}
@@ -257,7 +257,7 @@ export function Header() {
                       className="text-red-400 hover:text-red-300 hover:bg-red-900/20 font-light justify-start"
                     >
                       <LogOut className="w-4 h-4 mr-2" />
-                      Sign Out
+                      Deconectare
                     </Button>
                   </>
                 ) : (
@@ -266,13 +266,13 @@ export function Header() {
                     <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light justify-start">
                       <Link href="/login" onClick={() => setIsMenuOpen(false)}>
                         <LogIn className="w-4 h-4 mr-2" />
-                        Login
+                        Conectare
                       </Link>
                     </Button>
                     <Button size="sm" asChild className="bg-transparent border-white/30 text-white hover:bg-white hover:text-black font-light">
                       <Link href="/register" onClick={() => setIsMenuOpen(false)}>
                         <User className="w-4 h-4 mr-2" />
-                        Register
+                        Înregistrare
                       </Link>
                     </Button>
                   </>

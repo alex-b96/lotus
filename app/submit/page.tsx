@@ -72,21 +72,21 @@ export default function SubmitPoemPage() {
 
     // Title validation
     if (!formData.title.trim()) {
-      newErrors.title = "Title is required"
+      newErrors.title = "Titlul este obligatoriu"
     } else if (formData.title.length > VALIDATION_LIMITS.TITLE_MAX) {
-      newErrors.title = `Title must be less than ${VALIDATION_LIMITS.TITLE_MAX} characters`
+      newErrors.title = `Titlul trebuie să fie mai mic de ${VALIDATION_LIMITS.TITLE_MAX} caractere`
     }
 
     // Content validation
     if (!formData.content.trim()) {
-      newErrors.content = "Poem content is required"
+      newErrors.content = "Conținutul poeziei este obligatoriu"
     } else if (formData.content.length > VALIDATION_LIMITS.CONTENT_MAX) {
-      newErrors.content = `Content must be less than ${VALIDATION_LIMITS.CONTENT_MAX} characters`
+      newErrors.content = `Conținutul trebuie să fie mai mic de ${VALIDATION_LIMITS.CONTENT_MAX} caractere`
     }
 
     // Category validation
     if (!formData.category) {
-      newErrors.category = "Please select a category"
+      newErrors.category = "Vă rugăm să selectați o categorie"
     }
 
     setErrors(newErrors)
@@ -120,8 +120,8 @@ export default function SubmitPoemPage() {
     if (!validateForm()) {
       toast({
         variant: "destructive",
-        title: "Validation Error",
-        description: "Please fix the errors in the form before submitting.",
+        title: "Eroare de validare",
+        description: "Vă rugăm să corectați erorile din formular înainte de a trimite.",
       })
       return
     }
@@ -173,8 +173,8 @@ export default function SubmitPoemPage() {
 
       // Success!
       toast({
-        title: "Poem Submitted for Review!",
-        description: "Your poem has been sent to our moderators for review. You'll be notified once it's approved.",
+        title: "Poezie trimisă pentru recenzie!",
+        description: "Poezia dumneavoastră a fost trimisă la recenzie de către moderatorii noștri. Vă vom notifica odată ce va fi aprobată.",
       })
 
       setSubmitted(true)
@@ -182,13 +182,13 @@ export default function SubmitPoemPage() {
     } catch (error: any) {
       console.error("Error submitting poem:", error)
 
-      const errorMessage = error.message || "An unexpected error occurred while submitting your poem"
+      const errorMessage = error.message || "A apărut o eroare neașteptată la trimiterea poeziei"
 
       setErrors({ general: errorMessage })
 
       toast({
         variant: "destructive",
-        title: "Submission Failed",
+        title: "Trimiterea a eșuat",
         description: errorMessage,
       })
     } finally {
@@ -206,7 +206,7 @@ export default function SubmitPoemPage() {
               <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
                 <PenTool className="w-8 h-8 text-pink-300" />
               </div>
-              <p className="font-light" style={{ color: '#9b9b9b' }}>Loading...</p>
+              <p className="font-light" style={{ color: '#9b9b9b' }}>Se încarcă...</p>
             </div>
           </div>
         </div>
@@ -223,9 +223,9 @@ export default function SubmitPoemPage() {
               <div className="w-16 h-16 bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <AlertCircle className="w-8 h-8 text-red-400" />
               </div>
-              <h2 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Authentication Required</h2>
+              <h2 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Autentificare necesară</h2>
               <p className="mb-6 font-light" style={{ color: '#9b9b9b' }}>
-                You must be logged in to submit a poem. You will be redirected to the login page.
+                Trebuie să fiți autentificat pentru a putea trimite o poezie. Vă veți fi redirecționat la pagina de login.
               </p>
             </div>
           </div>
@@ -243,14 +243,13 @@ export default function SubmitPoemPage() {
               <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <PenTool className="w-8 h-8 text-pink-300" />
               </div>
-              <h2 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Poem Submitted for Review!</h2>
+              <h2 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Poezie trimisă pentru recenzie!</h2>
               <p className="mb-6 font-light" style={{ color: '#9b9b9b' }}>
-                Thank you for sharing your creativity with our community. Your poem has been sent for review and will be
-                published once approved by our moderators.
+                Vă mulțumim pentru partajarea creativității dumneavoastră cu comunitatea noastră. Poezia dumneavoastră a fost trimisă la recenzie și va fi publicată odată ce va fi aprobată de moderatorii noștri.
               </p>
               <div className="space-y-4">
                 <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
-                  <a href="/poems">Browse Other Poems</a>
+                  <a href="/poems">Vezi alte poezii</a>
                 </Button>
                 <Button
                   variant="outline"
@@ -267,7 +266,7 @@ export default function SubmitPoemPage() {
                   }}
                   className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
                 >
-                  Submit Another Poem
+                  Trimite o altă poezie
                 </Button>
               </div>
             </div>
@@ -282,9 +281,9 @@ export default function SubmitPoemPage() {
       <div className="max-w-4xl mx-auto pt-16 px-6 space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-4xl font-light mb-4" style={{ color: '#e2e2e2' }}>Submit Your Poem</h1>
+          <h1 className="text-4xl font-light mb-4" style={{ color: '#e2e2e2' }}>Trimite o poezie</h1>
           <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
-            Share your creative expression with our community. All submissions are reviewed before publication.
+            Partajați-ne creativitatea dumneavoastră cu comunitatea noastră. Toate poeziile sunt recenzate înainte de publicare.
           </p>
         </div>
 
@@ -293,7 +292,7 @@ export default function SubmitPoemPage() {
             <div className="p-6 border-b border-white/10">
               <h2 className="text-2xl font-light flex items-center space-x-2" style={{ color: '#e2e2e2' }}>
                 <PenTool className="w-6 h-6 text-pink-300" />
-                <span>Poem Details</span>
+                <span>Detalii poezie</span>
               </h2>
             </div>
             <div className="p-6 space-y-6">
@@ -310,7 +309,7 @@ export default function SubmitPoemPage() {
               {/* Title */}
               <div className="space-y-2">
                 <Label htmlFor="title" className="font-medium" style={{ color: '#e2e2e2' }}>
-                  Poem Title *
+                  Titlu poezie *
                 </Label>
                 <Input
                   id="title"
@@ -391,7 +390,7 @@ export default function SubmitPoemPage() {
                 )}
                 <div className="flex justify-between text-sm">
                   <p className="font-light" style={{ color: '#9b9b9b' }}>
-                    Tip: Use line breaks to format your poem. Your formatting will be preserved.
+                    Tip: Folosiți linii noi pentru a forma poezia. Formatarea dumneavoastră va fi păstrată.
                   </p>
                   <p className="font-light" style={{ color: '#9b9b9b' }}>
                     {formData.content.length}/{VALIDATION_LIMITS.CONTENT_MAX} characters
@@ -401,12 +400,12 @@ export default function SubmitPoemPage() {
 
               {/* Tags */}
               <div className="space-y-2">
-                <Label className="font-medium" style={{ color: '#e2e2e2' }}>Tags</Label>
+                <Label className="font-medium" style={{ color: '#e2e2e2' }}>Etichete</Label>
                 <div className="flex space-x-2">
                   <Input
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
-                    placeholder="Add a tag"
+                    placeholder="Adaugă o etichetă"
                     className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                     onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddTag())}
                   />
@@ -431,19 +430,19 @@ export default function SubmitPoemPage() {
                     ))}
                   </div>
                 )}
-                <p className="text-sm font-light" style={{ color: '#9b9b9b' }}>Add relevant tags to help readers discover your poem.</p>
+                <p className="text-sm font-light" style={{ color: '#9b9b9b' }}>Adaugă etichete relevante pentru a ajuta cititorii să descoperă poezia dumneavoastră.</p>
               </div>
 
               {/* Author Note */}
               <div className="space-y-2">
                 <Label htmlFor="authorNote" className="font-medium" style={{ color: '#e2e2e2' }}>
-                  Author's Note (Optional)
+                  Notă autorului (opțional)
                 </Label>
                 <Textarea
                   id="authorNote"
                   value={formData.authorNote}
                   onChange={(e) => setFormData((prev) => ({ ...prev, authorNote: e.target.value }))}
-                  placeholder="Share any inspiration or context behind your poem..."
+                  placeholder="Partajați orice inspirație sau context din spatele poeziei dumneavoastră..."
                   className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
                 />
               </div>
@@ -451,20 +450,20 @@ export default function SubmitPoemPage() {
               {/* Submit Button */}
               <div className="pt-6 border-t border-white/10">
                 <div className="flex justify-end space-x-4">
-                  <Button type="button" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
-                    Save as Draft
-                  </Button>
+                  {/* <Button type="button" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
+                    Salvați ca proiect
+                  </Button> */}
                   <Button
                     type="submit"
                     disabled={isSubmitting || !formData.title.trim() || !formData.content.trim() || !formData.category}
                     className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
                   >
                     <Send className="w-4 h-4 mr-2" />
-                    {isSubmitting ? "Submitting..." : "Submit for Review"}
+                    {isSubmitting ? "Se trimite..." : "Trimite pentru recenzie"}
                   </Button>
                 </div>
                 <p className="text-sm font-light mt-4" style={{ color: '#9b9b9b' }}>
-                  By submitting, you agree that your poem is original work and grant permission for publication on LOTUS.
+                  Prin trimiterea, sunteți de acord că poezia dumneavoastră este o lucrare originală și acordiți permisiunea de publicare pe LOTUS.
                 </p>
               </div>
             </div>

@@ -38,15 +38,15 @@ export function FeaturedAuthors() {
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <Crown className="w-6 h-6 text-pink-300" />
-            <h2 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Featured Authors</h2>
+            <h2 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Autori de top</h2>
             <Crown className="w-6 h-6 text-pink-300" />
           </div>
-          <p style={{ color: '#9b9b9b' }}>Discover our most celebrated poets</p>
+          <p style={{ color: '#9b9b9b' }}>Descoperă cei mai buni poeți ai comunității noastre</p>
         </div>
 
         <div className="flex justify-center items-center py-8">
           <Loader2 className="w-6 h-6 animate-spin text-pink-300" />
-          <span className="ml-2" style={{ color: '#9b9b9b' }}>Loading featured authors...</span>
+          <span className="ml-2" style={{ color: '#9b9b9b' }}>Se încarcă autori de top...</span>
         </div>
       </div>
     )
@@ -59,17 +59,17 @@ export function FeaturedAuthors() {
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
             <Crown className="w-6 h-6 text-pink-300" />
-            <h2 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Featured Authors</h2>
+            <h2 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Autori de top</h2>
             <Crown className="w-6 h-6 text-pink-300" />
           </div>
-          <p style={{ color: '#9b9b9b' }}>Discover our most celebrated poets</p>
+          <p style={{ color: '#9b9b9b' }}>Descoperă cei mai buni poeți ai comunității noastre</p>
         </div>
 
         <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
           <div className="flex items-center gap-3">
             <AlertCircle className="h-5 w-5 text-red-400" />
             <div className="text-red-200 flex items-center justify-between w-full">
-              <span>Failed to load featured authors: {error}</span>
+              <span>Eroare la încărcarea autorilor de top: {error}</span>
               <Button
                 variant="outline"
                 size="sm"
@@ -77,7 +77,7 @@ export function FeaturedAuthors() {
                 className="ml-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
               >
                 <RefreshCcw className="w-4 h-4 mr-1" />
-                Retry
+                Reîncarcă
               </Button>
             </div>
           </div>
@@ -97,11 +97,11 @@ export function FeaturedAuthors() {
       <div className="text-center">
         <div className="flex items-center justify-center space-x-2 mb-4">
           <Crown className="w-6 h-6 text-pink-300" />
-          <h2 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Featured Authors</h2>
+          <h2 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Autori de top</h2>
           <Crown className="w-6 h-6 text-pink-300" />
         </div>
         <p className="text-lg" style={{ color: '#9b9b9b' }}>
-          Discover our most celebrated poets who have enriched our community with their creativity
+          Descoperă cei mai buni poeți ai comunității noastre
         </p>
       </div>
 
@@ -126,7 +126,7 @@ export function FeaturedAuthors() {
             <div className="absolute top-4 left-4 z-10">
               <div className="bg-pink-300/20 text-pink-300 border border-pink-300/40 px-2 py-1 rounded-full flex items-center space-x-1 text-xs font-medium">
                 <Star className="w-3 h-3 fill-current" />
-                <span>Featured</span>
+                <span>Autor de top</span>
               </div>
             </div>
 
@@ -148,7 +148,7 @@ export function FeaturedAuthors() {
                 </div>
                 <div className="flex items-center space-x-1 bg-pink-300/20 px-2 py-1 rounded-full">
                   <User className="w-4 h-4 text-pink-300" />
-                  <span className="text-pink-300 font-medium">Top Author</span>
+                  <span className="text-pink-300 font-medium">Autor de top</span>
                 </div>
               </div>
             </div>
@@ -164,7 +164,7 @@ export function FeaturedAuthors() {
                 <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
                   <Link href={`/authors/${author.id}`}>
                     <Crown className="w-4 h-4 mr-2" />
-                    View Profile
+                    Vezi profilul
                   </Link>
                 </Button>
                 {author.website && (
@@ -187,7 +187,7 @@ export function FeaturedAuthors() {
 
       {/* View All Authors CTA */}
       <div className="text-center pt-4">
-        <p className="mb-4" style={{ color: '#9b9b9b' }}>Explore more talented authors in our community</p>
+        <p className="mb-4" style={{ color: '#9b9b9b' }}>Ești un autor talentat? Trimite-ne o poezie!</p>
       </div>
     </div>
   )
