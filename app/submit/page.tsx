@@ -199,14 +199,14 @@ export default function SubmitPoemPage() {
   // Don't render the form if not authenticated
   if (status === "loading") {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="min-h-screen bg-theme-dark">
         <div className="max-w-2xl mx-auto pt-16 px-6">
           <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
             <div className="p-12 text-center">
-              <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-                <PenTool className="w-8 h-8 text-pink-300" />
+              <div className="w-16 h-16 bg-theme-accent-20 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+                <PenTool className="w-8 h-8 text-theme-accent" />
               </div>
-              <p className="font-light" style={{ color: '#9b9b9b' }}>Se încarcă...</p>
+              <p className="font-light text-theme-secondary">Se încarcă...</p>
             </div>
           </div>
         </div>
@@ -216,15 +216,15 @@ export default function SubmitPoemPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="min-h-screen bg-theme-dark">
         <div className="max-w-2xl mx-auto pt-16 px-6">
           <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
             <div className="p-12 text-center">
               <div className="w-16 h-16 bg-red-900/20 rounded-full flex items-center justify-center mx-auto mb-6">
                 <AlertCircle className="w-8 h-8 text-red-400" />
               </div>
-              <h2 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Autentificare necesară</h2>
-              <p className="mb-6 font-light" style={{ color: '#9b9b9b' }}>
+              <h2 className="text-2xl font-light mb-4 text-theme-primary">Autentificare necesară</h2>
+              <p className="mb-6 font-light text-theme-secondary">
                 Trebuie să fiți autentificat pentru a putea trimite o poezie. Vă veți fi redirecționat la pagina de login.
               </p>
             </div>
@@ -236,19 +236,19 @@ export default function SubmitPoemPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="min-h-screen bg-theme-dark">
         <div className="max-w-2xl mx-auto pt-16 px-6">
           <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
             <div className="p-12 text-center">
-              <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <PenTool className="w-8 h-8 text-pink-300" />
+              <div className="w-16 h-16 bg-theme-accent-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <PenTool className="w-8 h-8 text-theme-accent" />
               </div>
-              <h2 className="text-2xl font-light mb-4" style={{ color: '#e2e2e2' }}>Poezie trimisă pentru recenzie!</h2>
-              <p className="mb-6 font-light" style={{ color: '#9b9b9b' }}>
+              <h2 className="text-2xl font-light mb-4 text-theme-primary">Poezie trimisă pentru recenzie!</h2>
+              <p className="mb-6 font-light text-theme-secondary">
                 Vă mulțumim pentru partajarea creativității dumneavoastră cu comunitatea noastră. Poezia dumneavoastră a fost trimisă la recenzie și va fi publicată odată ce va fi aprobată de moderatorii noștri.
               </p>
               <div className="space-y-4">
-                <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
+                <Button asChild className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light">
                   <a href="/poems">Vezi alte poezii</a>
                 </Button>
                 <Button
@@ -277,21 +277,21 @@ export default function SubmitPoemPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen bg-theme-dark">
       <div className="max-w-4xl mx-auto pt-16 px-6 space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-4xl font-light mb-4" style={{ color: '#e2e2e2' }}>Trimite o poezie</h1>
-          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+          <h1 className="text-4xl font-light mb-4 text-theme-primary">Trimite o poezie</h1>
+          <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
             Partajați-ne creativitatea dumneavoastră cu comunitatea noastră. Toate poeziile sunt recenzate înainte de publicare.
           </p>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 shadow-lg">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300 shadow-lg">
             <div className="p-6 border-b border-white/10">
-              <h2 className="text-2xl font-light flex items-center space-x-2" style={{ color: '#e2e2e2' }}>
-                <PenTool className="w-6 h-6 text-pink-300" />
+              <h2 className="text-2xl font-light flex items-center space-x-2 text-theme-primary">
+                <PenTool className="w-6 h-6 text-theme-accent" />
                 <span>Detalii poezie</span>
               </h2>
             </div>
@@ -308,7 +308,7 @@ export default function SubmitPoemPage() {
 
               {/* Title */}
               <div className="space-y-2">
-                <Label htmlFor="title" className="font-medium" style={{ color: '#e2e2e2' }}>
+                <Label htmlFor="title" className="font-medium text-theme-primary">
                   Titlu poezie *
                 </Label>
                 <Input
@@ -324,19 +324,19 @@ export default function SubmitPoemPage() {
                   placeholder="Enter your poem's title"
                   required
                   maxLength={VALIDATION_LIMITS.TITLE_MAX}
-                  className={`bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light ${errors.title ? "border-red-500" : ""}`}
+                  className={`bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light ${errors.title ? "border-red-500" : ""}`}
                 />
                 {errors.title && (
                   <p className="text-sm text-red-400">{errors.title}</p>
                 )}
-                <p className="text-sm font-light" style={{ color: '#9b9b9b' }}>
+                <p className="text-sm font-light text-theme-secondary">
                   {formData.title.length}/{VALIDATION_LIMITS.TITLE_MAX} characters
                 </p>
               </div>
 
               {/* Category */}
               <div className="space-y-2">
-                <Label htmlFor="category" className="font-medium" style={{ color: '#e2e2e2' }}>
+                <Label htmlFor="category" className="font-medium text-theme-primary">
                   Category *
                 </Label>
                 <Select
@@ -349,7 +349,7 @@ export default function SubmitPoemPage() {
                     }
                   }}
                 >
-                  <SelectTrigger className={`bg-white/5 border-white/20 text-white focus:border-pink-300 ${errors.category ? "border-red-500" : ""}`}>
+                  <SelectTrigger className={`bg-white/5 border-white/20 text-white focus:border-theme-accent ${errors.category ? "border-red-500" : ""}`}>
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
@@ -367,7 +367,7 @@ export default function SubmitPoemPage() {
 
               {/* Content */}
               <div className="space-y-2">
-                <Label htmlFor="content" className="font-medium" style={{ color: '#e2e2e2' }}>
+                <Label htmlFor="content" className="font-medium text-theme-primary">
                   Poem Content *
                 </Label>
                 <Textarea
@@ -383,16 +383,16 @@ export default function SubmitPoemPage() {
                   placeholder="Write your poem here..."
                   required
                   maxLength={VALIDATION_LIMITS.CONTENT_MAX}
-                  className={`min-h-[300px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-serif ${errors.content ? "border-red-500" : ""}`}
+                  className={`min-h-[300px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-serif ${errors.content ? "border-red-500" : ""}`}
                 />
                 {errors.content && (
                   <p className="text-sm text-red-400">{errors.content}</p>
                 )}
                 <div className="flex justify-between text-sm">
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>
+                  <p className="font-light text-theme-secondary">
                     Tip: Folosiți linii noi pentru a forma poezia. Formatarea dumneavoastră va fi păstrată.
                   </p>
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>
+                  <p className="font-light text-theme-secondary">
                     {formData.content.length}/{VALIDATION_LIMITS.CONTENT_MAX} characters
                   </p>
                 </div>
@@ -400,13 +400,13 @@ export default function SubmitPoemPage() {
 
               {/* Tags */}
               <div className="space-y-2">
-                <Label className="font-medium" style={{ color: '#e2e2e2' }}>Etichete</Label>
+                <Label className="font-medium text-theme-primary">Etichete</Label>
                 <div className="flex space-x-2">
                   <Input
                     value={newTag}
                     onChange={(e) => setNewTag(e.target.value)}
                     placeholder="Adaugă o etichetă"
-                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                     onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddTag())}
                   />
                   <Button
@@ -421,7 +421,7 @@ export default function SubmitPoemPage() {
                 {formData.tags.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-2">
                     {formData.tags.map((tag) => (
-                      <Badge key={tag} variant="secondary" className="bg-pink-300/20 text-pink-300 border border-pink-300/40">
+                      <Badge key={tag} variant="secondary" className="bg-theme-accent-20 text-theme-accent border border-theme-accent-40">
                         #{tag}
                         <button type="button" onClick={() => handleRemoveTag(tag)} className="ml-2 hover:text-red-400">
                           <X className="w-3 h-3" />
@@ -430,12 +430,12 @@ export default function SubmitPoemPage() {
                     ))}
                   </div>
                 )}
-                <p className="text-sm font-light" style={{ color: '#9b9b9b' }}>Adaugă etichete relevante pentru a ajuta cititorii să descoperă poezia dumneavoastră.</p>
+                <p className="text-sm font-light text-theme-secondary">Adaugă etichete relevante pentru a ajuta cititorii să descoperă poezia dumneavoastră.</p>
               </div>
 
               {/* Author Note */}
               <div className="space-y-2">
-                <Label htmlFor="authorNote" className="font-medium" style={{ color: '#e2e2e2' }}>
+                <Label htmlFor="authorNote" className="font-medium text-theme-primary">
                   Notă autorului (opțional)
                 </Label>
                 <Textarea
@@ -443,7 +443,7 @@ export default function SubmitPoemPage() {
                   value={formData.authorNote}
                   onChange={(e) => setFormData((prev) => ({ ...prev, authorNote: e.target.value }))}
                   placeholder="Partajați orice inspirație sau context din spatele poeziei dumneavoastră..."
-                  className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                  className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                 />
               </div>
 
@@ -456,13 +456,13 @@ export default function SubmitPoemPage() {
                   <Button
                     type="submit"
                     disabled={isSubmitting || !formData.title.trim() || !formData.content.trim() || !formData.category}
-                    className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
+                    className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light"
                   >
                     <Send className="w-4 h-4 mr-2" />
                     {isSubmitting ? "Se trimite..." : "Trimite pentru recenzie"}
                   </Button>
                 </div>
-                <p className="text-sm font-light mt-4" style={{ color: '#9b9b9b' }}>
+                <p className="text-sm font-light mt-4 text-theme-secondary">
                   Prin trimiterea, sunteți de acord că poezia dumneavoastră este o lucrare originală și acordiți permisiunea de publicare pe LOTUS.
                 </p>
               </div>

@@ -41,11 +41,11 @@ function PoemsPageContent() {
   } = usePoemListing()
 
   return (
-    <div className="min-h-screen text-white" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen text-white bg-theme-dark">
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Colecția de Poezii</h1>
+          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Colecția de Poezii</h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">
             Descoperă poezii frumoase de la scriitori talentați din întreaga lume. Fiecare piesă spune o poveste unică.
           </p>
@@ -56,12 +56,12 @@ function PoemsPageContent() {
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Search Input */}
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-pink-300 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-theme-accent w-5 h-5" />
               <Input
                 placeholder="Caută poezii, autori sau conținut..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-12 bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 h-12 font-light"
+                className="pl-12 bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent h-12 font-light"
                 disabled={isLoading}
               />
             </div>
@@ -70,7 +70,7 @@ function PoemsPageContent() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {/* Category Filter */}
               <div className="flex items-center space-x-3">
-                <Filter className="text-pink-300 w-5 h-5" />
+                <Filter className="text-theme-accent w-5 h-5" />
                 <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={isLoading}>
                   <SelectTrigger className="w-48 bg-white/5 border-white/20 text-white">
                     <SelectValue placeholder="Alege categoria" />
@@ -159,7 +159,7 @@ function PoemsPageContent() {
         {/* Loading State */}
         {isLoading && (
           <div className="flex justify-center items-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+            <Loader2 className="w-8 h-8 animate-spin text-theme-accent" />
             <span className="ml-3 text-gray-300 font-light">Se încarcă poeziile...</span>
           </div>
         )}
@@ -170,11 +170,11 @@ function PoemsPageContent() {
             {poems.map((poem) => (
               <div
                 key={poem.id}
-                className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:border-pink-300/30 transition-all duration-300 hover:transform hover:scale-105 group"
+                className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:border-theme-accent-30 transition-all duration-300 hover:transform hover:scale-105 group"
               >
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-4">
-                    <span className="px-3 py-1 bg-pink-300/20 text-pink-300 text-xs font-light rounded-full border border-pink-300/30">
+                    <span className="px-3 py-1 bg-theme-accent-20 text-theme-accent text-xs font-light rounded-full border border-theme-accent-30">
                       {poem.category}
                     </span>
                     {poem.readingTime && (
@@ -184,7 +184,7 @@ function PoemsPageContent() {
                     )}
                   </div>
                   
-                  <h3 className="text-xl font-light text-white mb-3 group-hover:text-pink-300 transition-colors">
+                  <h3 className="text-xl font-light text-white mb-3 group-hover:text-theme-accent transition-colors">
                     <Link href={`/poems/${poem.id}`}>{poem.title}</Link>
                   </h3>
                   
@@ -193,7 +193,7 @@ function PoemsPageContent() {
                       <User className="w-4 h-4" />
                       <Link
                         href={`/authors/${poem.authorData.id}`}
-                        className="hover:text-pink-300 transition-colors font-light"
+                        className="hover:text-theme-accent transition-colors font-light"
                       >
                         {poem.author}
                       </Link>
@@ -231,7 +231,7 @@ function PoemsPageContent() {
                       variant="outline"
                       size="sm"
                       asChild
-                      className="bg-transparent border-white/30 text-white hover:bg-pink-300 hover:text-black hover:border-pink-300 font-light"
+                      className="bg-transparent border-white/30 text-white hover:bg-theme-accent hover:text-black hover:border-theme-accent font-light"
                     >
                       <Link href={`/poems/${poem.id}`}>Citește mai mult</Link>
                     </Button>
@@ -245,7 +245,7 @@ function PoemsPageContent() {
         {/* No Results */}
         {!isLoading && !error && poems.length === 0 && (
           <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-12 text-center">
-            <div className="text-pink-300 mb-6">
+            <div className="text-theme-accent mb-6">
               <Search className="w-16 h-16 mx-auto opacity-50" />
             </div>
             <h3 className="text-xl font-light text-white mb-4">Nu s-au găsit poezii</h3>
@@ -294,16 +294,16 @@ function PoemsPageContent() {
 // Loading fallback component
 function PoemsPageLoading() {
   return (
-    <div className="min-h-screen text-white" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen text-white bg-theme-dark">
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
         <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Colecția de Poezii</h1>
+          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Colecția de Poezii</h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">
             Descoperă poezii frumoase de la scriitori talentați din întreaga lume. Fiecare piesă spune o poveste unică.
           </p>
         </div>
         <div className="flex justify-center items-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
+          <Loader2 className="w-8 h-8 animate-spin text-theme-accent" />
           <span className="ml-3 text-gray-300 font-light">Se încarcă poeziile...</span>
         </div>
       </div>

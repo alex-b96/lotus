@@ -148,7 +148,7 @@ export default function AdminDashboard() {
   // Show loading spinner during authentication check
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="min-h-screen flex items-center justify-center bg-theme-dark">
         <Loader2 className="h-8 w-8 animate-spin text-pink-300" />
       </div>
     )
@@ -157,26 +157,26 @@ export default function AdminDashboard() {
   // Show sign-in message if not authenticated
   if (status === "unauthenticated") {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="min-h-screen flex items-center justify-center bg-theme-dark">
         <div className="text-center">
           <Shield className="h-12 w-12 mx-auto mb-4 text-pink-300" />
-          <h1 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>Authentication Required</h1>
-          <p className="font-light" style={{ color: '#9b9b9b' }}>Please sign in to access the admin dashboard.</p>
+          <h1 className="text-xl font-light mb-2 text-theme-primary">Authentication Required</h1>
+          <p className="font-light text-theme-secondary">Please sign in to access the admin dashboard.</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen p-6" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen p-6 bg-theme-dark">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-4">
             <Shield className="h-8 w-8 text-pink-300" />
-            <h1 className="text-3xl font-light" style={{ color: '#e2e2e2' }}>Admin Dashboard</h1>
+            <h1 className="text-3xl font-light text-theme-primary">Admin Dashboard</h1>
           </div>
-          <p className="font-light" style={{ color: '#9b9b9b' }}>
+          <p className="font-light text-theme-secondary">
             Review and approve submitted poems. Welcome back, {session?.user?.name || 'Admin'}!
           </p>
 
@@ -194,11 +194,11 @@ export default function AdminDashboard() {
         {/* Featured Poem of the Week Section */}
         <div className="mb-8 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 border-l-4 border-l-pink-300">
           <div className="p-6 border-b border-white/10">
-            <h3 className="flex items-center gap-2 text-xl font-light" style={{ color: '#e2e2e2' }}>
+            <h3 className="flex items-center gap-2 text-xl font-light text-theme-primary">
               <Star className="h-5 w-5 text-pink-300" />
               Poem of the Week
             </h3>
-            <p className="text-sm font-light mt-2" style={{ color: '#9b9b9b' }}>
+            <p className="text-sm font-light mt-2 text-theme-secondary">
               Select which published poem should be featured on the homepage
             </p>
           </div>
@@ -216,8 +216,8 @@ export default function AdminDashboard() {
               <div className="bg-pink-300/10 border border-pink-300/40 rounded-lg p-4 mb-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h4 className="font-medium" style={{ color: '#e2e2e2' }}>{featuredPoem.title}</h4>
-                    <p className="text-sm mb-2" style={{ color: '#9b9b9b' }}>by {featuredPoem.author.name}</p>
+                    <h4 className="font-medium text-theme-primary">{featuredPoem.title}</h4>
+                    <p className="text-sm mb-2 text-theme-secondary">by {featuredPoem.author.name}</p>
                     <div className="flex gap-2 mb-3">
                       {featuredPoem.tags.map((tag: string) => (
                         <Badge key={tag} variant="outline" className="text-xs border-white/30 text-white bg-white/5">
@@ -248,13 +248,13 @@ export default function AdminDashboard() {
             ) : (
               <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-4 text-center">
                 <Star className="h-8 w-8 mx-auto mb-2 text-pink-300" />
-                <p className="font-light" style={{ color: '#9b9b9b' }}>No poem is currently featured</p>
+                <p className="font-light text-theme-secondary">No poem is currently featured</p>
               </div>
             )}
 
             <div className="space-y-4">
               <div>
-                <Label htmlFor="poem-select" className="font-medium" style={{ color: '#e2e2e2' }}>Select a poem to feature:</Label>
+                <Label htmlFor="poem-select" className="font-medium text-theme-primary">Select a poem to feature:</Label>
                 <Select onValueChange={setFeaturedPoemHandler} disabled={featuredLoading}>
                   <SelectTrigger id="poem-select" className="w-full mt-2 bg-white/5 border-white/20 text-white">
                     <SelectValue placeholder={
@@ -265,7 +265,7 @@ export default function AdminDashboard() {
                   </SelectTrigger>
                   <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
                     {publishedPoems.length === 0 ? (
-                      <div className="px-2 py-1.5 text-sm" style={{ color: '#9b9b9b' }}>
+                      <div className="px-2 py-1.5 text-sm text-theme-secondary">
                         No published poems found
                       </div>
                     ) : (
@@ -318,7 +318,7 @@ export default function AdminDashboard() {
         {loading && (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-pink-300" />
-            <span className="ml-3 font-light" style={{ color: '#9b9b9b' }}>Loading submitted poems...</span>
+            <span className="ml-3 font-light text-theme-secondary">Loading submitted poems...</span>
           </div>
         )}
 
@@ -326,8 +326,8 @@ export default function AdminDashboard() {
         {!loading && !error && poems.length === 0 && (
           <div className="text-center py-12">
             <CheckCircle className="h-16 w-16 mx-auto mb-4 text-pink-300" />
-            <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>All caught up!</h3>
-            <p className="font-light" style={{ color: '#9b9b9b' }}>No poems pending approval at the moment.</p>
+            <h3 className="text-xl font-light mb-2 text-theme-primary">All caught up!</h3>
+            <p className="font-light text-theme-secondary">No poems pending approval at the moment.</p>
           </div>
         )}
 
@@ -339,8 +339,8 @@ export default function AdminDashboard() {
                 <div className="p-6 border-b border-white/10">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>{poem.title}</h3>
-                      <div className="flex items-center gap-4 text-sm mb-3" style={{ color: '#9b9b9b' }}>
+                      <h3 className="text-xl font-light mb-2 text-theme-primary">{poem.title}</h3>
+                      <div className="flex items-center gap-4 text-sm mb-3 text-theme-secondary">
                         <div className="flex items-center gap-1">
                           <User className="h-4 w-4" />
                           {poem.author.name}
@@ -351,7 +351,7 @@ export default function AdminDashboard() {
                         </div>
                         <Badge variant="secondary" className="bg-pink-300/20 text-pink-300 border border-pink-300/40">{poem.category}</Badge>
                       </div>
-                      <div className="flex items-center gap-4 text-sm" style={{ color: '#9b9b9b' }}>
+                      <div className="flex items-center gap-4 text-sm text-theme-secondary">
                         <div className="flex items-center gap-1">
                           <Heart className="h-4 w-4" />
                           {poem.likes}
@@ -392,14 +392,14 @@ export default function AdminDashboard() {
                         </DialogTrigger>
                         <DialogContent className="bg-black/90 backdrop-blur-md border border-white/10">
                           <DialogHeader>
-                            <DialogTitle className="font-light" style={{ color: '#e2e2e2' }}>Reject Poem</DialogTitle>
-                            <DialogDescription className="font-light" style={{ color: '#9b9b9b' }}>
+                            <DialogTitle className="font-light text-theme-primary">Reject Poem</DialogTitle>
+                            <DialogDescription className="font-light text-theme-secondary">
                               Are you sure you want to reject "{poem.title}"? You can optionally provide a reason for the author.
                             </DialogDescription>
                           </DialogHeader>
                           <div className="space-y-4">
                             <div>
-                              <Label htmlFor="reason" className="font-medium" style={{ color: '#e2e2e2' }}>Rejection Reason (Optional)</Label>
+                              <Label htmlFor="reason" className="font-medium text-theme-primary">Rejection Reason (Optional)</Label>
                               <Textarea
                                 id="reason"
                                 placeholder="Provide feedback for the author..."
@@ -435,7 +435,7 @@ export default function AdminDashboard() {
                 <div className="p-6">
                   {/* Poem Content */}
                   <div className="prose max-w-none mb-4">
-                    <div className="whitespace-pre-wrap p-4 rounded-lg border border-white/10 bg-white/5 font-light" style={{ color: '#e2e2e2' }}>
+                    <div className="whitespace-pre-wrap p-4 rounded-lg border border-white/10 bg-white/5 font-light text-theme-primary">
                       {poem.content}
                     </div>
                   </div>
@@ -480,14 +480,14 @@ export default function AdminDashboard() {
                       </DialogTrigger>
                       <DialogContent className="bg-black/90 backdrop-blur-md border border-white/10">
                         <DialogHeader>
-                          <DialogTitle className="font-light" style={{ color: '#e2e2e2' }}>Reject Poem</DialogTitle>
-                          <DialogDescription className="font-light" style={{ color: '#9b9b9b' }}>
+                          <DialogTitle className="font-light text-theme-primary">Reject Poem</DialogTitle>
+                          <DialogDescription className="font-light text-theme-secondary">
                             Are you sure you want to reject "{poem.title}"? You can optionally provide a reason for the author.
                           </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
                           <div>
-                            <Label htmlFor="reason-mobile" className="font-medium" style={{ color: '#e2e2e2' }}>Rejection Reason (Optional)</Label>
+                            <Label htmlFor="reason-mobile" className="font-medium text-theme-primary">Rejection Reason (Optional)</Label>
                             <Textarea
                               id="reason-mobile"
                               placeholder="Provide feedback for the author..."

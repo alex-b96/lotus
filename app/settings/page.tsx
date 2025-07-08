@@ -167,9 +167,9 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen" className="bg-theme-dark">
       <div className="max-w-xl mx-auto py-16 px-6">
-        <h2 className="text-4xl lg:text-5xl font-light mb-8" style={{ color: '#e2e2e2' }}>Setări</h2>
+        <h2 className="text-4xl lg:text-5xl font-light mb-8 text-theme-primary">Setări</h2>
 
         {/* Avatar upload section */}
         <form onSubmit={handleSaveAvatar} className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6 mb-8 flex items-center space-x-6">
@@ -183,7 +183,7 @@ export default function SettingsPage() {
           </Avatar>
         </div>
         <div className="flex-1">
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Schimbă avatarul</label>
+          <label className="block text-sm font-medium mb-1 text-theme-primary">Schimbă avatarul</label>
           <Input type="file" accept="image/*" onChange={handleAvatarChange} className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
           <Button type="submit" disabled={!avatarFile || avatarSaving} className="mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
             {avatarSaving ? "Se salvează..." : "Salvează avatarul"}
@@ -195,17 +195,17 @@ export default function SettingsPage() {
         {/* Profile info form */}
         <form onSubmit={handleSaveProfile} className="space-y-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6">
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Nume</label>
+          <label className="block text-sm font-medium mb-1 text-theme-primary">Nume</label>
           <Input value={name} onChange={e => setName(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Adresă de email</label>
+          <label className="block text-sm font-medium mb-1 text-theme-primary">Adresă de email</label>
           <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Bio <span className="text-xs" style={{ color: '#9b9b9b' }}>(Aceasta va apărea pe profilul dumneavoastră public)</span></label>
+          <label className="block text-sm font-medium mb-1 text-theme-primary">Bio <span className="text-xs text-theme-secondary">(Aceasta va apărea pe profilul dumneavoastră public)</span></label>
           <Textarea value={bio} onChange={e => setBio(e.target.value)} maxLength={500} placeholder="Spune-ne despre tine ca poet..." className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
-          <div className="text-xs mt-1" style={{ color: '#9b9b9b' }}>Max 500 caractere.</div>
+          <div className="text-xs mt-1 text-theme-secondary">Max 500 caractere.</div>
         </div>
         <Button type="submit" disabled={saving} className="w-full mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
           {saving ? "Se salvează..." : "Salvează modificările"}
@@ -215,13 +215,13 @@ export default function SettingsPage() {
 
         {/* Password change form */}
         <form onSubmit={handleChangePassword} className="space-y-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6 mt-8">
-          <h3 className="text-lg font-light mb-2" style={{ color: '#e2e2e2' }}>Schimbă parola</h3>
+          <h3 className="text-lg font-light mb-2 text-theme-primary">Schimbă parola</h3>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Parola actuală</label>
+          <label className="block text-sm font-medium mb-1 text-theme-primary">Parola actuală</label>
           <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Nouă parolă</label>
+          <label className="block text-sm font-medium mb-1 text-theme-primary">Nouă parolă</label>
           <Input 
             type="password" 
             value={newPassword} 
@@ -235,7 +235,7 @@ export default function SettingsPage() {
           {newPassword && passwordStrength && (
             <div className="mt-2">
               <div className="flex items-center justify-between text-xs mb-1">
-                <span style={{ color: '#9b9b9b' }}>Puterea parolei:</span>
+                <span className="text-theme-secondary">Puterea parolei:</span>
                 <span className={passwordStrength.color}>{passwordStrength.label}</span>
               </div>
               <div className="w-full bg-white/10 rounded-full h-1.5">
@@ -254,8 +254,8 @@ export default function SettingsPage() {
           {/* Password Requirements */}
           {showPasswordRequirements && (
             <div className="mt-2 p-3 bg-white/5 rounded-lg border border-white/10">
-              <p className="text-xs font-medium mb-2" style={{ color: '#e2e2e2' }}>Cerințele parolei:</p>
-              <ul className="text-xs space-y-1" style={{ color: '#9b9b9b' }}>
+              <p className="text-xs font-medium mb-2 text-theme-primary">Cerințele parolei:</p>
+              <ul className="text-xs space-y-1 text-theme-secondary">
                 <li className={`flex items-center ${newPassword.length >= 8 ? 'text-green-400' : ''}`}>
                   <span className="mr-2">{newPassword.length >= 8 ? '✓' : '•'}</span>
                   Cel puțin 8 caractere
@@ -281,7 +281,7 @@ export default function SettingsPage() {
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" style={{ color: '#e2e2e2' }}>Confirmă noua parolă</label>
+          <label className="block text-sm font-medium mb-1 text-theme-primary">Confirmă noua parolă</label>
           <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light" />
         </div>
         <Button type="submit" disabled={passwordSaving} className="w-full mt-2 bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">

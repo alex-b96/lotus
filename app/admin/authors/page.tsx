@@ -66,15 +66,15 @@ function AdminAuthorsPageContent() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen bg-theme-dark">
       <div className="max-w-6xl mx-auto px-6 py-16 space-y-8">
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <Users className="w-8 h-8 text-pink-300" />
-            <h1 className="text-4xl font-light" style={{ color: '#e2e2e2' }}>Manage Authors</h1>
+            <h1 className="text-4xl font-light text-theme-primary">Manage Authors</h1>
           </div>
-          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+          <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
             Manage featured authors and control who appears in the featured section of the authors page.
           </p>
         </div>
@@ -145,7 +145,7 @@ function AdminAuthorsPageContent() {
         {isLoading && (
           <div className="flex justify-center items-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
-            <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Loading authors...</span>
+            <span className="ml-2 font-light text-theme-secondary">Loading authors...</span>
           </div>
         )}
 
@@ -181,10 +181,10 @@ function AdminAuthorsPageContent() {
                   </Avatar>
 
                   <div className="flex-1">
-                    <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>{author.name}</h3>
+                    <h3 className="text-xl font-light mb-2 text-theme-primary">{author.name}</h3>
 
                     {/* Author Info */}
-                    <div className="space-y-2 text-sm" style={{ color: '#9b9b9b' }}>
+                    <div className="space-y-2 text-sm text-theme-secondary">
                       <div className="flex items-center space-x-2">
                         <Mail className="w-4 h-4" />
                         <span>{author.email}</span>
@@ -205,7 +205,7 @@ function AdminAuthorsPageContent() {
               <div className="p-6">
                 {/* Bio */}
                 {author.bio && (
-                  <p className="mb-4 text-sm line-clamp-3 font-light" style={{ color: '#9b9b9b' }}>
+                  <p className="mb-4 text-sm line-clamp-3 font-light text-theme-secondary">
                     {author.bio}
                   </p>
                 )}
@@ -215,7 +215,7 @@ function AdminAuthorsPageContent() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Crown className="w-4 h-4 text-pink-300" />
-                      <Label htmlFor={`featured-${author.id}`} className="text-sm font-medium" style={{ color: '#e2e2e2' }}>
+                      <Label htmlFor={`featured-${author.id}`} className="text-sm font-medium text-theme-primary">
                         Featured Author
                       </Label>
                     </div>
@@ -227,7 +227,7 @@ function AdminAuthorsPageContent() {
                       className="data-[state=checked]:bg-pink-300"
                     />
                   </div>
-                  <p className="text-xs mt-1" style={{ color: '#9b9b9b' }}>
+                  <p className="text-xs mt-1 text-theme-secondary">
                     {author.featured
                       ? "This author appears in the featured authors section"
                       : "Enable to feature this author on the authors page"
@@ -259,7 +259,7 @@ function AdminAuthorsPageContent() {
 
                 {/* Loading indicator for this specific author */}
                 {isTogglingFeatured === author.id && (
-                  <div className="flex items-center justify-center mt-3 text-sm" style={{ color: '#9b9b9b' }}>
+                  <div className="flex items-center justify-center mt-3 text-sm text-theme-secondary">
                     <Loader2 className="w-4 h-4 animate-spin mr-2" />
                     Updating featured status...
                   </div>
@@ -274,8 +274,8 @@ function AdminAuthorsPageContent() {
         {!isLoading && !error && authors.length === 0 && (
           <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 text-center py-12 px-6">
             <Users className="w-12 h-12 text-pink-300 mx-auto mb-4" />
-            <h3 className="text-lg font-light mb-2" style={{ color: '#e2e2e2' }}>No Authors Found</h3>
-            <p className="mb-4 font-light" style={{ color: '#9b9b9b' }}>
+            <h3 className="text-lg font-light mb-2 text-theme-primary">No Authors Found</h3>
+            <p className="mb-4 font-light text-theme-secondary">
               {searchTerm
                 ? "No authors match your search criteria. Try adjusting your search terms."
                 : "No authors with published poems found in the system."
@@ -305,14 +305,14 @@ function AdminAuthorsPageContent() {
 
 function AdminAuthorsPageLoading() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen bg-theme-dark">
       <div className="max-w-6xl mx-auto px-6 py-16 space-y-8">
         <div className="text-center">
           <div className="flex items-center justify-center space-x-3 mb-4">
             <Users className="w-8 h-8 text-pink-300" />
-            <h1 className="text-4xl font-light" style={{ color: '#e2e2e2' }}>Manage Authors</h1>
+            <h1 className="text-4xl font-light text-theme-primary">Manage Authors</h1>
           </div>
-          <p className="text-lg font-light" style={{ color: '#9b9b9b' }}>Loading author management interface...</p>
+          <p className="text-lg font-light text-theme-secondary">Loading author management interface...</p>
         </div>
         <div className="flex justify-center items-center py-12">
           <Loader2 className="w-8 h-8 animate-spin text-pink-300" />

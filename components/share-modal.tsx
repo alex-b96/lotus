@@ -90,11 +90,11 @@ export function ShareModal({ shareData, isOpen, onClose }: ShareModalProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="bg-black/90 backdrop-blur-md border border-white/10 max-w-md">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 font-light" style={{ color: '#e2e2e2' }}>
+          <DialogTitle className="flex items-center gap-2 font-light text-theme-primary">
             <Share2 className="h-5 w-5 text-pink-300" />
             Distribuie Poezia
           </DialogTitle>
-          <DialogDescription className="font-light" style={{ color: '#9b9b9b' }}>
+          <DialogDescription className="font-light text-theme-secondary">
             Alege platforma pentru a distribui această poezie
           </DialogDescription>
         </DialogHeader>
@@ -102,10 +102,10 @@ export function ShareModal({ shareData, isOpen, onClose }: ShareModalProps) {
         <div className="space-y-4">
           {/* Poem Info */}
           <div className="bg-white/5 rounded-lg p-3 border border-white/10">
-            <h4 className="font-medium text-sm mb-1" style={{ color: '#e2e2e2' }}>
+            <h4 className="font-medium text-sm mb-1 text-theme-primary">
               {shareData.title}
             </h4>
-            <p className="text-xs" style={{ color: '#9b9b9b' }}>
+            <p className="text-xs text-theme-secondary">
               {shareData.text}
             </p>
           </div>
@@ -146,7 +146,7 @@ export function ShareModal({ shareData, isOpen, onClose }: ShareModalProps) {
 
           {/* URL Preview */}
           <div className="bg-white/5 rounded p-2 border border-white/10">
-            <p className="text-xs font-mono break-all" style={{ color: '#9b9b9b' }}>
+            <p className="text-xs font-mono break-all text-theme-secondary">
               {shareData.url}
             </p>
           </div>

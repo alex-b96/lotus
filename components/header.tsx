@@ -51,7 +51,7 @@ export function Header() {
   }
 
   return (
-    <header className="backdrop-blur-md sticky top-0 z-50" style={{ backgroundColor: 'rgba(13, 13, 13, 0.6)' }}>
+    <header className="backdrop-blur-md sticky top-0 z-50 bg-theme-dark-alpha">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo and Brand */}
@@ -62,8 +62,8 @@ export function Header() {
               className="w-20 h-20 object-contain filter brightness-200 contrast-100"
             />
             {/* <div>
-              <h1 className="text-2xl font-light text-white group-hover:text-pink-300 transition-colors">LOTUS</h1>
-              <p className="text-xs text-pink-200/70 italic tracking-wide">Open up like a lotus</p>
+              <h1 className="text-2xl font-light text-white group-hover:text-theme-accent transition-colors">LOTUS</h1>
+              <p className="text-xs text-theme-accent italic tracking-wide">Open up like a lotus</p>
             </div> */}
           </Link>
 
@@ -77,14 +77,14 @@ export function Header() {
                   href={item.href}
                   className={`relative font-light text-sm tracking-wide uppercase transition-colors ${
                     isActive
-                      ? 'text-pink-300'
-                      : 'hover:text-pink-300'
+                      ? 'text-theme-accent'
+                      : 'hover:text-theme-accent'
                   }`}
-                  style={{ color: isActive ? undefined : '#9b9b9b' }}
+                  style={{ color: isActive ? undefined : 'rgb(var(--theme-text-secondary))' }}
                 >
                   {item.name}
                   {isActive && (
-                    <div className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-transparent via-pink-300 to-transparent"></div>
+                    <div className="absolute -bottom-1 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary))] to-transparent"></div>
                   )}
                 </Link>
               )
@@ -101,7 +101,7 @@ export function Header() {
             ) : session ? (
               // Logged in user menu
               <div className="flex items-center space-x-4">
-                <Button variant="outline" size="sm" asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 hover:text-white transition-all font-light">
+                <Button variant="outline" size="sm" asChild className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 hover:text-white transition-all font-light">
                   <Link href="/submit">
                     <PenTool className="w-4 h-4 mr-2" />
                     Trimite Poezie
@@ -121,14 +121,14 @@ export function Header() {
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56 backdrop-blur-md border-white/10" style={{ backgroundColor: 'rgba(13, 13, 13, 0.8)' }}>
+                  <DropdownMenuContent align="end" className="w-56 backdrop-blur-md border-white/10 bg-theme-dark-alpha-80">
                     <div className="px-2 py-1.5 text-sm">
-                      <div className="font-medium" style={{ color: '#e2e2e2' }}>{session.user.name}</div>
-                      <div className="text-xs" style={{ color: '#9b9b9b' }}>{session.user.email}</div>
+                      <div className="font-medium text-theme-primary">{session.user.name}</div>
+                      <div className="text-xs text-theme-secondary">{session.user.email}</div>
                     </div>
                     <DropdownMenuSeparator className="bg-white/10" />
-                    <DropdownMenuItem asChild className="focus:bg-white/5" style={{ color: '#e2e2e2' }}>
-                      <Link href={`/authors/${session.user.id}`} className="cursor-pointer font-light" style={{ color: '#9b9b9b' }}>
+                    <DropdownMenuItem asChild className="focus:bg-white/5 text-theme-primary">
+                      <Link href={`/authors/${session.user.id}`} className="cursor-pointer font-light text-theme-secondary">
                         <User className="w-4 h-4 mr-2" />
                         Profilul Meu
                       </Link>
@@ -161,13 +161,13 @@ export function Header() {
             ) : (
               // Not logged in - show login/register buttons
               <>
-                <Button size="sm" asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
+                <Button size="sm" asChild className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light">
                   <Link href="/login">
                     <LogIn className="w-4 h-4 mr-2" />
                     Conectare
                   </Link>
                 </Button>
-                <Button size="sm" asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
+                <Button size="sm" asChild className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light">
                   <Link href="/register">
                     <User className="w-4 h-4 mr-2" />
                     Înregistrare
@@ -195,14 +195,14 @@ export function Header() {
                     href={item.href}
                     className={`relative font-light tracking-wide transition-colors ${
                       isActive
-                        ? 'text-pink-300'
-                        : 'text-gray-300 hover:text-pink-300'
+                        ? 'text-theme-accent'
+                        : 'text-gray-300 hover:text-theme-accent'
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
                     {isActive && (
-                      <div className="absolute -bottom-1 left-0 w-8 h-px bg-pink-300"></div>
+                      <div className="absolute -bottom-1 left-0 w-8 h-px bg-theme-accent"></div>
                     )}
                   </Link>
                 )

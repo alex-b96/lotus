@@ -52,12 +52,12 @@ function FeedbackPageContent() {
   } = useFeedback()
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen bg-theme-dark">
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Parerea cititorilor</h1>
-          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Parerea cititorilor</h1>
+          <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
             Vezi ce au spus cititorii despre poeziile noastre. Toate comentariile de la comunitate într-un singur loc.
           </p>
         </div>
@@ -97,8 +97,8 @@ function FeedbackPageContent() {
         {/* Loading State */}
         {isLoading && (
           <div className="flex justify-center items-center py-12">
-            <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
-            <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Se încarcă feedback-ul...</span>
+            <Loader2 className="w-8 h-8 animate-spin text-theme-accent" />
+            <span className="ml-2 font-light text-theme-secondary">Se încarcă feedback-ul...</span>
           </div>
         )}
 
@@ -108,7 +108,7 @@ function FeedbackPageContent() {
             {comments.map((comment) => (
               <div
                 key={comment.id}
-                className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 p-6"
+                className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300 p-6"
               >
                 <div className="flex items-start space-x-4">
                   <Avatar className="w-12 h-12 flex-shrink-0">
@@ -121,13 +121,13 @@ function FeedbackPageContent() {
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                       <div className="flex items-center space-x-2">
-                        <h3 className="font-light" style={{ color: '#e2e2e2' }}>{comment.author.name}</h3>
-                        <div className="flex items-center space-x-1 text-sm" style={{ color: '#9b9b9b' }}>
+                        <h3 className="font-light text-theme-primary">{comment.author.name}</h3>
+                        <div className="flex items-center space-x-1 text-sm text-theme-secondary">
                           <User className="w-4 h-4" />
                           <span>a comentat</span>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-2 text-sm" style={{ color: '#9b9b9b' }}>
+                      <div className="flex items-center space-x-2 text-sm text-theme-secondary">
                         <Calendar className="w-4 h-4" />
                         <span>{formatDate(comment.createdAt)}</span>
                       </div>
@@ -136,7 +136,7 @@ function FeedbackPageContent() {
                     <div className="mb-4">
                       <Link
                         href={`/poems/${comment.poem.id}`}
-                        className="text-pink-300 hover:text-pink-200 transition-colors flex items-center space-x-2 text-lg font-light"
+                        className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] transition-colors flex items-center space-x-2 text-lg font-light"
                       >
                         <MessageSquare className="w-5 h-5" />
                         <span>{comment.poem.title}</span>
@@ -145,7 +145,7 @@ function FeedbackPageContent() {
                     </div>
 
                     <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-                      <p className="font-light leading-relaxed" style={{ color: '#e2e2e2' }}>
+                      <p className="font-light leading-relaxed text-theme-primary">
                         {comment.content}
                       </p>
                     </div>
@@ -159,12 +159,12 @@ function FeedbackPageContent() {
         {/* Empty State */}
         {!isLoading && !error && comments.length === 0 && (
           <div className="text-center py-12">
-            <MessageSquare className="w-16 h-16 text-pink-300 mx-auto mb-4" />
-            <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>Nu există feedback</h3>
-            <p className="mb-4 font-light" style={{ color: '#9b9b9b' }}>
+            <MessageSquare className="w-16 h-16 text-theme-accent mx-auto mb-4" />
+            <h3 className="text-xl font-light mb-2 text-theme-primary">Nu există feedback</h3>
+            <p className="mb-4 font-light text-theme-secondary">
               Nu există comentarii. Fii primul care împărtășește-ne opinia despre poeziile noastre!
             </p>
-            <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
+            <Button asChild className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light">
               <Link href="/poems">Vezi poeziile</Link>
             </Button>
           </div>
@@ -189,17 +189,17 @@ function FeedbackPageContent() {
 // Loading fallback component
 function FeedbackPageLoading() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen bg-theme-dark">
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
         <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Parerea cititorilor</h1>
-          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Parerea cititorilor</h1>
+          <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
             Vezi ce au spus cititorii despre poeziile noastre. Toate comentariile de la comunitate într-un singur loc.
           </p>
         </div>
         <div className="flex justify-center items-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
-          <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Se încarcă feedback-ul...</span>
+          <Loader2 className="w-8 h-8 animate-spin text-theme-accent" />
+          <span className="ml-2 font-light text-theme-secondary">Se încarcă feedback-ul...</span>
         </div>
       </div>
     </div>

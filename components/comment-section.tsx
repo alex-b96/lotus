@@ -107,7 +107,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
   return (
     <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
       <div className="p-6 border-b border-white/10">
-        <h2 className="text-xl font-light flex items-center space-x-2" style={{ color: '#e2e2e2' }}>
+        <h2 className="text-xl font-light flex items-center space-x-2 text-theme-primary">
           <MessageCircle className="w-5 h-5" />
           <span>Comentarii ({totalCount})</span>
         </h2>
@@ -141,7 +141,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
             </div>
           </div>
         ) : (
-          <div className="p-4 bg-white/5 rounded-lg text-center" style={{ color: '#9b9b9b' }}>
+          <div className="p-4 bg-white/5 rounded-lg text-center text-theme-secondary">
             <p>Te rog să te autentifici pentru a lăsa un comentariu</p>
             <Button
               variant="outline"
@@ -156,7 +156,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
         {/* Comments List */}
         <div className="space-y-4">
           {loading && comments.length === 0 ? (
-            <div className="text-center py-8" style={{ color: '#9b9b9b' }}>
+            <div className="text-center py-8 text-theme-secondary">
               <div className="animate-spin w-8 h-8 border-2 border-pink-300 border-t-transparent rounded-full mx-auto mb-4"></div>
               <p>Se încarcă comentariile...</p>
             </div>
@@ -177,8 +177,8 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-2">
-                          <h4 className="font-light" style={{ color: '#e2e2e2' }}>{comment.author.name}</h4>
-                          <span className="text-sm" style={{ color: '#9b9b9b' }}>
+                          <h4 className="font-light text-theme-primary">{comment.author.name}</h4>
+                          <span className="text-sm text-theme-secondary">
                             {formatTimestamp(comment.createdAt)}
                           </span>
                         </div>
@@ -236,7 +236,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                           </div>
                         </div>
                       ) : (
-                        <p className="mb-3 whitespace-pre-wrap font-light" style={{ color: '#e2e2e2' }}>{comment.content}</p>
+                        <p className="mb-3 whitespace-pre-wrap font-light text-theme-primary">{comment.content}</p>
                       )}
                     </div>
                   </div>
@@ -258,7 +258,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
               )}
             </>
           ) : (
-            <div className="text-center py-8" style={{ color: '#9b9b9b' }}>
+            <div className="text-center py-8 text-theme-secondary">
               <MessageCircle className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p>Niciun comentariu încă. Fii primul care își partajează părerile!</p>
             </div>

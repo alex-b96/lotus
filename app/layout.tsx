@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} ${cormorantGaramond.variable}`}>
         <Providers>
-          <div className="min-h-screen w-full flex flex-col" style={{ backgroundColor: '#0d0d0d' }}>
+          <div className="min-h-screen w-full flex flex-col bg-theme-dark">
             <Header />
             <main className="flex-1 container mx-auto px-4">{children}</main>
             <Footer />

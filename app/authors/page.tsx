@@ -52,7 +52,7 @@ function AuthorsPageContent() {
   } = useAuthors()
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen bg-theme-dark">
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
         {/* Featured Authors Section */}
         <FeaturedAuthors />
@@ -63,7 +63,7 @@ function AuthorsPageContent() {
           <div className="w-full border-t border-white/10" />
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="bg-white/5 backdrop-blur-sm px-6 py-2 text-pink-300 font-medium rounded-full border border-pink-300/40">
+          <span className="bg-white/5 backdrop-blur-sm px-6 py-2 text-theme-accent font-medium rounded-full border border-theme-accent-40">
             Vezi toți autori
           </span>
         </div>
@@ -74,12 +74,12 @@ function AuthorsPageContent() {
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search Input */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-pink-300 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-theme-accent w-4 h-4" />
               <Input
                 placeholder="Caută autori după nume sau bio..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                className="pl-10 bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                 disabled={isLoading}
               />
             </div>
@@ -88,8 +88,8 @@ function AuthorsPageContent() {
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {/* Sort Options */}
               <div className="flex items-center space-x-2">
-                <Filter className="text-pink-300 w-4 h-4" />
-                <span className="text-sm font-light" style={{ color: '#9b9b9b' }}>Sortează după:</span>
+                <Filter className="text-theme-accent w-4 h-4" />
+                <span className="text-sm font-light text-theme-secondary">Sortează după:</span>
                 <Select value={sortBy} onValueChange={setSortBy} disabled={isLoading}>
                   <SelectTrigger className="w-36 bg-white/5 border-white/20 text-white">
                     <SelectValue />
@@ -163,8 +163,8 @@ function AuthorsPageContent() {
         {/* Loading State */}
         {isLoading && (
           <div className="flex justify-center items-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
-          <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Se încarcă autorii...</span>
+          <Loader2 className="w-8 h-8 animate-spin text-theme-accent" />
+          <span className="ml-2 font-light text-theme-secondary">Se încarcă autorii...</span>
           </div>
         )}
 
@@ -174,7 +174,7 @@ function AuthorsPageContent() {
           {authors.map((author) => (
             <div
               key={author.id}
-              className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 hover:scale-105"
+              className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300 hover:scale-105"
             >
               <div className="text-center p-6">
                 <Avatar className="w-20 h-20 mx-auto mb-4">
@@ -183,28 +183,28 @@ function AuthorsPageContent() {
                     {getInitials(author.name)}
                   </AvatarFallback>
                 </Avatar>
-                <h3 className="text-xl font-light" style={{ color: '#e2e2e2' }}>{author.name}</h3>
-                <div className="flex items-center justify-center space-x-4 text-sm" style={{ color: '#9b9b9b' }}>
+                <h3 className="text-xl font-light text-theme-primary">{author.name}</h3>
+                <div className="flex items-center justify-center space-x-4 text-sm text-theme-secondary">
                   <div className="flex items-center space-x-1">
                     <BookOpen className="w-4 h-4" />
                     <span>{author.poemsCount} poem{author.poemsCount !== 1 ? 's' : ''}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <User className="w-4 h-4 text-pink-300" />
-                    <span className="text-pink-300">Autor</span>
+                    <User className="w-4 h-4 text-theme-accent" />
+                    <span className="text-theme-accent">Autor</span>
                   </div>
                 </div>
               </div>
 
               <div className="p-6 pt-0">
                 {author.bio ? (
-                  <p className="mb-4 text-center line-clamp-3 font-light" style={{ color: '#9b9b9b' }}>
+                  <p className="mb-4 text-center line-clamp-3 font-light text-theme-secondary">
                     {author.bio}
                   </p>
                 ) : null}
 
                 <div className="flex flex-col space-y-2">
-                  <Button asChild className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light">
+                  <Button asChild className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light">
                     <Link href={`/authors/${author.id}`}>Vezi profilul</Link>
                   </Button>
                   {author.website && (
@@ -225,9 +225,9 @@ function AuthorsPageContent() {
         {/* Empty State */}
         {!isLoading && !error && authors.length === 0 && (
         <div className="text-center py-12">
-          <User className="w-16 h-16 text-pink-300 mx-auto mb-4" />
-          <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>Nu s-au găsit autori</h3>
-          <p className="mb-4 font-light" style={{ color: '#9b9b9b' }}>
+          <User className="w-16 h-16 text-theme-accent mx-auto mb-4" />
+          <h3 className="text-xl font-light mb-2 text-theme-primary">Nu s-au găsit autori</h3>
+          <p className="mb-4 font-light text-theme-secondary">
             {searchTerm
               ? `Nu s-au găsit autori care să se potrivească cu "${searchTerm}"`
               : "Nu sunt disponibile autori momentan"}
@@ -259,17 +259,17 @@ function AuthorsPageContent() {
 // Loading fallback component
 function AuthorsPageLoading() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen bg-theme-dark">
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
         <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Autori</h1>
-          <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Autori</h1>
+          <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
             Întâmpină cei mai buni poeți ai comunității noastre
           </p>
         </div>
         <div className="flex justify-center items-center py-12">
-          <Loader2 className="w-8 h-8 animate-spin text-pink-300" />
-          <span className="ml-2 font-light" style={{ color: '#9b9b9b' }}>Se încarcă autorii...</span>
+          <Loader2 className="w-8 h-8 animate-spin text-theme-accent" />
+          <span className="ml-2 font-light text-theme-secondary">Se încarcă autorii...</span>
         </div>
       </div>
     </div>

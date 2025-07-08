@@ -29,6 +29,27 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+
+    /* Custom theme colors - BLUE THEME (Alternative) */
+    --theme-dark: 13 13 13;                    /* #0d0d0d */
+    --theme-dark-alpha: 13 13 13 / 0.6;       /* rgba(13, 13, 13, 0.6) */
+    --theme-dark-alpha-80: 13 13 13 / 0.8;    /* rgba(13, 13, 13, 0.8) */
+    --theme-text-primary: 226 226 226;         /* #e2e2e2 */
+    --theme-text-secondary: 155 155 155;       /* #9b9b9b */
+    --theme-text-muted: 163 163 163;           /* #a3a3a3 */
+    --theme-accent-primary: 147 197 253;       /* blue-300 */
+    --theme-accent-secondary: 96 165 250;      /* blue-400 */
+    --theme-accent-light: 219 234 254;         /* blue-100 */
+    --theme-accent-lighter: 239 246 255;       /* blue-50 */
+    --theme-white: 255 255 255;                /* #ffffff */
+    --theme-white-alpha-5: 255 255 255 / 0.05; /* rgba(255, 255, 255, 0.05) */
+    --theme-white-alpha-10: 255 255 255 / 0.1; /* rgba(255, 255, 255, 0.1) */
+    --theme-white-alpha-20: 255 255 255 / 0.2; /* rgba(255, 255, 255, 0.2) */
+    --theme-border: 255 255 255 / 0.1;         /* rgba(255, 255, 255, 0.1) */
+
+    /* Additional colors */
+    --theme-blue-info: 155 179 224;             /* #9bb3e0 - test account info color */
+    --theme-dark-alpha-40: 13 13 13 / 0.4;     /* rgba(13, 13, 13, 0.4) - footer background */
   }
 
   .dark {
@@ -69,23 +90,23 @@
 }
 
 /* Custom styles for poetry content */
-.prose-green {
-  --tw-prose-body: theme(colors.green.800);
-  --tw-prose-headings: theme(colors.green.900);
-  --tw-prose-lead: theme(colors.green.700);
-  --tw-prose-links: theme(colors.green.800);
-  --tw-prose-bold: theme(colors.green.900);
-  --tw-prose-counters: theme(colors.green.600);
-  --tw-prose-bullets: theme(colors.green.400);
-  --tw-prose-hr: theme(colors.green.300);
-  --tw-prose-quotes: theme(colors.green.900);
-  --tw-prose-quote-borders: theme(colors.green.300);
-  --tw-prose-captions: theme(colors.green.700);
-  --tw-prose-code: theme(colors.green.900);
-  --tw-prose-pre-code: theme(colors.green.100);
-  --tw-prose-pre-bg: theme(colors.green.900);
-  --tw-prose-th-borders: theme(colors.green.300);
-  --tw-prose-td-borders: theme(colors.green.200);
+.prose-theme {
+  --tw-prose-body: rgb(var(--theme-text-primary));
+  --tw-prose-headings: rgb(var(--theme-text-primary));
+  --tw-prose-lead: rgb(var(--theme-text-secondary));
+  --tw-prose-links: rgb(var(--theme-accent-primary));
+  --tw-prose-bold: rgb(var(--theme-text-primary));
+  --tw-prose-counters: rgb(var(--theme-text-secondary));
+  --tw-prose-bullets: rgb(var(--theme-accent-primary));
+  --tw-prose-hr: rgb(var(--theme-accent-primary));
+  --tw-prose-quotes: rgb(var(--theme-text-primary));
+  --tw-prose-quote-borders: rgb(var(--theme-accent-primary));
+  --tw-prose-captions: rgb(var(--theme-text-secondary));
+  --tw-prose-code: rgb(var(--theme-text-primary));
+  --tw-prose-pre-code: rgb(var(--theme-accent-light));
+  --tw-prose-pre-bg: rgb(var(--theme-dark));
+  --tw-prose-th-borders: rgb(var(--theme-accent-primary));
+  --tw-prose-td-borders: rgb(var(--theme-accent-light));
 }
 
 /* Line clamp utility */
@@ -109,19 +130,149 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: theme(colors.green.50);
+  background: rgb(var(--theme-accent-lighter));
 }
 
 ::-webkit-scrollbar-thumb {
-  background: theme(colors.green.300);
+  background: rgb(var(--theme-accent-primary));
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: theme(colors.green.400);
+  background: rgb(var(--theme-accent-secondary));
 }
 
 /* Cormorant Garamond font class for poem content */
 .font-cormorant {
   font-family: var(--font-cormorant-garamond), serif;
+}
+
+/* Custom utility classes for theme colors */
+.bg-theme-dark {
+  background-color: rgb(var(--theme-dark));
+}
+
+.bg-theme-dark-alpha {
+  background-color: rgb(var(--theme-dark-alpha));
+}
+
+.bg-theme-dark-alpha-80 {
+  background-color: rgb(var(--theme-dark-alpha-80));
+}
+
+.text-theme-primary {
+  color: rgb(var(--theme-text-primary));
+}
+
+.text-theme-secondary {
+  color: rgb(var(--theme-text-secondary));
+}
+
+.text-theme-muted {
+  color: rgb(var(--theme-text-muted));
+}
+
+.text-theme-accent {
+  color: rgb(var(--theme-accent-primary));
+}
+
+.text-theme-accent-secondary {
+  color: rgb(var(--theme-accent-secondary));
+}
+
+.bg-theme-accent {
+  background-color: rgb(var(--theme-accent-primary));
+}
+
+.bg-theme-accent-alpha {
+  background-color: rgb(var(--theme-accent-primary) / 0.1);
+}
+
+.bg-theme-white-alpha-5 {
+  background-color: rgb(var(--theme-white-alpha-5));
+}
+
+.bg-theme-white-alpha-10 {
+  background-color: rgb(var(--theme-white-alpha-10));
+}
+
+.bg-theme-white-alpha-20 {
+  background-color: rgb(var(--theme-white-alpha-20));
+}
+
+.border-theme {
+  border-color: rgb(var(--theme-border));
+}
+
+.border-theme-accent {
+  border-color: rgb(var(--theme-accent-primary));
+}
+
+.text-theme-blue-info {
+  color: rgb(var(--theme-blue-info));
+}
+
+.bg-theme-dark-alpha-40 {
+  background-color: rgb(var(--theme-dark-alpha-40));
+}
+
+/* Theme accent variations with opacity */
+.text-theme-accent-secondary {
+  color: rgb(var(--theme-accent-secondary));
+}
+
+.border-theme-accent-30 {
+  border-color: rgb(var(--theme-accent-primary) / 0.3);
+}
+
+.border-theme-accent-40 {
+  border-color: rgb(var(--theme-accent-primary) / 0.4);
+}
+
+.border-theme-accent-50 {
+  border-color: rgb(var(--theme-accent-primary) / 0.5);
+}
+
+.border-theme-accent-60 {
+  border-color: rgb(var(--theme-accent-primary) / 0.6);
+}
+
+.hover\:border-theme-accent-30:hover {
+  border-color: rgb(var(--theme-accent-primary) / 0.3);
+}
+
+.hover\:border-theme-accent-60:hover {
+  border-color: rgb(var(--theme-accent-primary) / 0.6);
+}
+
+.hover\:text-theme-accent:hover {
+  color: rgb(var(--theme-accent-primary));
+}
+
+.hover\:bg-theme-accent-20:hover {
+  background-color: rgb(var(--theme-accent-primary) / 0.2);
+}
+
+.hover\:bg-theme-accent-30:hover {
+  background-color: rgb(var(--theme-accent-primary) / 0.3);
+}
+
+.bg-theme-accent-5 {
+  background-color: rgb(var(--theme-accent-primary) / 0.05);
+}
+
+.bg-theme-accent-10 {
+  background-color: rgb(var(--theme-accent-primary) / 0.1);
+}
+
+.bg-theme-accent-20 {
+  background-color: rgb(var(--theme-accent-primary) / 0.2);
+}
+
+.bg-theme-accent-30 {
+  background-color: rgb(var(--theme-accent-primary) / 0.3);
+}
+
+.fill-theme-accent {
+  fill: rgb(var(--theme-accent-primary));
 }

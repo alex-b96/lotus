@@ -60,12 +60,12 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen bg-theme-dark">
       <div className="max-w-4xl mx-auto px-6 py-16 space-y-8">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-5xl lg:text-6xl font-light mb-6" style={{ color: '#e2e2e2' }}>Contactează-ne</h1>
-        <p className="text-lg max-w-2xl mx-auto font-light" style={{ color: '#9b9b9b' }}>
+        <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Contactează-ne</h1>
+        <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
           Ai întrebări, sugestii sau ai nevoie de asistență? Vrem să auzim de la tine. Contactează-ne.
         </p>
       </div>
@@ -73,27 +73,27 @@ export default function ContactPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Contact Form */}
         <div className="lg:col-span-2">
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
             <div className="p-6 border-b border-white/10">
-              <h2 className="text-2xl font-light flex items-center space-x-2" style={{ color: '#e2e2e2' }}>
-                <Mail className="w-6 h-6 text-pink-300" />
+              <h2 className="text-2xl font-light flex items-center space-x-2 text-theme-primary">
+                <Mail className="w-6 h-6 text-theme-accent" />
                 <span>Trimite-ne un mesaj</span>
               </h2>
             </div>
             <div className="p-6">
               {submitted ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Send className="w-8 h-8 text-pink-300" />
+                  <div className="w-16 h-16 bg-theme-accent-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Send className="w-8 h-8 text-theme-accent" />
                   </div>
-                  <h3 className="text-xl font-light mb-2" style={{ color: '#e2e2e2' }}>Mesaj trimis!</h3>
-                  <p className="mb-4 font-light" style={{ color: '#9b9b9b' }}>
+                  <h3 className="text-xl font-light mb-2 text-theme-primary">Mesaj trimis!</h3>
+                  <p className="mb-4 font-light text-theme-secondary">
                     Vă mulțumim pentru contact. Vă vom răspunde în cel mai scurt timp posibil.
                   </p>
                   <Button
                     onClick={() => setSubmitted(false)}
                     variant="outline"
-                    className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
+                    className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light"
                   >
                     Trimite un alt mesaj
                   </Button>
@@ -102,7 +102,7 @@ export default function ContactPage() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name" className="font-medium" style={{ color: '#e2e2e2' }}>
+                      <Label htmlFor="name" className="font-medium text-theme-primary">
                         Nume *
                       </Label>
                       <Input
@@ -111,11 +111,11 @@ export default function ContactPage() {
                         onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
                         placeholder="Numele complet"
                         required
-                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="font-medium" style={{ color: '#e2e2e2' }}>
+                      <Label htmlFor="email" className="font-medium text-theme-primary">
                         Email *
                       </Label>
                       <Input
@@ -125,13 +125,13 @@ export default function ContactPage() {
                         onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
                         placeholder="your.email@example.com"
                         required
-                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                        className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="subject" className="font-medium" style={{ color: '#e2e2e2' }}>
+                    <Label htmlFor="subject" className="font-medium text-theme-primary">
                       Subject *
                     </Label>
                     <Input
@@ -145,7 +145,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message" className="font-medium" style={{ color: '#e2e2e2' }}>
+                    <Label htmlFor="message" className="font-medium text-theme-primary">
                       Message *
                     </Label>
                     <Textarea
@@ -154,14 +154,14 @@ export default function ContactPage() {
                       onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
                       placeholder="Vă rugăm să furnizați detalii despre întrebarea dumneavoastră..."
                       required
-                      className="min-h-[150px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                      className="min-h-[150px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                     />
                   </div>
 
                   {error && (
                     <div className="text-red-600 text-sm text-center">{error}</div>
                   )}
-                  <Button type="submit" className="w-full bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light" disabled={isSubmitting}>
+                  <Button type="submit" className="w-full bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light" disabled={isSubmitting}>
                     <Send className="w-4 h-4 mr-2" />
                     {isSubmitting ? "Se trimite..." : "Trimite mesajul"}
                   </Button>
@@ -173,32 +173,32 @@ export default function ContactPage() {
 
         {/* Contact Information */}
         <div className="space-y-6">
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
             <div className="p-6 border-b border-white/10">
-              <h3 className="text-xl font-light" style={{ color: '#e2e2e2' }}>Contact Information</h3>
+              <h3 className="text-xl font-light text-theme-primary">Contact Information</h3>
             </div>
             <div className="p-6 space-y-4">
               <div className="flex items-start space-x-3">
-                <Mail className="w-5 h-5 text-pink-300 mt-1" />
+                <Mail className="w-5 h-5 text-theme-accent mt-1" />
                 <div>
-                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Email</h4>
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>contact@lotus-poetry.com</p>
+                  <h4 className="font-medium text-theme-primary">Email</h4>
+                  <p className="font-light text-theme-secondary">contact@lotus-poetry.com</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <Phone className="w-5 h-5 text-pink-300 mt-1" />
+                <Phone className="w-5 h-5 text-theme-accent mt-1" />
                 <div>
-                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Phone</h4>
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>+1 (555) 123-4567</p>
+                  <h4 className="font-medium text-theme-primary">Phone</h4>
+                  <p className="font-light text-theme-secondary">+1 (555) 123-4567</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-3">
-                <MapPin className="w-5 h-5 text-pink-300 mt-1" />
+                <MapPin className="w-5 h-5 text-theme-accent mt-1" />
                 <div>
-                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Address</h4>
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>
+                  <h4 className="font-medium text-theme-primary">Address</h4>
+                  <p className="font-light text-theme-secondary">
                     123 Poetry Lane
                     <br />
                     Creative District
@@ -209,45 +209,45 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-start space-x-3">
-                <Clock className="w-5 h-5 text-pink-300 mt-1" />
+                <Clock className="w-5 h-5 text-theme-accent mt-1" />
                 <div>
-                  <h4 className="font-medium" style={{ color: '#e2e2e2' }}>Răspunsul</h4>
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>Vă vom răspunde în cel mai scurt timp posibil.</p>
+                  <h4 className="font-medium text-theme-primary">Răspunsul</h4>
+                  <p className="font-light text-theme-secondary">Vă vom răspunde în cel mai scurt timp posibil.</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
             <div className="p-6 border-b border-white/10">
-              <h3 className="text-xl font-light" style={{ color: '#e2e2e2' }}>Quick Links</h3>
+              <h3 className="text-xl font-light text-theme-primary">Quick Links</h3>
             </div>
             <div className="p-6 space-y-3">
               <Button
                 variant="ghost"
                 asChild
-                className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
+                className="w-full justify-start text-white hover:text-theme-accent hover:bg-white/10 font-light"
               >
                 <a href="/faq">Întrebări frecvente</a>
               </Button>
               <Button
                 variant="ghost"
                 asChild
-                className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
+                className="w-full justify-start text-white hover:text-theme-accent hover:bg-white/10 font-light"
               >
                 <a href="/help">Centru de ajutor</a>
               </Button>
               <Button
                 variant="ghost"
                 asChild
-                className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
+                className="w-full justify-start text-white hover:text-theme-accent hover:bg-white/10 font-light"
               >
                 <a href="/community-guidelines">Reguli de comunitate</a>
               </Button>
               <Button
                 variant="ghost"
                 asChild
-                className="w-full justify-start text-white hover:text-pink-300 hover:bg-white/10 font-light"
+                className="w-full justify-start text-white hover:text-theme-accent hover:bg-white/10 font-light"
               >
                 <a href="/privacy">Politica de confidențialitate</a>
               </Button>

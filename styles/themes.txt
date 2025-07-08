@@ -1,0 +1,20 @@
+/* Custom theme colors - PINK THEME (Original) */
+--theme-dark: 13 13 13;                    /* #0d0d0d */
+--theme-dark-alpha: 13 13 13 / 0.6;       /* rgba(13, 13, 13, 0.6) */
+--theme-dark-alpha-80: 13 13 13 / 0.8;    /* rgba(13, 13, 13, 0.8) */
+--theme-text-primary: 226 226 226;         /* #e2e2e2 */
+--theme-text-secondary: 155 155 155;       /* #9b9b9b */
+--theme-text-muted: 163 163 163;           /* #a3a3a3 */
+--theme-accent-primary: 249 168 212;       /* pink-300 */
+--theme-accent-secondary: 244 114 182;     /* pink-400 */
+--theme-accent-light: 252 231 243;         /* pink-100 */
+--theme-accent-lighter: 253 242 248;       /* pink-50 */
+--theme-white: 255 255 255;                /* #ffffff */
+--theme-white-alpha-5: 255 255 255 / 0.05; /* rgba(255, 255, 255, 0.05) */
+--theme-white-alpha-10: 255 255 255 / 0.1; /* rgba(255, 255, 255, 0.1) */
+--theme-white-alpha-20: 255 255 255 / 0.2; /* rgba(255, 255, 255, 0.2) */
+--theme-border: 255 255 255 / 0.1;         /* rgba(255, 255, 255, 0.1) */
+
+/* Additional colors found in the codebase */
+--theme-blue-info: 155 179 224;             /* #9bb3e0 - test account info color */
+--theme-dark-alpha-40: 13 13 13 / 0.4;     /* rgba(13, 13, 13, 0.4) - footer background */

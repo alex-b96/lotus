@@ -88,7 +88,7 @@ export function Pagination({
         {pageNumbers.map((page, index) =>
           page === "..." ? (
             <div key={`ellipsis-${index}`} className="px-2 py-1">
-              <MoreHorizontal className="w-4 h-4" style={{ color: '#9b9b9b' }} />
+              <MoreHorizontal className="w-4 h-4 text-theme-secondary" />
             </div>
           ) : (
             <Button
@@ -146,7 +146,7 @@ export function PaginationInfo({
   const endItem = Math.min(currentPage * limit, totalCount)
 
   return (
-    <div className={`text-sm ${className}`} style={{ color: '#9b9b9b' }}>
+    <div className={`text-sm ${className}`} className="text-theme-secondary">
       Afișează {startItem} la {endItem} din {totalCount} poezii
       {totalPages > 1 && (
         <span className="ml-2">

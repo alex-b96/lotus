@@ -39,7 +39,7 @@ export default function PoemPage({ params }: PoemPageProps) {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="min-h-screen relative overflow-hidden bg-theme-dark">
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-16 space-y-8">
         <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
           <div className="text-center border-b border-white/10 p-8">
@@ -76,7 +76,7 @@ export default function PoemPage({ params }: PoemPageProps) {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="min-h-screen relative overflow-hidden bg-theme-dark">
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-16">
         <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
           <div className="flex items-center gap-3">
@@ -165,7 +165,7 @@ export default function PoemPage({ params }: PoemPageProps) {
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen relative overflow-hidden bg-theme-dark">
       {/* Add custom keyframes */}
       <style jsx>{`
         @keyframes float {
@@ -190,19 +190,19 @@ export default function PoemPage({ params }: PoemPageProps) {
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 py-16 space-y-8">
       {/* Poem Content */}
-      <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+      <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
         <div className="border-b border-white/10 p-8">
           <div className="flex items-center space-x-2 mb-4">
-            <Badge variant="outline" className="border-pink-300/40 text-pink-300 bg-pink-300/10">
+            <Badge variant="outline" className="border-theme-accent-40 text-theme-accent bg-theme-accent-10">
               {poem.category}
             </Badge>
-            <div className="flex items-center space-x-1 text-sm" style={{ color: '#9b9b9b' }}>
+            <div className="flex items-center space-x-1 text-sm text-theme-secondary">
               <BookOpen className="w-4 h-4" />
               <span>{readingTimeText}</span>
             </div>
           </div>
-          <h1 className="text-4xl lg:text-5xl font-light leading-none mb-4 drop-shadow-lg" style={{ color: '#e2e2e2' }}>{poem.title}</h1>
-          <div className="flex items-center space-x-6 text-sm" style={{ color: '#9b9b9b' }}>
+          <h1 className="text-4xl lg:text-5xl font-light leading-none mb-4 drop-shadow-lg text-theme-primary">{poem.title}</h1>
+          <div className="flex items-center space-x-6 text-sm text-theme-secondary">
             <div className="flex items-center space-x-2">
               <Avatar className="w-8 h-8">
                 <AvatarImage src={poem.author.avatarUrl} alt={poem.author.name} />
@@ -212,7 +212,7 @@ export default function PoemPage({ params }: PoemPageProps) {
               </Avatar>
               <Link
                 href={`/authors/${poem.author.id}`}
-                className="text-pink-200 hover:text-pink-100 transition-colors font-medium"
+                className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] transition-colors font-medium"
               >
                 {poem.author.name}
               </Link>
@@ -225,8 +225,8 @@ export default function PoemPage({ params }: PoemPageProps) {
         </div>
 
         <div className="p-8">
-          <div className="prose prose-green max-w-none mb-8">
-            <pre className="whitespace-pre-wrap font-cormorant text-lg leading-relaxed text-left" style={{ color: '#e2e2e2' }}>
+          <div className="prose prose-theme max-w-none mb-8">
+            <pre className="whitespace-pre-wrap font-cormorant text-lg leading-relaxed text-left text-theme-primary">
               {poem.content}
             </pre>
           </div>
@@ -237,7 +237,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                 <Link key={tag} href={`/poems?tag=${encodeURIComponent(tag)}`}>
                   <Badge
                     variant="secondary"
-                    className="bg-pink-300/20 text-pink-300 hover:bg-pink-300/30 cursor-pointer border border-pink-300/40"
+                    className="bg-theme-accent-20 text-theme-accent hover:bg-theme-accent-30 cursor-pointer border border-theme-accent-40"
                   >
                     #{tag}
                   </Badge>
@@ -246,14 +246,14 @@ export default function PoemPage({ params }: PoemPageProps) {
             </div>
           )}
 
-          <div className="my-6 h-px bg-gradient-to-r from-transparent via-pink-300/30 to-transparent"></div>
+          <div className="my-6 h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.3)] to-transparent"></div>
 
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               {/* Like Button */}
               <Button
                 variant="ghost"
-                className={`${liked ? "text-pink-300" : "text-gray-400 hover:text-pink-300"} transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group`}
+                className={`${liked ? "text-theme-accent" : "text-gray-400 hover:text-theme-accent"} transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group`}
                 onClick={async () => {
                   if (!session?.user) {
                     window.location.href = "/login"
@@ -264,7 +264,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                 }}
                 disabled={likeLoading}
               >
-                <Heart className={`w-5 h-5 mr-2 group-hover:animate-pulse ${liked ? "fill-pink-300" : ""}`} />
+                <Heart className={`w-5 h-5 mr-2 group-hover:animate-pulse ${liked ? "fill-theme-accent" : ""}`} />
                 <span className="hidden sm:inline">{likeCount} Aprecieri</span>
                 <span className="sm:hidden">{likeCount}</span>
               </Button>
@@ -279,7 +279,7 @@ export default function PoemPage({ params }: PoemPageProps) {
               <Button 
                 onClick={handleShare}
                 variant="outline" 
-                className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
+                className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light"
               >
                 <Share2 className="w-4 h-4 mr-2" />
                 <span className="hidden sm:inline">Partajează</span>
@@ -290,9 +290,9 @@ export default function PoemPage({ params }: PoemPageProps) {
       </div>
 
       {/* Author Info */}
-      <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+      <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
         <div className="p-6 border-b border-white/10">
-          <h2 className="text-xl font-light" style={{ color: '#e2e2e2' }}>Despre autor</h2>
+          <h2 className="text-xl font-light text-theme-primary">Despre autor</h2>
         </div>
         <div className="p-6">
           <div className="flex items-start space-x-4">
@@ -303,16 +303,16 @@ export default function PoemPage({ params }: PoemPageProps) {
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
-              <h3 className="text-lg font-light mb-2" style={{ color: '#e2e2e2' }}>{poem.author.name}</h3>
+              <h3 className="text-lg font-light mb-2 text-theme-primary">{poem.author.name}</h3>
               {poem.author.bio && (
-                <p className="mb-3 font-light" style={{ color: '#9b9b9b' }}>{poem.author.bio}</p>
+                <p className="mb-3 font-light text-theme-secondary">{poem.author.bio}</p>
               )}
-              <div className="flex items-center space-x-4 text-sm" style={{ color: '#9b9b9b' }}>
+              <div className="flex items-center space-x-4 text-sm text-theme-secondary">
                 <span>{poem.author._count.poems} poezii publicate</span>
                 {poem.author.website && (
                   <Link
                     href={poem.author.website}
-                    className="text-pink-200 hover:text-pink-100 transition-colors"
+                    className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -325,7 +325,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                   variant="outline"
                   size="sm"
                   asChild
-                  className="bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
+                  className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light"
                 >
                   <Link href={`/authors/${poem.author.id}`}>
                     Vezi toate poeziile de {poem.author.name}

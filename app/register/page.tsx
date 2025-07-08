@@ -131,22 +131,22 @@ export default function RegisterPage() {
   // Show success state
   if (success && !error) {
     return (
-      <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+      <div className="min-h-screen bg-theme-dark">
         <div className="max-w-md mx-auto pt-16 px-6">
           <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
             <div className="p-6">
               <div className="text-center space-y-4">
-                <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto">
-                  <CheckCircle className="w-8 h-8 text-pink-300" />
+                <div className="w-16 h-16 bg-theme-accent-20 rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle className="w-8 h-8 text-theme-accent" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-light mb-2" style={{ color: '#e2e2e2' }}>Welcome to LOTUS!</h2>
-                  <p className="font-light" style={{ color: '#9b9b9b' }}>
+                  <h2 className="text-2xl font-light mb-2 text-theme-primary">Welcome to LOTUS!</h2>
+                  <p className="font-light text-theme-secondary">
                     Your account has been created successfully. You're being logged in automatically...
                   </p>
                 </div>
-                <div className="w-full bg-pink-300/20 rounded-full h-2">
-                  <div className="bg-pink-300 h-2 rounded-full animate-pulse" style={{ width: "100%" }}></div>
+                <div className="w-full bg-theme-accent-20 rounded-full h-2">
+                  <div className="bg-theme-accent h-2 rounded-full animate-pulse" style={{ width: "100%" }}></div>
                 </div>
               </div>
             </div>
@@ -157,15 +157,15 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen bg-theme-dark">
       <div className="max-w-md mx-auto pt-8 px-6">
         <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 shadow-lg">
           <div className="p-6 border-b border-white/10 text-center">
-            <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <UserPlus className="w-8 h-8 text-pink-300" />
+            <div className="w-16 h-16 bg-theme-accent-20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <UserPlus className="w-8 h-8 text-theme-accent" />
             </div>
-            <h1 className="text-2xl font-light" style={{ color: '#e2e2e2' }}>Join LOTUS</h1>
-            <p className="font-light" style={{ color: '#9b9b9b' }}>Create your poetry account</p>
+            <h1 className="text-2xl font-light text-theme-primary">Join LOTUS</h1>
+            <p className="font-light text-theme-secondary">Create your poetry account</p>
           </div>
 
           <div className="p-6">
@@ -178,7 +178,7 @@ export default function RegisterPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName" className="font-medium" style={{ color: '#e2e2e2' }}>
+                  <Label htmlFor="firstName" className="font-medium text-theme-primary">
                     First Name
                   </Label>
                   <Input
@@ -187,11 +187,11 @@ export default function RegisterPage() {
                     onChange={(e) => setFormData((prev) => ({ ...prev, firstName: e.target.value }))}
                     placeholder="First name"
                     required
-                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName" className="font-medium" style={{ color: '#e2e2e2' }}>
+                  <Label htmlFor="lastName" className="font-medium text-theme-primary">
                     Last Name
                   </Label>
                   <Input
@@ -200,13 +200,13 @@ export default function RegisterPage() {
                     onChange={(e) => setFormData((prev) => ({ ...prev, lastName: e.target.value }))}
                     placeholder="Last name"
                     required
-                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email" className="font-medium" style={{ color: '#e2e2e2' }}>
+                <Label htmlFor="email" className="font-medium text-theme-primary">
                   Email
                 </Label>
                 <Input
@@ -216,12 +216,12 @@ export default function RegisterPage() {
                   onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
                   placeholder="Enter your email"
                   required
-                  className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                  className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="font-medium" style={{ color: '#e2e2e2' }}>
+                <Label htmlFor="password" className="font-medium text-theme-primary">
                   Password
                 </Label>
                 <div className="relative">
@@ -233,12 +233,12 @@ export default function RegisterPage() {
                     placeholder="Create a password (min 6 characters)"
                     required
                     minLength={6}
-                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light pr-10"
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-pink-300 hover:text-pink-200"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-theme-accent hover:text-[rgb(var(--theme-accent-light))]"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -246,7 +246,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="font-medium" style={{ color: '#e2e2e2' }}>
+                <Label htmlFor="confirmPassword" className="font-medium text-theme-primary">
                   Confirm Password
                 </Label>
                 <div className="relative">
@@ -257,12 +257,12 @@ export default function RegisterPage() {
                     onChange={(e) => setFormData((prev) => ({ ...prev, confirmPassword: e.target.value }))}
                     placeholder="Confirm your password"
                     required
-                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light pr-10"
+                    className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light pr-10"
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-pink-300 hover:text-pink-200"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-theme-accent hover:text-[rgb(var(--theme-accent-light))]"
                   >
                     {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -270,8 +270,8 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="bio" className="font-medium" style={{ color: '#e2e2e2' }}>
-                  Bio <span className="text-xs font-light" style={{ color: '#9b9b9b' }}>(This will appear on your public author profile, optional)</span>
+                <Label htmlFor="bio" className="font-medium text-theme-primary">
+                  Bio <span className="text-xs font-light text-theme-secondary">(This will appear on your public author profile, optional)</span>
                 </Label>
                 <Textarea
                   id="bio"
@@ -279,9 +279,9 @@ export default function RegisterPage() {
                   onChange={e => setFormData(prev => ({ ...prev, bio: e.target.value.slice(0, 500) }))}
                   maxLength={500}
                   placeholder="Tell the world about yourself as a poet... (optional)"
-                  className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-pink-300 font-light"
+                  className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                 />
-                <div className="text-xs font-light mt-1" style={{ color: '#9b9b9b' }}>Max 500 characters.</div>
+                <div className="text-xs font-light mt-1 text-theme-secondary">Max 500 characters.</div>
               </div>
 
               <div className="flex items-start space-x-2">
@@ -291,13 +291,13 @@ export default function RegisterPage() {
                   onCheckedChange={(checked) => setFormData((prev) => ({ ...prev, agreeToTerms: checked as boolean }))}
                   className="mt-1"
                 />
-                <Label htmlFor="agreeToTerms" className="text-sm font-light leading-relaxed" style={{ color: '#9b9b9b' }}>
+                <Label htmlFor="agreeToTerms" className="text-sm font-light leading-relaxed text-theme-secondary">
                   I agree to the{" "}
-                  <Link href="/terms" className="text-pink-300 hover:text-pink-200 underline">
+                  <Link href="/terms" className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] underline">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link href="/privacy" className="text-pink-300 hover:text-pink-200 underline">
+                  <Link href="/privacy" className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] underline">
                     Privacy Policy
                   </Link>
                 </Label>
@@ -305,7 +305,7 @@ export default function RegisterPage() {
 
               <Button
                 type="submit"
-                className="w-full bg-transparent border-pink-300/40 text-white hover:bg-pink-300/20 hover:border-pink-300/60 transition-all font-light"
+                className="w-full bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light"
                 disabled={isLoading || !formData.agreeToTerms}
               >
                 {isLoading ? "Creating account..." : "Create Account"}
@@ -313,9 +313,9 @@ export default function RegisterPage() {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="font-light" style={{ color: '#9b9b9b' }}>
+              <p className="font-light text-theme-secondary">
                 Already have an account?{" "}
-                <Link href="/login" className="text-pink-300 hover:text-pink-200 font-medium transition-colors">
+                <Link href="/login" className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] font-medium transition-colors">
                   Sign in
                 </Link>
               </p>

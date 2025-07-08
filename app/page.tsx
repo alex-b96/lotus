@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Heart, MessageCircle, Share2, Clock, User, AlertCircle, RefreshCw } from "lucide-react"
+import { Heart, MessageCircle, Share2, Clock, User, AlertCircle, RefreshCw, PenTool, BookOpen } from "lucide-react"
 import Link from "next/link"
 import { usePoemLike } from "@/hooks/use-poem-like"
 import { sharePoem, ShareData } from "@/lib/share-utils"
@@ -52,7 +52,7 @@ export default function HomePage() {
   const [isLoadingRecent, setIsLoadingRecent] = useState(true)
   const [featuredError, setFeaturedError] = useState<string | null>(null)
   const [recentError, setRecentError] = useState<string | null>(null)
-  
+
   // Share modal state
   const [shareModalOpen, setShareModalOpen] = useState(false)
   const [shareData, setShareData] = useState<ShareData | null>(null)
@@ -122,7 +122,7 @@ export default function HomePage() {
   // Handle share button click
   const handleShare = async () => {
     if (!featuredPoem) return
-    
+
     const success = await sharePoem(
       {
         id: featuredPoem.id,
@@ -137,7 +137,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen w-full relative overflow-hidden" style={{ backgroundColor: '#0d0d0d' }}>
+    <div className="min-h-screen w-full relative overflow-hidden bg-theme-dark">
       {/* Add custom keyframes */}
       <style jsx>{`
         @keyframes fadeInUp {
@@ -198,13 +198,14 @@ export default function HomePage() {
         <section className="lg:col-span-3 self-start relative w-[90vw] lg:w-[680px] max-w-full">
           {/* Horizontal line above poem of the week */}
           <div className="absolute -top-8 left-0 w-2/3">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-pink-300/30 to-transparent drop-shadow-sm"></div>
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.3)] to-transparent drop-shadow-sm"></div>
             <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mt-1"></div>
           </div>
           {/* Poem of the Week Header */}
           <div className="flex items-center gap-3 mb-8">
-            <span className="text-pink-300 text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-pink-300 to-pink-200 bg-clip-text text-transparent drop-shadow-sm">
-              🖊️ POEZIA SĂPTĂMÂNII
+            <span className="text-theme-accent text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-[rgb(var(--theme-accent-primary))] to-[rgb(var(--theme-accent-light))] bg-clip-text text-transparent drop-shadow-sm flex items-center gap-2">
+              <PenTool className="w-4 h-4" />
+              POEZIA SĂPTĂMÂNII
             </span>
           </div>
 
@@ -220,32 +221,32 @@ export default function HomePage() {
               <AlertDescription className="text-red-200">{featuredError}</AlertDescription>
             </Alert>
           ) : featuredPoem ? (
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
               {/* Title */}
-              <h1 className="text-2xl lg:text-4xl font-light leading-none mb-6 drop-shadow-lg hover:drop-shadow-2xl transition-all duration-500 cursor-default" style={{ color: '#e2e2e2' }}>
+              <h1 className="text-2xl lg:text-4xl font-light leading-none mb-6 drop-shadow-lg hover:drop-shadow-2xl transition-all duration-500 cursor-default text-theme-primary">
                 {featuredPoem.title}
               </h1>
 
               {/* Author and Date */}
-              <div className="text-lg mb-2 drop-shadow-sm" style={{ color: '#e2e2e2' }}>
-                by <span className="italic text-pink-200 drop-shadow-sm hover:text-pink-100 transition-colors duration-300">{featuredPoem.author.name}</span>
-                <span className="ml-6 text-base" style={{ color: '#9b9b9b' }}>{formatDate(featuredPoem.publishedAt)}</span>
+              <div className="text-lg mb-2 drop-shadow-sm text-theme-primary">
+                by <span className="italic text-theme-accent drop-shadow-sm hover:text-[rgb(var(--theme-accent-light))] transition-colors duration-300">{featuredPoem.author.name}</span>
+                <span className="ml-6 text-base text-theme-secondary">{formatDate(featuredPoem.publishedAt)}</span>
               </div>
 
               {/* Poem Content */}
-              <div className="text-md leading-relaxed whitespace-pre-line mb-12 border-l-2 border-pink-300/50 pl-8 font-cormorant drop-shadow-sm relative" style={{ color: '#e2e2e2' }}>
+              <div className="text-md leading-relaxed whitespace-pre-line mb-12 border-l-2 border-theme-accent-50 pl-8 font-cormorant drop-shadow-sm relative text-theme-primary">
                 <div className="max-h-96 overflow-hidden">
                   {featuredPoem.content}
                 </div>
                 {featuredPoem.content.length > 500 && (
-                  <div className="italic mt-2" style={{ color: '#9b9b9b' }}>...</div>
+                  <div className="italic mt-2 text-theme-secondary">...</div>
                 )}
               </div>
 
               {/* Interaction Buttons */}
               <div className="flex items-center gap-8 mb-8">
                 <button
-                  className={`flex items-center gap-2 ${liked ? "text-pink-300" : "text-gray-400 hover:text-pink-300"} transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group`}
+                  className={`flex items-center gap-2 ${liked ? "text-theme-accent" : "text-gray-400 hover:text-theme-accent"} transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group`}
                   onClick={async () => {
                     if (!session?.user) {
                       window.location.href = "/login"
@@ -256,16 +257,16 @@ export default function HomePage() {
                   }}
                   disabled={likeLoading}
                 >
-                  <Heart className={`w-5 h-5 group-hover:animate-pulse ${liked ? "fill-pink-300" : ""}`} />
+                  <Heart className={`w-5 h-5 group-hover:animate-pulse ${liked ? "fill-theme-accent" : ""}`} />
                   <span className="font-light">{likeCount ?? featuredPoem.likes ?? 0}</span>
                 </button>
                 <div className="flex items-center gap-2 text-gray-400">
                   <MessageCircle className="w-5 h-5" />
                   <span className="font-light">{featuredPoem.comments ?? 0}</span>
                 </div>
-                <button 
+                <button
                   onClick={handleShare}
-                  className="flex items-center gap-2 text-gray-400 hover:text-pink-300 transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group"
+                  className="flex items-center gap-2 text-gray-400 hover:text-theme-accent transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group"
                 >
                   <Share2 className="w-5 h-5 group-hover:animate-pulse" />
                   <span className="font-light">Distribuie</span>
@@ -273,7 +274,7 @@ export default function HomePage() {
               </div>
 
               <Link href={`/poems/${featuredPoem.id}`}>
-                <Button className="bg-gradient-to-r from-transparent via-pink-300/10 to-transparent text-white border border-pink-300/40 hover:bg-pink-300/20 hover:border-pink-300/60 transition-all duration-300 px-8 py-3 rounded-lg font-light group">
+                <Button className="bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.1)] to-transparent text-white border border-theme-accent-40 hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all duration-300 px-8 py-3 rounded-lg font-light group">
                   <span className="flex items-center gap-2">
                     📖 Citește Întreaga Poezie
                     <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -290,13 +291,14 @@ export default function HomePage() {
         <aside className="lg:col-span-2 self-start relative">
           {/* Horizontal line above sidebar - desktop only */}
           <div className="hidden lg:block absolute -top-8 left-0 right-0">
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-pink-300/30 to-transparent drop-shadow-sm"></div>
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.3)] to-transparent drop-shadow-sm"></div>
             <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mt-1"></div>
           </div>
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-6">
-              <span className="text-pink-300 text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-pink-300 to-pink-200 bg-clip-text text-transparent drop-shadow-sm">
-                📚 Adăugate Recent
+              <span className="text-theme-accent text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-[rgb(var(--theme-accent-primary))] to-[rgb(var(--theme-accent-light))] bg-clip-text text-transparent drop-shadow-sm flex items-center gap-2">
+                <BookOpen className="w-4 h-4" />
+                Adăugate Recent
               </span>
             </div>
 
@@ -320,23 +322,23 @@ export default function HomePage() {
                 {recentPoems.map((poem, index) => (
                   <div
                     key={poem.id}
-                    className="group cursor-pointer bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] hover:drop-shadow-lg"
+                    className="group cursor-pointer bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] hover:drop-shadow-lg"
                     style={{
                       animationDelay: `${index * 100}ms`,
                       animation: 'fadeInUp 0.6s ease-out forwards'
                     }}
                   >
                     <Link href={`/poems/${poem.id}`} className="block">
-                      <h3 className="group-hover:text-pink-300 transition-all duration-300 font-medium mb-2 drop-shadow-sm" style={{ color: '#e2e2e2' }}>
+                      <h3 className="group-hover:text-theme-accent transition-all duration-300 font-medium mb-2 drop-shadow-sm text-theme-primary">
                         {poem.title}
                       </h3>
-                      <p className="text-sm mb-2 font-light" style={{ color: '#e2e2e2' }}>
-                        by <span className="text-pink-200/80">{poem.author.name}</span>
+                      <p className="text-sm mb-2 font-light text-theme-primary">
+                        by <span className="text-theme-accent">{poem.author.name}</span>
                       </p>
-                      <p className="text-xs italic mb-3 leading-relaxed" style={{ color: '#9b9b9b' }}>
+                      <p className="text-xs italic mb-3 leading-relaxed text-theme-secondary">
                         "{getPoemPreview(poem.content)}"
                       </p>
-                      <p className="text-xs font-light" style={{ color: '#9b9b9b' }}>
+                      <p className="text-xs font-light text-theme-secondary">
                         {formatDate(poem.publishedAt)}
                       </p>
                     </Link>
@@ -347,15 +349,15 @@ export default function HomePage() {
           </div>
 
           {/* Community Section - positioned to align with lotus */}
-          <div className="bg-gradient-to-br from-white/5 via-pink-300/5 to-white/10 backdrop-blur-md rounded-xl p-8 border border-white/10 hover:border-pink-300/20 transition-all duration-500 hover:from-white/10 hover:via-pink-300/10 hover:to-white/15 group">
-            <h3 className="text-xl text-white mb-4 drop-shadow-sm bg-gradient-to-r from-white to-pink-100 bg-clip-text text-transparent">
+          <div className="bg-gradient-to-br from-white/5 via-[rgb(var(--theme-accent-primary)/0.05)] to-white/10 backdrop-blur-md rounded-xl p-8 border border-white/10 hover:border-[rgb(var(--theme-accent-primary)/0.2)] transition-all duration-500 hover:from-white/10 hover:via-[rgb(var(--theme-accent-primary)/0.1)] hover:to-white/15 group">
+            <h3 className="text-xl text-white mb-4 drop-shadow-sm bg-gradient-to-r from-white to-[rgb(var(--theme-accent-light))] bg-clip-text text-transparent">
               Alătură-te Comunității
             </h3>
-            <p className="mb-6 text-sm leading-relaxed font-light drop-shadow-sm" style={{ color: '#9b9b9b' }}>
+            <p className="mb-6 text-sm leading-relaxed font-light drop-shadow-sm text-theme-secondary">
               Conectează-te cu ceilalți poeți și împărtășește călătoria creativă în comunitatea noastră în creștere de artă a cuvintelor.
             </p>
             <Link href="/submit">
-              <Button className="w-full bg-gradient-to-r from-pink-300/20 via-pink-200/20 to-pink-300/20 text-white border border-pink-300/30 hover:bg-pink-300/30 hover:border-pink-300/50 transition-all duration-300 py-3 rounded-lg font-light group">
+              <Button className="w-full bg-gradient-to-r from-[rgb(var(--theme-accent-primary)/0.2)] via-[rgb(var(--theme-accent-light)/0.2)] to-[rgb(var(--theme-accent-primary)/0.2)] text-white border border-theme-accent-30 hover:bg-theme-accent-30 hover:border-theme-accent-50 transition-all duration-300 py-3 rounded-lg font-light group">
                 <span className="flex items-center justify-center gap-2">
                   Trimite Poezia Ta
                   <span className="group-hover:translate-y-[-2px] transition-transform duration-300">✨</span>
