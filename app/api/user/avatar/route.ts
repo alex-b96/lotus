@@ -18,8 +18,24 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No file uploaded." }, { status: 400 })
   }
 
+  // 3. Validate file type
+  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
+  if (!allowedTypes.includes(file.type)) {
+    return NextResponse.json({ 
+      error: "Invalid file type. Only JPEG, PNG, GIF, and WebP images are allowed." 
+    }, { status: 400 })
+  }
+
+  // 4. Validate file size (5MB limit)
+  const maxSize = 5 * 1024 * 1024 // 5MB in bytes
+  if (file.size > maxSize) {
+    return NextResponse.json({ 
+      error: "File too large. Maximum size is 5MB." 
+    }, { status: 400 })
+  }
+
   try {
-    // 3. Delete the old avatar if it exists
+    // 5. Delete the old avatar if it exists
     const user = await db.user.findUnique({ where: { id: session.user.id } })
     if (user?.avatarUrl) {
       try {
@@ -34,18 +50,18 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 4. Upload the new file to Vercel Blob
+    // 6. Upload the new file to Vercel Blob
     const ext = file.name.split('.').pop() || 'jpg'
     const filename = `avatars/${session.user.id}_${Date.now()}.${ext}`
     const blob = await put(filename, file, { access: "public" })
 
-    // 5. Update the user's avatarUrl in the database
+    // 7. Update the user's avatarUrl in the database
     await db.user.update({
       where: { id: session.user.id },
       data: { avatarUrl: blob.url },
     })
 
-    // 6. Return the new avatar URL
+    // 8. Return the new avatar URL
     return NextResponse.json({ url: blob.url })
   } catch (error) {
     console.error("Avatar upload error:", error)

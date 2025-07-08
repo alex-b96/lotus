@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
 
     // Check admin auth directly
     const adminUser = await requireAdmin()
-    console.log('Admin API: Admin user verified:', adminUser.email)
+    console.log('Admin API: Admin user verified')
 
     // Parse query parameters for pagination and filtering
     const { searchParams } = new URL(req.url)

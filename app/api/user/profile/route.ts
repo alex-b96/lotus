@@ -34,17 +34,20 @@ export async function PUT(req: NextRequest) {
 
     const { name, email, bio } = validated.data
 
-    // 3. Update the user in the database with only the provided fields
+    // 3. Build update data object with only explicitly allowed fields
+    const updateData: Partial<{ name: string; email: string; bio: string | null }> = {}
+    
+    if (name) updateData.name = name
+    if (email) updateData.email = email  
+    if (bio !== undefined) updateData.bio = bio
+
+    // 4. Update the user in the database with only the allowed fields
     const updatedUser = await db.user.update({
       where: { id: session.user.id },
-      data: {
-        ...(name && { name }),
-        ...(email && { email }),
-        ...(bio !== undefined && { bio }),
-      },
+      data: updateData,
     })
 
-    // 4. Return the updated user (excluding password)
+    // 5. Return the updated user (excluding password)
     const { password, ...userWithoutPassword } = updatedUser
     return NextResponse.json(userWithoutPassword)
 

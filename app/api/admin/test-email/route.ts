@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     // Check admin authentication
     const adminUser = await requireAdmin()
-    console.log('Test Email API: Admin user verified:', adminUser.email)
+    console.log('Test Email API: Admin user verified')
 
     // Parse request body
     const body = await req.json()

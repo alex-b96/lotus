@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server"
 import { getToken } from "next-auth/jwt"
+import { env } from "./env"
 
 export interface AuthenticatedRequest extends NextRequest {
   user?: {
@@ -17,7 +18,7 @@ export async function getAuthenticatedUser(request: NextRequest) {
   try {
     const token = await getToken({
       req: request,
-      secret: process.env.NEXTAUTH_SECRET
+      secret: env.NEXTAUTH_SECRET
     })
 
     if (!token || !token.sub) {

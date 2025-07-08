@@ -1,4 +1,5 @@
 import * as nodemailer from 'nodemailer'
+import { env } from './env'
 
 // Email configuration interface
 interface EmailConfig {
@@ -13,13 +14,18 @@ interface EmailConfig {
 
 // Create email transporter
 function createTransporter() {
+  // Check if email is configured
+  if (!env.SMTP_HOST || !env.SMTP_USER || !env.SMTP_PASS) {
+    throw new Error('Email service not configured. Please set SMTP_HOST, SMTP_USER, and SMTP_PASS environment variables.')
+  }
+
   const config: EmailConfig = {
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true',
+    host: env.SMTP_HOST,
+    port: parseInt(env.SMTP_PORT || '587'),
+    secure: env.SMTP_SECURE === 'true',
     auth: {
-      user: process.env.SMTP_USER || '',
-      pass: process.env.SMTP_PASS || '',
+      user: env.SMTP_USER,
+      pass: env.SMTP_PASS,
     },
   }
 
@@ -62,7 +68,7 @@ function createApprovalEmailTemplate(authorName: string, poemTitle: string) {
 
             <p>Your beautiful words are now live and can be discovered by poetry lovers in our community. Thank you for sharing your creativity with us!</p>
 
-            <a href="${process.env.NEXTAUTH_URL}/poems" class="cta-button">View Your Published Poem</a>
+            <a href="${env.NEXTAUTH_URL}/poems" class="cta-button">View Your Published Poem</a>
 
             <p>Keep writing and sharing your amazing work!</p>
 
@@ -83,7 +89,7 @@ function createApprovalEmailTemplate(authorName: string, poemTitle: string) {
 
     Your poem is now live and can be discovered by poetry lovers in our community. Thank you for sharing your creativity with us!
 
-    Visit ${process.env.NEXTAUTH_URL}/poems to see your published poem.
+    Visit ${env.NEXTAUTH_URL}/poems to see your published poem.
 
     Keep writing and sharing your amazing work!
 
@@ -143,7 +149,7 @@ function createRejectionEmailTemplate(authorName: string, poemTitle: string, rej
               <li>Submit new poems that showcase your creativity</li>
             </ul>
 
-            <a href="${process.env.NEXTAUTH_URL}/submit" class="cta-button">Submit Another Poem</a>
+            <a href="${env.NEXTAUTH_URL}/submit" class="cta-button">Submit Another Poem</a>
 
             <p>We believe every poet has something valuable to share, and we look forward to seeing more of your work!</p>
 
@@ -171,7 +177,7 @@ function createRejectionEmailTemplate(authorName: string, poemTitle: string, rej
     - Consider revising this piece based on any feedback provided
     - Submit new poems that showcase your creativity
 
-    Visit ${process.env.NEXTAUTH_URL}/submit to submit another poem.
+    Visit ${env.NEXTAUTH_URL}/submit to submit another poem.
 
     We believe every poet has something valuable to share, and we look forward to seeing more of your work!
 
@@ -193,7 +199,7 @@ export async function sendApprovalEmail(
     const { subject, html, text } = createApprovalEmailTemplate(authorName, poemTitle)
 
     const mailOptions = {
-      from: `"LOTUS Poetry" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      from: `"LOTUS Poetry" <${env.SMTP_FROM || env.SMTP_USER}>`,
       to: authorEmail,
       subject,
       html,
@@ -225,7 +231,7 @@ export async function sendRejectionEmail(
     const { subject, html, text } = createRejectionEmailTemplate(authorName, poemTitle, rejectionReason)
 
     const mailOptions = {
-      from: `"LOTUS Poetry" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      from: `"LOTUS Poetry" <${env.SMTP_FROM || env.SMTP_USER}>`,
       to: authorEmail,
       subject,
       html,
@@ -278,7 +284,7 @@ export async function sendContactEmail(
   try {
     const transporter = createTransporter()
     // Compose the email content
-    const to = process.env.SMTP_USER || process.env.SMTP_FROM || ''
+    const to = env.SMTP_USER || env.SMTP_FROM || ''
     const mailSubject = `[Contact Form] ${subject}`
     const html = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
@@ -292,7 +298,7 @@ export async function sendContactEmail(
     `
     const text = `New Contact Form Submission\n\nName: ${fromName}\nEmail: ${fromEmail}\nSubject: ${subject}\n\nMessage:\n${message}`
     const mailOptions = {
-      from: `Contact Form <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      from: `Contact Form <${env.SMTP_FROM || env.SMTP_USER}>`,
       to,
       subject: mailSubject,
       html,

@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 import { db } from "./db"
+import { env } from "./env"
 
 // Extend NextAuth types
 declare module "next-auth" {
@@ -87,13 +88,21 @@ export const authOptions: NextAuthOptions = {
         token.bio = user.bio
       }
 
-      // On session update (e.g., after profile update), update the token
-      // with the data passed from the client.
-      if (trigger === "update" && session) {
-        token.name = session.name
-        token.email = session.email
-        token.avatarUrl = session.avatarUrl
-        token.bio = session.bio
+      // Secure session updates: fetch fresh data from database when triggered
+      if (trigger === "update") {
+        // Get fresh user data from database (server-side, secure)
+        const freshUser = await db.user.findUnique({
+          where: { id: token.sub },
+          select: { name: true, email: true, bio: true, avatarUrl: true }
+        })
+        
+        // Only update token with verified database data
+        if (freshUser) {
+          token.name = freshUser.name     // ✅ From database, not client
+          token.email = freshUser.email   // ✅ Secure source
+          token.bio = freshUser.bio       // ✅ Verified data
+          token.avatarUrl = freshUser.avatarUrl // ✅ Trustworthy
+        }
       }
 
       return token

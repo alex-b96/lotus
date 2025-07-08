@@ -13,7 +13,7 @@ export async function PUT(
 
     // Check admin auth directly
     const adminUser = await requireAdmin()
-    console.log('Reject API: Admin user verified:', adminUser.email)
+    console.log('Reject API: Admin user verified')
 
     if (!poemId) {
       return NextResponse.json(
