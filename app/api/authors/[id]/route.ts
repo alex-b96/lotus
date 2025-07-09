@@ -42,7 +42,7 @@ export async function GET(
             createdAt: true,
             _count: {
               select: {
-                likes: true,
+                starRatings: true,
                 comments: true,
               }
             },
@@ -91,7 +91,7 @@ export async function GET(
       readingTime: poem.readingTime,
       publishedAt: poem.publishedAt,
       createdAt: poem.createdAt,
-      likes: poem._count.likes,
+      likes: poem._count.starRatings,
       comments: poem._count.comments,
     }))
 

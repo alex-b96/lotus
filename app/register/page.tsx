@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { UserPlus, Eye, EyeOff, CheckCircle } from "lucide-react"
 import Link from "next/link"
@@ -21,7 +20,6 @@ export default function RegisterPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    agreeToTerms: false,
     bio: "",
   })
   const [showPassword, setShowPassword] = useState(false)
@@ -54,10 +52,6 @@ export default function RegisterPage() {
     }
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords don't match")
-      return false
-    }
-    if (!formData.agreeToTerms) {
-      setError("You must agree to the terms and conditions")
       return false
     }
     return true
@@ -284,29 +278,11 @@ export default function RegisterPage() {
                 <div className="text-xs font-light mt-1 text-theme-secondary">Max 500 characters.</div>
               </div>
 
-              <div className="flex items-start space-x-2">
-                <Checkbox
-                  id="agreeToTerms"
-                  checked={formData.agreeToTerms}
-                  onCheckedChange={(checked) => setFormData((prev) => ({ ...prev, agreeToTerms: checked as boolean }))}
-                  className="mt-1"
-                />
-                <Label htmlFor="agreeToTerms" className="text-sm font-light leading-relaxed text-theme-secondary">
-                  I agree to the{" "}
-                  <Link href="/terms" className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] underline">
-                    Terms of Service
-                  </Link>{" "}
-                  and{" "}
-                  <Link href="/privacy" className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] underline">
-                    Privacy Policy
-                  </Link>
-                </Label>
-              </div>
 
               <Button
                 type="submit"
                 className="w-full bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light"
-                disabled={isLoading || !formData.agreeToTerms}
+                disabled={isLoading}
               >
                 {isLoading ? "Creating account..." : "Create Account"}
               </Button>

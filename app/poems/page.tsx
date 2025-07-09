@@ -7,12 +7,28 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Heart, MessageCircle, Search, Filter, User, Clock, Loader2, AlertCircle, RefreshCcw, BookOpen } from "lucide-react"
+import { Heart, MessageCircle, Search, Filter, User, Clock, Loader2, AlertCircle, RefreshCcw, BookOpen, Star } from "lucide-react"
 import Link from "next/link"
 import { usePoemListing } from "@/hooks/use-poem-listing"
 import { Pagination, PaginationInfo } from "@/components/pagination"
+import { StarRating } from "@/components/star-rating"
+import { useStarRating } from "@/hooks/use-star-rating"
 
 const categories = ["Toate", "Liric", "Haiku", "Modern", "Clasic", "Experimental"]
+
+// Simple component to display average rating
+function SimpleRating({ poemId }: { poemId: string }) {
+  const { averageRating, totalRatings } = useStarRating(poemId)
+
+  return (
+    <div className="flex items-center space-x-1 text-gray-400 text-sm">
+      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+      <span className="font-light">
+        {averageRating > 0 ? averageRating.toFixed(1) : "0.0"} ({totalRatings})
+      </span>
+    </div>
+  )
+}
 
 function PoemsPageContent() {
   const {
@@ -42,7 +58,7 @@ function PoemsPageContent() {
 
   return (
     <div className="min-h-screen text-white bg-theme-dark">
-      <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
+      <div className="max-w-7xl mx-auto px-1 sm:px-6 py-16 space-y-12">
         {/* Header */}
         <div className="text-center">
           <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Colecția de Poezii</h1>
@@ -52,7 +68,7 @@ function PoemsPageContent() {
         </div>
 
         {/* Search and Filter */}
-        <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/10 p-8">
+        <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/10 p-3 sm:p-8">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Search Input */}
             <div className="flex-1 relative">
@@ -147,7 +163,7 @@ function PoemsPageContent() {
                 variant="outline"
                 size="sm"
                 onClick={retry}
-                className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black font-light"
+                className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-white font-light"
               >
                 <RefreshCcw className="w-4 h-4 mr-1" />
                 Încearcă din nou
@@ -172,7 +188,7 @@ function PoemsPageContent() {
                 key={poem.id}
                 className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:border-theme-accent-30 transition-all duration-300 hover:transform hover:scale-105 group"
               >
-                <div className="p-6">
+                <div className="p-3 sm:p-6">
                   <div className="flex items-start justify-between mb-4">
                     <span className="px-3 py-1 bg-theme-accent-20 text-theme-accent text-xs font-light rounded-full border border-theme-accent-30">
                       {poem.category}
@@ -183,11 +199,11 @@ function PoemsPageContent() {
                       </span>
                     )}
                   </div>
-                  
+
                   <h3 className="text-xl font-light text-white mb-3 group-hover:text-theme-accent transition-colors">
                     <Link href={`/poems/${poem.id}`}>{poem.title}</Link>
                   </h3>
-                  
+
                   <div className="flex items-center space-x-4 text-sm text-gray-400 mb-4">
                     <div className="flex items-center space-x-1">
                       <User className="w-4 h-4" />
@@ -218,10 +234,7 @@ function PoemsPageContent() {
 
                   <div className="flex items-center justify-between pt-4 border-t border-white/10">
                     <div className="flex items-center space-x-4">
-                      <div className="flex items-center text-gray-400 text-sm">
-                        <Heart className="w-4 h-4 mr-1" />
-                        <span className="font-light">{poem.likes}</span>
-                      </div>
+                      <SimpleRating poemId={poem.id} />
                       <div className="flex items-center text-gray-400 text-sm">
                         <MessageCircle className="w-4 h-4 mr-1" />
                         <span className="font-light">{poem.comments}</span>
@@ -231,7 +244,7 @@ function PoemsPageContent() {
                       variant="outline"
                       size="sm"
                       asChild
-                      className="bg-transparent border-white/30 text-white hover:bg-theme-accent hover:text-black hover:border-theme-accent font-light"
+                      className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:text-white hover:border-theme-accent-60 transition-all font-light"
                     >
                       <Link href={`/poems/${poem.id}`}>Citește mai mult</Link>
                     </Button>
@@ -295,7 +308,7 @@ function PoemsPageContent() {
 function PoemsPageLoading() {
   return (
     <div className="min-h-screen text-white bg-theme-dark">
-      <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
+      <div className="max-w-7xl mx-auto px-1 sm:px-6 py-16 space-y-12">
         <div className="text-center">
           <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Colecția de Poezii</h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">

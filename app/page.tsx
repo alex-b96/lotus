@@ -8,9 +8,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Heart, MessageCircle, Share2, Clock, User, AlertCircle, RefreshCw, PenTool, BookOpen } from "lucide-react"
 import Link from "next/link"
-import { usePoemLike } from "@/hooks/use-poem-like"
 import { sharePoem, ShareData } from "@/lib/share-utils"
 import { ShareModal } from "@/components/share-modal"
+import { StarRating } from "@/components/star-rating"
 
 interface Author {
   id: string
@@ -56,10 +56,6 @@ export default function HomePage() {
   // Share modal state
   const [shareModalOpen, setShareModalOpen] = useState(false)
   const [shareData, setShareData] = useState<ShareData | null>(null)
-
-  // Like state for featured poem
-  const likeHook = usePoemLike(featuredPoem?.id)
-  const { liked, count: likeCount, loading: likeLoading, like, unlike, session } = likeHook
 
   // Fetch featured poem
   const fetchFeaturedPoem = async () => {
@@ -160,6 +156,28 @@ export default function HomePage() {
           50% { transform: translateY(-12px) rotate(1deg); }
           75% { transform: translateY(-6px) rotate(-0.5deg); }
         }
+        @keyframes stemWave {
+          0% {
+            opacity: 0.3;
+            transform: translateX(-2px);
+          }
+          25% {
+            opacity: 0.5;
+            transform: translateX(1px);
+          }
+          50% {
+            opacity: 0.4;
+            transform: translateX(2px);
+          }
+          75% {
+            opacity: 0.5;
+            transform: translateX(-1px);
+          }
+          100% {
+            opacity: 0.3;
+            transform: translateX(-2px);
+          }
+        }
       `}</style>
 
       {/* Lotus background with reflection - positioned at top of columns */}
@@ -192,10 +210,31 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Lotus stem - wavy path from lotus to bottom */}
+      <div className="absolute left-[calc(50%+100px)] sm:left-1/2 top-[120px] w-[320px] h-[calc(100vh-120px)] pointer-events-none z-0">
+        <svg
+          className="w-full h-full"
+          viewBox="0 0 320 800"
+          preserveAspectRatio="none"
+          style={{
+            animation: 'stemWave 8s ease-in-out infinite'
+          }}
+        >
+          <path
+            d="M160 0 Q165 80 170 160 Q180 240 200 320 Q220 400 230 480 Q225 560 200 640 Q180 720 160 800"
+            stroke="rgba(var(--theme-accent-primary), 0.2)"
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+            strokeDasharray="5,5"
+          />
+        </svg>
+      </div>
+
       {/* Main content container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 pt-16 grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+      <div className="relative z-10 max-w-7xl mx-auto px-0 sm:px-6 pt-16 grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
         {/* Main Section: Poem of the Week */}
-        <section className="lg:col-span-3 self-start relative w-[90vw] lg:w-[680px] max-w-full">
+        <section className="lg:col-span-3 self-start relative w-[100vw] sm:w-[90vw] lg:w-[680px] max-w-full">
           {/* Horizontal line above poem of the week */}
           <div className="absolute -top-8 left-0 w-2/3">
             <div className="w-full h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.3)] to-transparent drop-shadow-sm"></div>
@@ -221,7 +260,7 @@ export default function HomePage() {
               <AlertDescription className="text-red-200">{featuredError}</AlertDescription>
             </Alert>
           ) : featuredPoem ? (
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-2 sm:p-8 border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
               {/* Title */}
               <h1 className="text-2xl lg:text-4xl font-light leading-none mb-6 drop-shadow-lg hover:drop-shadow-2xl transition-all duration-500 cursor-default text-theme-primary">
                 {featuredPoem.title}
@@ -234,7 +273,7 @@ export default function HomePage() {
               </div>
 
               {/* Poem Content */}
-              <div className="text-md leading-relaxed whitespace-pre-line mb-12 border-l-2 border-theme-accent-50 pl-8 font-cormorant drop-shadow-sm relative text-theme-primary">
+              <div className="text-md leading-relaxed whitespace-pre-line mb-12 drop-shadow-sm relative font-light text-theme-primary">
                 <div className="max-h-96 overflow-hidden">
                   {featuredPoem.content}
                 </div>
@@ -243,23 +282,13 @@ export default function HomePage() {
                 )}
               </div>
 
+              {/* Star Rating */}
+              <div className="mb-8">
+                <StarRating poemId={featuredPoem.id} size="lg" showStats={true} />
+              </div>
+
               {/* Interaction Buttons */}
               <div className="flex items-center gap-8 mb-8">
-                <button
-                  className={`flex items-center gap-2 ${liked ? "text-theme-accent" : "text-gray-400 hover:text-theme-accent"} transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group`}
-                  onClick={async () => {
-                    if (!session?.user) {
-                      window.location.href = "/login"
-                      return
-                    }
-                    if (likeLoading) return
-                    liked ? await unlike() : await like()
-                  }}
-                  disabled={likeLoading}
-                >
-                  <Heart className={`w-5 h-5 group-hover:animate-pulse ${liked ? "fill-theme-accent" : ""}`} />
-                  <span className="font-light">{likeCount ?? featuredPoem.likes ?? 0}</span>
-                </button>
                 <div className="flex items-center gap-2 text-gray-400">
                   <MessageCircle className="w-5 h-5" />
                   <span className="font-light">{featuredPoem.comments ?? 0}</span>

@@ -337,7 +337,7 @@ export default function SubmitPoemPage() {
               {/* Category */}
               <div className="space-y-2">
                 <Label htmlFor="category" className="font-medium text-theme-primary">
-                  Category *
+                  Categorie *
                 </Label>
                 <Select
                   value={formData.category}
@@ -368,7 +368,7 @@ export default function SubmitPoemPage() {
               {/* Content */}
               <div className="space-y-2">
                 <Label htmlFor="content" className="font-medium text-theme-primary">
-                  Poem Content *
+                  Poezie *
                 </Label>
                 <Textarea
                   id="content"
@@ -434,7 +434,7 @@ export default function SubmitPoemPage() {
               </div>
 
               {/* Author Note */}
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="authorNote" className="font-medium text-theme-primary">
                   Notă autorului (opțional)
                 </Label>
@@ -445,7 +445,7 @@ export default function SubmitPoemPage() {
                   placeholder="Partajați orice inspirație sau context din spatele poeziei dumneavoastră..."
                   className="min-h-[100px] bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                 />
-              </div>
+              </div> */}
 
               {/* Submit Button */}
               <div className="pt-6 border-t border-white/10">

@@ -15,28 +15,28 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-light mb-6 tracking-wide uppercase text-sm text-theme-primary">Explore</h4>
+            <h4 className="font-light mb-6 tracking-wide uppercase text-sm text-theme-primary">Explorează</h4>
             <ul className="space-y-3 text-theme-secondary">
               <li>
                 <Link href="/poems" className="transition-colors font-light hover:text-white text-theme-secondary">
-                  Poems
+                  Poezii
                 </Link>
               </li>
               <li>
                 <Link href="/authors" className="transition-colors font-light hover:text-white text-theme-secondary">
-                  Authors
+                  Autori
                 </Link>
               </li>
               <li>
                 <Link href="/submit" className="transition-colors font-light hover:text-white text-theme-secondary">
-                  Submit Poem
+                  Trimite Poezie
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-light mb-6 tracking-wide uppercase text-sm text-theme-primary">Community</h4>
+            <h4 className="font-light mb-6 tracking-wide uppercase text-sm text-theme-primary">Comunitate</h4>
             <ul className="space-y-3 text-theme-secondary">
               <li>
                 <Link href="/feedback" className="transition-colors font-light hover:text-white text-theme-secondary">
@@ -45,7 +45,7 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/about" className="transition-colors font-light hover:text-white text-theme-secondary">
-                  About
+                  Despre
                 </Link>
               </li>
               <li>
@@ -57,15 +57,15 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-light mb-6 tracking-wide uppercase text-sm text-theme-primary">Connect</h4>
+            <h4 className="font-light mb-6 tracking-wide uppercase text-sm text-theme-primary">Conectează-te</h4>
             <p className="text-sm font-light leading-relaxed text-theme-secondary">
-              Join our community of poetry lovers and share your creative expressions.
+              Alătură-te comunității noastre de iubitori ai poeziei și împărtășește-ți expresiile creative.
             </p>
           </div>
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-8 text-center text-theme-secondary">
-          <p className="font-light text-sm">&copy; 2024 LOTUS Poetry. All rights reserved.</p>
+          <p className="font-light text-sm">&copy; 2024 LOTUS Poetry. Toate drepturile rezervate.</p>
         </div>
       </div>
     </footer>

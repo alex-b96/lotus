@@ -96,7 +96,7 @@ export async function GET(
     // Build orderBy clause
     const orderBy: any = {}
     if (query.sortBy === "likes") {
-      orderBy.likes = { _count: query.order }
+      orderBy.starRatings = { _count: query.order }
     } else {
       orderBy[query.sortBy] = query.order
     }
@@ -124,7 +124,7 @@ export async function GET(
           },
           _count: {
             select: {
-              likes: true,
+              starRatings: true,
               comments: true,
             }
           }
@@ -148,7 +148,7 @@ export async function GET(
       publishedAt: poem.publishedAt,
       createdAt: poem.createdAt,
       updatedAt: poem.updatedAt,
-      likes: poem._count.likes,
+      likes: poem._count.starRatings,
       comments: poem._count.comments,
     }))
 

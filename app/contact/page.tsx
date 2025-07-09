@@ -70,9 +70,9 @@ export default function ContactPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         {/* Contact Form */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-3">
           <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
             <div className="p-6 border-b border-white/10">
               <h2 className="text-2xl font-light flex items-center space-x-2 text-theme-primary">
@@ -172,7 +172,7 @@ export default function ContactPage() {
         </div>
 
         {/* Contact Information */}
-        <div className="space-y-6">
+        <div className="lg:col-span-2 space-y-6">
           <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
             <div className="p-6 border-b border-white/10">
               <h3 className="text-xl font-light text-theme-primary">Contact Information</h3>
@@ -218,7 +218,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
+          {/* <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
             <div className="p-6 border-b border-white/10">
               <h3 className="text-xl font-light text-theme-primary">Quick Links</h3>
             </div>
@@ -252,7 +252,7 @@ export default function ContactPage() {
                 <a href="/privacy">Politica de confidențialitate</a>
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       </div>

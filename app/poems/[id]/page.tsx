@@ -8,13 +8,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Heart, MessageCircle, Share2, Clock, BookOpen, AlertCircle, RefreshCcw } from "lucide-react"
+import { MessageCircle, Share2, Clock, BookOpen, AlertCircle, RefreshCcw } from "lucide-react"
 import Link from "next/link"
 import { CommentSection } from "@/components/comment-section"
 import { usePoemDetail } from "@/hooks/use-poem-detail"
-import { usePoemLike } from "@/hooks/use-poem-like"
 import { sharePoem, ShareData } from "@/lib/share-utils"
 import { ShareModal } from "@/components/share-modal"
+import { StarRating } from "@/components/star-rating"
 
 interface PoemPageProps {
   params: Promise<{ id: string }>
@@ -24,13 +24,10 @@ export default function PoemPage({ params }: PoemPageProps) {
   const { id } = use(params)
   const { poem, loading, error, retry } = usePoemDetail(id)
   const [commentCount, setCommentCount] = useState<number | undefined>(undefined)
-  
+
   // Share modal state
   const [shareModalOpen, setShareModalOpen] = useState(false)
   const [shareData, setShareData] = useState<ShareData | null>(null)
-
-  // Like state management (always call the hook)
-  const { liked, count: likeCount, loading: likeLoading, like, unlike, session } = usePoemLike(poem?.id)
 
   useEffect(() => {
     if (poem) setCommentCount(poem.comments)
@@ -40,9 +37,9 @@ export default function PoemPage({ params }: PoemPageProps) {
   if (loading) {
     return (
       <div className="min-h-screen relative overflow-hidden bg-theme-dark">
-        <div className="relative z-10 max-w-4xl mx-auto px-6 py-16 space-y-8">
+        <div className="relative z-10 max-w-4xl mx-auto px-1 sm:px-6 py-16 space-y-8">
         <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
-          <div className="text-center border-b border-white/10 p-8">
+          <div className="text-center border-b border-white/10 p-3 sm:p-8">
             <div className="flex items-center justify-center space-x-2 mb-4">
               <Skeleton className="h-6 w-16" />
               <Skeleton className="h-6 w-20" />
@@ -54,7 +51,7 @@ export default function PoemPage({ params }: PoemPageProps) {
               <Skeleton className="h-4 w-20" />
             </div>
           </div>
-          <div className="p-8">
+          <div className="p-3 sm:p-8">
             <div className="space-y-4 mb-8">
               <Skeleton className="h-4 w-full" />
               <Skeleton className="h-4 w-3/4" />
@@ -77,8 +74,8 @@ export default function PoemPage({ params }: PoemPageProps) {
   if (error) {
     return (
       <div className="min-h-screen relative overflow-hidden bg-theme-dark">
-        <div className="relative z-10 max-w-4xl mx-auto px-6 py-16">
-        <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+        <div className="relative z-10 max-w-4xl mx-auto px-1 sm:px-6 py-16">
+        <div className="bg-red-900/20 border border-red-800 rounded-xl p-3 sm:p-6">
           <div className="flex items-center gap-3">
             <AlertCircle className="h-5 w-5 text-red-400" />
             <div className="text-red-200">
@@ -87,10 +84,10 @@ export default function PoemPage({ params }: PoemPageProps) {
                 <p className="font-medium mb-2">Poezia nu a fost găsită</p>
                 <p>Poezia pe care o cauți nu există sau ar putea fi ștearsă.</p>
                 <div className="mt-4 space-x-2">
-                  <Button variant="outline" size="sm" asChild className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black">
+                  <Button variant="outline" size="sm" asChild className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-white">
                     <Link href="/poems">Navighează toate poeziile</Link>
                   </Button>
-                  <Button variant="outline" size="sm" asChild className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black">
+                  <Button variant="outline" size="sm" asChild className="bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-white">
                     <Link href="/">Mergi acasă</Link>
                   </Button>
                 </div>
@@ -103,7 +100,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                   variant="outline"
                   size="sm"
                   onClick={retry}
-                  className="mt-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
+                  className="mt-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-white"
                 >
                   <RefreshCcw className="h-4 w-4 mr-2" />
                   Încearcă din nou
@@ -150,7 +147,7 @@ export default function PoemPage({ params }: PoemPageProps) {
   // Handle share button click
   const handleShare = async () => {
     if (!poem) return
-    
+
     const success = await sharePoem(
       {
         id: poem.id,
@@ -188,10 +185,10 @@ export default function PoemPage({ params }: PoemPageProps) {
         />
       </div> */}
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 py-16 space-y-8">
+      <div className="relative z-10 max-w-4xl mx-auto px-1 sm:px-6 py-16 space-y-8">
       {/* Poem Content */}
       <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
-        <div className="border-b border-white/10 p-8">
+        <div className="border-b border-white/10 p-3 sm:p-8">
           <div className="flex items-center space-x-2 mb-4">
             <Badge variant="outline" className="border-theme-accent-40 text-theme-accent bg-theme-accent-10">
               {poem.category}
@@ -224,11 +221,11 @@ export default function PoemPage({ params }: PoemPageProps) {
           </div>
         </div>
 
-        <div className="p-8">
+        <div className="p-3 sm:p-8">
           <div className="prose prose-theme max-w-none mb-8">
-            <pre className="whitespace-pre-wrap font-cormorant text-lg leading-relaxed text-left text-theme-primary">
+            <div className="whitespace-pre-wrap font-light text-md leading-relaxed text-left text-theme-primary">
               {poem.content}
-            </pre>
+            </div>
           </div>
 
           {poem.tags.length > 0 && (
@@ -248,42 +245,32 @@ export default function PoemPage({ params }: PoemPageProps) {
 
           <div className="my-6 h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.3)] to-transparent"></div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              {/* Like Button */}
-              <Button
-                variant="ghost"
-                className={`${liked ? "text-theme-accent" : "text-gray-400 hover:text-theme-accent"} transition-all duration-300 hover:scale-110 hover:drop-shadow-lg group`}
-                onClick={async () => {
-                  if (!session?.user) {
-                    window.location.href = "/login"
-                    return
-                  }
-                  if (likeLoading) return
-                  liked ? await unlike() : await like()
-                }}
-                disabled={likeLoading}
-              >
-                <Heart className={`w-5 h-5 mr-2 group-hover:animate-pulse ${liked ? "fill-theme-accent" : ""}`} />
-                <span className="hidden sm:inline">{likeCount} Aprecieri</span>
-                <span className="sm:hidden">{likeCount}</span>
-              </Button>
-              {/* Comments count: static, not a button */}
-              <div className="flex items-center text-gray-400 text-sm">
-                <MessageCircle className="w-5 h-5 mr-2" />
-                <span className="hidden sm:inline">{commentCount ?? 0} Comentarii</span>
-                <span className="sm:hidden">{commentCount ?? 0}</span>
-              </div>
+          <div className="flex flex-col space-y-4">
+            {/* Star Rating */}
+            <div className="flex items-center justify-between">
+              <StarRating poemId={poem.id} size="md" showStats={true} />
             </div>
-            <div className="flex items-center space-x-2">
-              <Button 
-                onClick={handleShare}
-                variant="outline" 
-                className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light"
-              >
-                <Share2 className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">Partajează</span>
-              </Button>
+
+            {/* Actions */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                {/* Comments count: static, not a button */}
+                <div className="flex items-center text-gray-400 text-sm">
+                  <MessageCircle className="w-5 h-5 mr-2" />
+                  <span className="hidden sm:inline">{commentCount ?? 0} Comentarii</span>
+                  <span className="sm:hidden">{commentCount ?? 0}</span>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button
+                  onClick={handleShare}
+                  variant="outline"
+                  className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 hover:text-white transition-all font-light"
+                >
+                  <Share2 className="w-4 h-4 mr-2" />
+                  <span className="hidden sm:inline">Partajează</span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -291,10 +278,10 @@ export default function PoemPage({ params }: PoemPageProps) {
 
       {/* Author Info */}
       <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
-        <div className="p-6 border-b border-white/10">
+        <div className="p-3 sm:p-6 border-b border-white/10">
           <h2 className="text-xl font-light text-theme-primary">Despre autor</h2>
         </div>
-        <div className="p-6">
+        <div className="p-3 sm:p-6">
           <div className="flex items-start space-x-4">
             <Avatar className="w-16 h-16">
               <AvatarImage src={poem.author.avatarUrl} alt={poem.author.name} />
@@ -325,7 +312,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                   variant="outline"
                   size="sm"
                   asChild
-                  className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light"
+                  className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:text-white hover:border-theme-accent-60 transition-all font-light"
                 >
                   <Link href={`/authors/${poem.author.id}`}>
                     Vezi toate poeziile de {poem.author.name}

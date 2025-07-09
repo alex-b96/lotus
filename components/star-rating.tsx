@@ -1,0 +1,150 @@
+"use client"
+
+import { useState } from "react"
+import { Star } from "lucide-react"
+import { useStarRating } from "@/hooks/use-star-rating"
+
+interface StarRatingProps {
+  poemId: string
+  className?: string
+  size?: "sm" | "md" | "lg"
+  showStats?: boolean
+  interactive?: boolean
+}
+
+export function StarRating({
+  poemId,
+  className = "",
+  size = "md",
+  showStats = true,
+  interactive = true
+}: StarRatingProps) {
+  const {
+    averageRating,
+    totalRatings,
+    userRating,
+    loading,
+    error,
+    rate,
+    removeRating,
+    session
+  } = useStarRating(poemId)
+
+  const [hoverRating, setHoverRating] = useState<number | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const starSizes = {
+    sm: "w-4 h-4",
+    md: "w-5 h-5",
+    lg: "w-6 h-6"
+  }
+
+  const handleStarClick = async (rating: number) => {
+    if (!interactive || !session?.user || isSubmitting) return
+
+    setIsSubmitting(true)
+    try {
+      if (userRating === rating) {
+        // If clicking the same star, remove the rating
+        await removeRating()
+      } else {
+        // Otherwise, set the new rating
+        await rate(rating)
+      }
+    } catch (err) {
+      console.error("Error handling star click:", err)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleStarHover = (rating: number) => {
+    if (!interactive || !session?.user || isSubmitting) return
+    setHoverRating(rating)
+  }
+
+  const handleMouseLeave = () => {
+    if (!interactive || !session?.user || isSubmitting) return
+    setHoverRating(null)
+  }
+
+  const getStarState = (starIndex: number) => {
+    const effectiveRating = hoverRating !== null ? hoverRating : (userRating || 0)
+
+    if (interactive && session?.user) {
+      // Interactive mode: show hover or user rating
+      return starIndex <= effectiveRating
+    } else {
+      // Display mode: show average rating
+      return starIndex <= Math.round(averageRating)
+    }
+  }
+
+  const formatRating = (rating: number) => {
+    return rating.toFixed(1)
+  }
+
+  return (
+    <div className={`flex items-center space-x-2 ${className}`}>
+      {/* Star buttons */}
+      <div
+        className="flex items-center space-x-1"
+        onMouseLeave={handleMouseLeave}
+      >
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((starIndex) => (
+          <button
+            key={starIndex}
+            onClick={() => handleStarClick(starIndex)}
+            onMouseEnter={() => handleStarHover(starIndex)}
+            disabled={!interactive || !session?.user || isSubmitting}
+            className={`
+              ${interactive && session?.user ? 'cursor-pointer hover:scale-110' : 'cursor-default'}
+              ${!interactive || !session?.user ? 'opacity-70' : ''}
+              transition-all duration-200
+              ${isSubmitting ? 'opacity-50' : ''}
+            `}
+          >
+            <Star
+              className={`
+                ${starSizes[size]}
+                transition-all duration-200
+                ${getStarState(starIndex)
+                  ? 'fill-yellow-400 text-yellow-400'
+                  : 'text-gray-400 hover:text-yellow-400'
+                }
+              `}
+            />
+          </button>
+        ))}
+      </div>
+
+      {/* Rating statistics */}
+      {showStats && (
+        <div className="flex items-center space-x-2 text-sm text-gray-400">
+          <span className="font-medium">
+            {formatRating(averageRating)}
+          </span>
+          <span>
+            ({totalRatings})
+          </span>
+        </div>
+      )}
+
+      {/* Login prompt */}
+      {interactive && !session?.user && (
+        <div className="text-xs text-gray-500 italic">
+          <a href="/login" className="text-theme-accent hover:underline">
+            Conectează-te
+          </a> pentru a evalua
+        </div>
+      )}
+
+      {/* Error message */}
+      {error && (
+        <div className="text-xs text-red-400">
+          {error}
+        </div>
+      )}
+    </div>
+  )
+}

@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
         },
         _count: {
           select: {
-            likes: true,
+            starRatings: true,
             comments: true
           }
         }
@@ -66,7 +66,7 @@ export async function GET(req: NextRequest) {
     const transformedPoems = poems.map((poem: any) => ({
       ...poem,
       tags: poem.tags.map((pt: any) => pt.tag.name),
-      likes: poem._count.likes,
+      starRatings: poem._count.starRatings,
       comments: poem._count.comments
     }))
 

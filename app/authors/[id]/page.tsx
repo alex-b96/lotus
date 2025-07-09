@@ -106,7 +106,7 @@ export default function AuthorProfilePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-theme-dark">
-        <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="max-w-6xl mx-auto px-1 sm:px-6 py-16">
           <div className="flex justify-center items-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-theme-accent" />
             <span className="ml-2 font-light text-theme-secondary">Se încarcă profilul autorului...</span>
@@ -120,8 +120,8 @@ export default function AuthorProfilePage() {
   if (error) {
     return (
       <div className="min-h-screen bg-theme-dark">
-        <div className="max-w-2xl mx-auto px-6 py-16">
-          <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+        <div className="max-w-2xl mx-auto px-1 sm:px-6 py-16">
+          <div className="bg-red-900/20 border border-red-800 rounded-xl p-3 sm:p-6">
             <div className="flex items-center gap-3">
               <AlertCircle className="h-5 w-5 text-red-400" />
               <div className="text-red-200 flex items-center justify-between w-full">
@@ -149,7 +149,7 @@ export default function AuthorProfilePage() {
   if (!author) {
     return (
       <div className="min-h-screen bg-theme-dark">
-        <div className="max-w-2xl mx-auto px-6 py-16 text-center">
+        <div className="max-w-2xl mx-auto px-1 sm:px-6 py-16 text-center">
           <h1 className="text-2xl font-light mb-4 text-theme-primary">Autorul nu a fost găsit</h1>
           <p className="mb-6 font-light text-theme-secondary">Autorul căutat nu există sau nu are poezii publicate.</p>
           <Button asChild className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light">
@@ -165,7 +165,7 @@ export default function AuthorProfilePage() {
 
   return (
     <div className="min-h-screen bg-theme-dark">
-      <div className="max-w-6xl mx-auto px-6 py-16 space-y-8">
+      <div className="max-w-6xl mx-auto px-1 sm:px-6 py-16 space-y-8">
         {/* Back Navigation */}
         <div>
           <Button asChild variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
@@ -178,7 +178,7 @@ export default function AuthorProfilePage() {
 
         {/* Author Profile Header */}
         <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
-          <div className="p-8">
+          <div className="p-3 sm:p-8">
           <div className="flex flex-col md:flex-row items-start md:items-center space-y-6 md:space-y-0 md:space-x-8">
             {/* Author Avatar */}
             <Avatar className="w-32 h-32 mx-auto md:mx-0 flex-shrink-0">
@@ -246,7 +246,7 @@ export default function AuthorProfilePage() {
                   key={poem.id}
                   className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02]"
                 >
-                  <div className="p-6 border-b border-white/10">
+                  <div className="p-3 sm:p-6 border-b border-white/10">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h3 className="text-lg font-light mb-2 line-clamp-2 text-theme-primary">
@@ -271,7 +271,7 @@ export default function AuthorProfilePage() {
                   </div>
                   </div>
 
-                  <div className="p-6">
+                  <div className="p-3 sm:p-6">
                   {/* Poem Excerpt */}
                     <p className="mb-4 line-clamp-3 leading-relaxed font-light text-theme-secondary">
                     {poem.content}
@@ -309,7 +309,7 @@ export default function AuthorProfilePage() {
             ))}
             </div>
           ) : (
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-12 text-center">
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 sm:p-12 text-center">
               <BookOpen className="w-16 h-16 mx-auto text-theme-accent mb-4" />
               <h3 className="text-xl font-light mb-2 text-theme-primary">Nu există poezii publicate</h3>
               <p className="font-light text-theme-secondary">

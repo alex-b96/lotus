@@ -53,7 +53,7 @@ function AuthorsPageContent() {
 
   return (
     <div className="min-h-screen bg-theme-dark">
-      <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
+      <div className="max-w-7xl mx-auto px-1 sm:px-6 py-16 space-y-12">
         {/* Featured Authors Section */}
         <FeaturedAuthors />
 
@@ -70,7 +70,7 @@ function AuthorsPageContent() {
         </div>
 
         {/* Search and Filter */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6">
+        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-3 sm:p-6">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Search Input */}
             <div className="flex-1 relative">
@@ -176,7 +176,7 @@ function AuthorsPageContent() {
               key={author.id}
               className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300 hover:scale-105"
             >
-              <div className="text-center p-6">
+              <div className="text-center p-3 sm:p-6">
                 <Avatar className="w-20 h-20 mx-auto mb-4">
                   <AvatarImage src={author.avatar} alt={author.name} />
                   <AvatarFallback className="text-lg">
@@ -196,7 +196,7 @@ function AuthorsPageContent() {
                 </div>
               </div>
 
-              <div className="p-6 pt-0">
+              <div className="p-3 sm:p-6 pt-0">
                 {author.bio ? (
                   <p className="mb-4 text-center line-clamp-3 font-light text-theme-secondary">
                     {author.bio}
@@ -260,7 +260,7 @@ function AuthorsPageContent() {
 function AuthorsPageLoading() {
   return (
     <div className="min-h-screen bg-theme-dark">
-      <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
+      <div className="max-w-7xl mx-auto px-1 sm:px-6 py-16 space-y-8">
         <div className="text-center">
           <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Autori</h1>
           <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
