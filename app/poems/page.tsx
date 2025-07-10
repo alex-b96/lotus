@@ -14,7 +14,7 @@ import { Pagination, PaginationInfo } from "@/components/pagination"
 import { StarRating } from "@/components/star-rating"
 import { useStarRating } from "@/hooks/use-star-rating"
 
-const categories = ["Toate", "Liric", "Haiku", "Modern", "Clasic", "Experimental"]
+// const categories = ["Toate", "Liric", "Haiku", "Modern", "Clasic", "Experimental"] // Disabled for now
 
 // Simple component to display average rating
 function SimpleRating({ poemId }: { poemId: string }) {
@@ -84,8 +84,8 @@ function PoemsPageContent() {
 
             {/* Filters Row */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              {/* Category Filter */}
-              <div className="flex items-center space-x-3">
+              {/* Category Filter - Disabled for now */}
+              {/* <div className="flex items-center space-x-3">
                 <Filter className="text-theme-accent w-5 h-5" />
                 <Select value={selectedCategory} onValueChange={setSelectedCategory} disabled={isLoading}>
                   <SelectTrigger className="w-48 bg-white/5 border-white/20 text-white">
@@ -99,7 +99,7 @@ function PoemsPageContent() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </div> */}
 
               {/* Sort Options */}
               <div className="flex items-center space-x-3">
@@ -127,7 +127,7 @@ function PoemsPageContent() {
               </div>
 
               {/* Clear Filters */}
-              {(searchTerm || selectedCategory !== "Toate" || sortBy !== "createdAt" || order !== "desc") && (
+              {(searchTerm || /* selectedCategory !== "Toate" || */ sortBy !== "createdAt" || order !== "desc") && (
                 <Button
                   variant="outline"
                   size="sm"
@@ -189,10 +189,11 @@ function PoemsPageContent() {
                 className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl hover:border-theme-accent-30 transition-all duration-300 hover:transform hover:scale-105 group"
               >
                 <div className="p-3 sm:p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <span className="px-3 py-1 bg-theme-accent-20 text-theme-accent text-xs font-light rounded-full border border-theme-accent-30">
+                  <div className="flex items-start justify-end mb-4">
+                    {/* Category disabled for now */}
+                    {/* <span className="px-3 py-1 bg-theme-accent-20 text-theme-accent text-xs font-light rounded-full border border-theme-accent-30">
                       {poem.category}
-                    </span>
+                    </span> */}
                     {poem.readingTime && (
                       <span className="px-2 py-1 bg-white/10 text-gray-400 text-xs font-light rounded">
                         {poem.readingTime} min citire
@@ -263,12 +264,12 @@ function PoemsPageContent() {
             </div>
             <h3 className="text-xl font-light text-white mb-4">Nu s-au găsit poezii</h3>
             <p className="text-gray-300 mb-6 font-light">
-              {searchTerm || selectedCategory !== "Toate"
-                ? "Încearcă să modifici termenii de căutare sau filtrul categoriei."
+              {searchTerm /* || selectedCategory !== "Toate" */
+                ? "Încearcă să modifici termenii de căutare."
                 : "Nu sunt poezii publicate disponibile în acest moment."
               }
             </p>
-            {(searchTerm || selectedCategory !== "Toate") && (
+            {(searchTerm /* || selectedCategory !== "Toate" */) && (
               <Button
                 variant="outline"
                 onClick={clearFilters}

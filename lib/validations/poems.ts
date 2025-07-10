@@ -4,7 +4,7 @@ import { z } from "zod"
 export const createPoemSchema = z.object({
   title: z.string().min(1, "Title is required").max(200, "Title must be less than 200 characters"),
   content: z.string().min(1, "Content is required").max(10000, "Content must be less than 10,000 characters"),
-  category: z.string().min(1, "Category is required"),
+  category: z.string().optional(), // Disabled for now, keeping for future use
   tags: z.array(z.string()).optional().default([]),
   status: z.enum(["DRAFT", "SUBMITTED", "PUBLISHED", "REJECTED"]).optional().default("SUBMITTED"),
 })
@@ -13,7 +13,7 @@ export const createPoemSchema = z.object({
 export const updatePoemSchema = z.object({
   title: z.string().min(1, "Title is required").max(200, "Title must be less than 200 characters").optional(),
   content: z.string().min(1, "Content is required").max(10000, "Content must be less than 10,000 characters").optional(),
-  category: z.string().min(1, "Category is required").optional(),
+  category: z.string().optional(), // Disabled for now, keeping for future use
   tags: z.array(z.string()).optional(),
   status: z.enum(["DRAFT", "SUBMITTED", "PUBLISHED", "REJECTED"]).optional(),
 })

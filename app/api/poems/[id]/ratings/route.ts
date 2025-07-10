@@ -60,11 +60,23 @@ export async function POST(
       _count: { rating: true }
     })
 
+    const averageRating = stats._avg.rating || 0
+    const ratingCount = stats._count.rating || 0
+
+    // Update the poem's computed fields
+    await db.poem.update({
+      where: { id: poemId },
+      data: {
+        averageRating,
+        ratingCount
+      }
+    })
+
     return NextResponse.json({
       success: true,
       userRating: rating.rating,
-      averageRating: stats._avg.rating || 0,
-      totalRatings: stats._count.rating || 0
+      averageRating,
+      totalRatings: ratingCount
     })
 
   } catch (error) {
@@ -157,10 +169,22 @@ export async function DELETE(
       _count: { rating: true }
     })
 
+    const averageRating = stats._avg.rating || 0
+    const ratingCount = stats._count.rating || 0
+
+    // Update the poem's computed fields
+    await db.poem.update({
+      where: { id: poemId },
+      data: {
+        averageRating,
+        ratingCount
+      }
+    })
+
     return NextResponse.json({
       success: true,
-      averageRating: stats._avg.rating || 0,
-      totalRatings: stats._count.rating || 0
+      averageRating,
+      totalRatings: ratingCount
     })
 
   } catch (error) {

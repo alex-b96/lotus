@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
     // Build orderBy clause
     const orderBy: any = {}
     if (query.sortBy === "likes") {
-      orderBy.starRatings = { _count: query.order }
+      orderBy.averageRating = query.order
     } else {
       orderBy[query.sortBy] = query.order
     }

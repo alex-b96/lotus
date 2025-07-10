@@ -207,14 +207,14 @@ function AuthorsPageContent() {
                   <Button asChild className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light">
                     <Link href={`/authors/${author.id}`}>Vezi profilul</Link>
                   </Button>
-                  {author.website && (
+                  {/* {author.website && (
                     <Button variant="outline" asChild className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
                       <a href={author.website} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4 mr-2" />
                         Website
                       </a>
                     </Button>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

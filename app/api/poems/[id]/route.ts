@@ -167,9 +167,10 @@ export async function PUT(
       readingTime = Math.max(1, Math.ceil(wordCount / 200))
     }
 
-    // Update the poem
+    // Prepare update data (exclude tags from main update)
+    const { tags: _, ...updateDataWithoutTags } = validatedData
     const updateData: any = {
-      ...validatedData,
+      ...updateDataWithoutTags,
       ...(readingTime && { readingTime }),
       updatedAt: new Date(),
     }
@@ -186,31 +187,7 @@ export async function PUT(
       }
     }
 
-    const updatedPoem = await db.poem.update({
-      where: { id: poemId },
-      data: updateData,
-      include: {
-        author: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            avatarUrl: true,
-          }
-        },
-        tags: {
-          include: {
-            tag: {
-              select: {
-                name: true,
-              }
-            }
-          }
-        }
-      }
-    })
-
-    // Handle tags if provided
+    // Handle tags separately if provided
     if (validatedData.tags !== undefined) {
       // Remove all existing tags for this poem
       await db.poemTag.deleteMany({
@@ -237,6 +214,30 @@ export async function PUT(
         }
       }
     }
+
+    const updatedPoem = await db.poem.update({
+      where: { id: poemId },
+      data: updateData,
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            avatarUrl: true,
+          }
+        },
+        tags: {
+          include: {
+            tag: {
+              select: {
+                name: true,
+              }
+            }
+          }
+        }
+      }
+    })
 
     // Fetch the complete updated poem
     const completePoem = await db.poem.findUnique({

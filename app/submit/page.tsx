@@ -9,14 +9,14 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select" // Disabled for now
 import { Badge } from "@/components/ui/badge"
 import { PenTool, Send, X, Plus, AlertCircle } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useToast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 
-const categories = ["Lyric", "Haiku", "Modern", "Classic", "Experimental"]
+// const categories = ["Lyric", "Haiku", "Modern", "Classic", "Experimental"] // Disabled for now
 
 // Form validation constants based on schema
 const VALIDATION_LIMITS = {
@@ -28,7 +28,7 @@ const VALIDATION_LIMITS = {
 interface FormErrors {
   title?: string
   content?: string
-  category?: string
+  // category?: string // Disabled for now
   general?: string
 }
 
@@ -40,7 +40,7 @@ export default function SubmitPoemPage() {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    category: "",
+    // category: "", // Disabled for now
     tags: [] as string[],
     authorNote: "",
   })
@@ -84,10 +84,10 @@ export default function SubmitPoemPage() {
       newErrors.content = `Conținutul trebuie să fie mai mic de ${VALIDATION_LIMITS.CONTENT_MAX} caractere`
     }
 
-    // Category validation
-    if (!formData.category) {
-      newErrors.category = "Vă rugăm să selectați o categorie"
-    }
+    // Category validation - Disabled for now
+    // if (!formData.category) {
+    //   newErrors.category = "Vă rugăm să selectați o categorie"
+    // }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -133,7 +133,7 @@ export default function SubmitPoemPage() {
       const payload = {
         title: formData.title.trim(),
         content: formData.content.trim(),
-        category: formData.category,
+        // category: formData.category, // Disabled for now
         tags: formData.tags,
         status: "SUBMITTED" // Submit for moderation review
       }
@@ -160,8 +160,8 @@ export default function SubmitPoemPage() {
               serverErrors.title = error.message
             } else if (error.path.includes("content")) {
               serverErrors.content = error.message
-            } else if (error.path.includes("category")) {
-              serverErrors.category = error.message
+            // } else if (error.path.includes("category")) {
+            //   serverErrors.category = error.message // Disabled for now
             }
           })
           setErrors(serverErrors)
@@ -258,7 +258,7 @@ export default function SubmitPoemPage() {
                     setFormData({
                       title: "",
                       content: "",
-                      category: "",
+                      // category: "", // Disabled for now
                       tags: [],
                       authorNote: "",
                     })
@@ -332,37 +332,6 @@ export default function SubmitPoemPage() {
                 <p className="text-sm font-light text-theme-secondary">
                   {formData.title.length}/{VALIDATION_LIMITS.TITLE_MAX} characters
                 </p>
-              </div>
-
-              {/* Category */}
-              <div className="space-y-2">
-                <Label htmlFor="category" className="font-medium text-theme-primary">
-                  Categorie *
-                </Label>
-                <Select
-                  value={formData.category}
-                  onValueChange={(value) => {
-                    setFormData((prev) => ({ ...prev, category: value }))
-                    // Clear category error when user selects
-                    if (errors.category) {
-                      setErrors((prev) => ({ ...prev, category: undefined }))
-                    }
-                  }}
-                >
-                  <SelectTrigger className={`bg-white/5 border-white/20 text-white focus:border-theme-accent ${errors.category ? "border-red-500" : ""}`}>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category} className="text-gray-300 focus:text-white focus:bg-white/5">
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {errors.category && (
-                  <p className="text-sm text-red-400">{errors.category}</p>
-                )}
               </div>
 
               {/* Content */}
@@ -455,7 +424,7 @@ export default function SubmitPoemPage() {
                   </Button> */}
                   <Button
                     type="submit"
-                    disabled={isSubmitting || !formData.title.trim() || !formData.content.trim() || !formData.category}
+                    disabled={isSubmitting || !formData.title.trim() || !formData.content.trim()}
                     className="bg-transparent border-theme-accent-40 text-white hover:bg-theme-accent-20 hover:border-theme-accent-60 transition-all font-light"
                   >
                     <Send className="w-4 h-4 mr-2" />

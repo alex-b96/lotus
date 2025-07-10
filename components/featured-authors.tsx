@@ -167,7 +167,7 @@ export function FeaturedAuthors() {
                     Vezi profilul
                   </Link>
                 </Button>
-                {author.website && (
+                {/* {author.website && (
                   <Button
                     variant="outline"
                     asChild
@@ -178,7 +178,7 @@ export function FeaturedAuthors() {
                       Website
                     </a>
                   </Button>
-                )}
+                )} */}
               </div>
             </div>
           </div>

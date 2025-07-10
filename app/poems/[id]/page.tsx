@@ -8,13 +8,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
-import { MessageCircle, Share2, Clock, BookOpen, AlertCircle, RefreshCcw } from "lucide-react"
+import { MessageCircle, Share2, Clock, BookOpen, AlertCircle, RefreshCcw, Edit3 } from "lucide-react"
 import Link from "next/link"
 import { CommentSection } from "@/components/comment-section"
 import { usePoemDetail } from "@/hooks/use-poem-detail"
 import { sharePoem, ShareData } from "@/lib/share-utils"
 import { ShareModal } from "@/components/share-modal"
 import { StarRating } from "@/components/star-rating"
+import { useSession } from "next-auth/react"
+import { PoemEditModal } from "@/components/poem-edit-modal"
 
 interface PoemPageProps {
   params: Promise<{ id: string }>
@@ -24,10 +26,14 @@ export default function PoemPage({ params }: PoemPageProps) {
   const { id } = use(params)
   const { poem, loading, error, retry } = usePoemDetail(id)
   const [commentCount, setCommentCount] = useState<number | undefined>(undefined)
+  const { data: session } = useSession()
 
   // Share modal state
   const [shareModalOpen, setShareModalOpen] = useState(false)
   const [shareData, setShareData] = useState<ShareData | null>(null)
+
+  // Edit modal state
+  const [editModalOpen, setEditModalOpen] = useState(false)
 
   useEffect(() => {
     if (poem) setCommentCount(poem.comments)
@@ -144,6 +150,9 @@ export default function PoemPage({ params }: PoemPageProps) {
       .slice(0, 2)
   }
 
+  // Check if current user is the author
+  const isAuthor = session?.user?.id === poem?.author.id
+
   // Handle share button click
   const handleShare = async () => {
     if (!poem) return
@@ -190,9 +199,10 @@ export default function PoemPage({ params }: PoemPageProps) {
       <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
         <div className="border-b border-white/10 p-3 sm:p-8">
           <div className="flex items-center space-x-2 mb-4">
-            <Badge variant="outline" className="border-theme-accent-40 text-theme-accent bg-theme-accent-10">
+            {/* Category disabled for now */}
+            {/* <Badge variant="outline" className="border-theme-accent-40 text-theme-accent bg-theme-accent-10">
               {poem.category}
-            </Badge>
+            </Badge> */}
             <div className="flex items-center space-x-1 text-sm text-theme-secondary">
               <BookOpen className="w-4 h-4" />
               <span>{readingTimeText}</span>
@@ -262,6 +272,16 @@ export default function PoemPage({ params }: PoemPageProps) {
                 </div>
               </div>
               <div className="flex items-center space-x-2">
+                {isAuthor && (
+                  <Button
+                    onClick={() => setEditModalOpen(true)}
+                    variant="outline"
+                    className="bg-transparent border-green-400 text-green-400 hover:bg-green-400 hover:text-white transition-all font-light"
+                  >
+                    <Edit3 className="w-4 h-4 mr-2" />
+                    <span className="hidden sm:inline">Editează</span>
+                  </Button>
+                )}
                 <Button
                   onClick={handleShare}
                   variant="outline"
@@ -296,7 +316,7 @@ export default function PoemPage({ params }: PoemPageProps) {
               )}
               <div className="flex items-center space-x-4 text-sm text-theme-secondary">
                 <span>{poem.author._count.poems} poezii publicate</span>
-                {poem.author.website && (
+                {/* {poem.author.website && (
                   <Link
                     href={poem.author.website}
                     className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] transition-colors"
@@ -305,7 +325,7 @@ export default function PoemPage({ params }: PoemPageProps) {
                   >
                     Vizitează site-ul
                   </Link>
-                )}
+                )} */}
               </div>
               <div className="mt-4">
                 <Button
@@ -335,6 +355,19 @@ export default function PoemPage({ params }: PoemPageProps) {
           onClose={() => {
             setShareModalOpen(false)
             setShareData(null)
+          }}
+        />
+      )}
+
+      {/* Edit Modal */}
+      {poem && isAuthor && (
+        <PoemEditModal
+          poem={poem}
+          isOpen={editModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          onSuccess={() => {
+            setEditModalOpen(false)
+            retry() // Refresh poem data
           }}
         />
       )}

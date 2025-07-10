@@ -217,14 +217,14 @@ export default function AuthorProfilePage() {
               )}
 
               {/* Website Link */}
-              {author.website && (
+              {/* {author.website && (
                 <Button asChild variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
                   <a href={author.website} target="_blank" rel="noopener noreferrer">
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Vezi website-ul
                   </a>
                 </Button>
-              )}
+              )} */}
             </div>
           </div>
           </div>
@@ -253,17 +253,18 @@ export default function AuthorProfilePage() {
                         {poem.title}
                       </h3>
                       <div className="flex flex-wrap items-center gap-2">
-                        <Badge variant="secondary" className="bg-theme-accent-20 text-theme-accent border border-theme-accent-40">
+                        {/* Category disabled for now */}
+                        {/* <Badge variant="secondary" className="bg-theme-accent-20 text-theme-accent border border-theme-accent-40">
                           {poem.category}
-                        </Badge>
-                        {poem.tags.slice(0, 2).map((tag) => (
+                        </Badge> */}
+                        {poem.tags.slice(0, 3).map((tag) => (
                           <Badge key={tag} variant="outline" className="border-white/30 text-white bg-white/5">
-                            {tag}
+                            #{tag}
                           </Badge>
                         ))}
-                        {poem.tags.length > 2 && (
+                        {poem.tags.length > 3 && (
                           <Badge variant="outline" className="border-white/30 text-white bg-white/5">
-                            +{poem.tags.length - 2}
+                            +{poem.tags.length - 3}
                           </Badge>
                         )}
                       </div>

@@ -132,7 +132,7 @@ export default function ContactPage() {
 
                   <div className="space-y-2">
                     <Label htmlFor="subject" className="font-medium text-theme-primary">
-                      Subject *
+                      Subiect *
                     </Label>
                     <Input
                       id="subject"
@@ -146,7 +146,7 @@ export default function ContactPage() {
 
                   <div className="space-y-2">
                     <Label htmlFor="message" className="font-medium text-theme-primary">
-                      Message *
+                      Mesaj *
                     </Label>
                     <Textarea
                       id="message"

@@ -349,7 +349,8 @@ export default function AdminDashboard() {
                           <Calendar className="h-4 w-4" />
                           {new Date(poem.createdAt).toLocaleDateString()}
                         </div>
-                        <Badge variant="secondary" className="bg-pink-300/20 text-pink-300 border border-pink-300/40">{poem.category}</Badge>
+                        {/* Category disabled for now */}
+                        {/* <Badge variant="secondary" className="bg-pink-300/20 text-pink-300 border border-pink-300/40">{poem.category}</Badge> */}
                       </div>
                       <div className="flex items-center gap-4 text-sm text-theme-secondary">
                         <div className="flex items-center gap-1">

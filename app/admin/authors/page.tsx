@@ -243,7 +243,7 @@ function AdminAuthorsPageContent() {
                       View Profile
                     </Link>
                   </Button>
-                  {author.website && (
+                  {/* {author.website && (
                     <Button
                       variant="outline"
                       size="sm"
@@ -254,7 +254,7 @@ function AdminAuthorsPageContent() {
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     </Button>
-                  )}
+                  )} */}
                 </div>
 
                 {/* Loading indicator for this specific author */}

@@ -185,7 +185,7 @@ export default function HomePage() {
         {/* Main lotus */}
         <div className="w-full h-1/2">
           <img
-            src="/lotus-background-simple.png"
+            src="/lotus-background-simple-blue.png"
             alt="Lotus"
             className="w-full h-full object-contain object-bottom opacity-80"
             style={{
@@ -199,7 +199,7 @@ export default function HomePage() {
           <div
             className="w-full h-full"
             style={{
-              background: `url('/lotus-background-simple.png') center/contain no-repeat`,
+              background: `url('/lotus-background-simple-blue.png') center/contain no-repeat`,
               opacity: 0.3,
               animation: 'float 10s ease-in-out infinite',
               maskImage: 'linear-gradient(to bottom, black 0%, transparent 90%)',
@@ -268,7 +268,12 @@ export default function HomePage() {
 
               {/* Author and Date */}
               <div className="text-lg mb-2 drop-shadow-sm text-theme-primary">
-                by <span className="italic text-theme-accent drop-shadow-sm hover:text-[rgb(var(--theme-accent-light))] transition-colors duration-300">{featuredPoem.author.name}</span>
+                by <Link
+                  href={`/authors/${featuredPoem.author.id}`}
+                  className="italic text-theme-accent drop-shadow-sm hover:text-[rgb(var(--theme-accent-light))] transition-colors duration-300 cursor-pointer"
+                >
+                  {featuredPoem.author.name}
+                </Link>
                 <span className="ml-6 text-base text-theme-secondary">{formatDate(featuredPoem.publishedAt)}</span>
               </div>
 

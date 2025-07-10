@@ -127,8 +127,8 @@ export function Header() {
                       <div className="text-xs text-theme-secondary">{session.user.email}</div>
                     </div>
                     <DropdownMenuSeparator className="bg-white/10" />
-                    <DropdownMenuItem asChild className="focus:bg-white/5 text-theme-primary">
-                      <Link href={`/authors/${session.user.id}`} className="cursor-pointer font-light text-theme-secondary">
+                    <DropdownMenuItem asChild className="focus:bg-white/5 focus:text-white">
+                      <Link href={`/authors/${session.user.id}`} className="cursor-pointer text-gray-300 hover:text-white font-light">
                         <User className="w-4 h-4 mr-2" />
                         Profilul Meu
                       </Link>
