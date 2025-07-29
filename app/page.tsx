@@ -233,18 +233,18 @@ export default function HomePage() {
 
       {/* Main content container */}
       <div className="relative z-10 max-w-7xl mx-auto px-0 sm:px-6 pt-16 grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
-        {/* Main Section: Poem of the Week */}
+        {/* Main Section: Poem of the Month */}
         <section className="lg:col-span-3 self-start relative w-[100vw] sm:w-[90vw] lg:w-[680px] max-w-full">
-          {/* Horizontal line above poem of the week */}
+          {/* Horizontal line above poem of the month */}
           <div className="absolute -top-8 left-0 w-2/3">
             <div className="w-full h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.3)] to-transparent drop-shadow-sm"></div>
             <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mt-1"></div>
           </div>
-          {/* Poem of the Week Header */}
+          {/* Poem of the Month Header */}
           <div className="flex items-center gap-3 mb-8">
             <span className="text-theme-accent text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-[rgb(var(--theme-accent-primary))] to-[rgb(var(--theme-accent-light))] bg-clip-text text-transparent drop-shadow-sm flex items-center gap-2">
               <PenTool className="w-4 h-4" />
-              POEZIA SĂPTĂMÂNII
+              POEMUL LUNII
             </span>
           </div>
 
@@ -260,7 +260,7 @@ export default function HomePage() {
               <AlertDescription className="text-red-200">{featuredError}</AlertDescription>
             </Alert>
           ) : featuredPoem ? (
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-2 sm:p-8 border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
+            <div className="p-2 sm:p-8">
               {/* Title */}
               <h1 className="text-2xl lg:text-4xl font-light leading-none mb-6 drop-shadow-lg hover:drop-shadow-2xl transition-all duration-500 cursor-default text-theme-primary">
                 {featuredPoem.title}
@@ -356,7 +356,7 @@ export default function HomePage() {
                 {recentPoems.map((poem, index) => (
                   <div
                     key={poem.id}
-                    className="group cursor-pointer bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300 hover:scale-[1.02] hover:drop-shadow-lg"
+                    className="group cursor-pointer p-4"
                     style={{
                       animationDelay: `${index * 100}ms`,
                       animation: 'fadeInUp 0.6s ease-out forwards'
@@ -383,13 +383,7 @@ export default function HomePage() {
           </div>
 
           {/* Community Section - positioned to align with lotus */}
-          <div className="bg-gradient-to-br from-white/5 via-[rgb(var(--theme-accent-primary)/0.05)] to-white/10 backdrop-blur-md rounded-xl p-8 border border-white/10 hover:border-[rgb(var(--theme-accent-primary)/0.2)] transition-all duration-500 hover:from-white/10 hover:via-[rgb(var(--theme-accent-primary)/0.1)] hover:to-white/15 group">
-            <h3 className="text-xl text-white mb-4 drop-shadow-sm bg-gradient-to-r from-white to-[rgb(var(--theme-accent-light))] bg-clip-text text-transparent">
-              Alătură-te Comunității
-            </h3>
-            <p className="mb-6 text-sm leading-relaxed font-light drop-shadow-sm text-theme-secondary">
-              Conectează-te cu ceilalți poeți și împărtășește călătoria creativă în comunitatea noastră în creștere de artă a cuvintelor.
-            </p>
+          <div>
             <Link href="/submit">
               <Button className="w-full bg-gradient-to-r from-[rgb(var(--theme-accent-primary)/0.2)] via-[rgb(var(--theme-accent-light)/0.2)] to-[rgb(var(--theme-accent-primary)/0.2)] text-white border border-theme-accent-30 hover:bg-theme-accent-30 hover:border-theme-accent-50 transition-all duration-300 py-3 rounded-lg font-light group">
                 <span className="flex items-center justify-center gap-2">

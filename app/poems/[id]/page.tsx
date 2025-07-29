@@ -194,11 +194,11 @@ export default function PoemPage({ params }: PoemPageProps) {
         />
       </div> */}
 
-      <div className="relative z-10 max-w-4xl mx-auto px-1 sm:px-6 py-16 space-y-8">
+      <div className="relative z-10 max-w-4xl mx-auto px-1 sm:px-6 py-4 space-y-0">
       {/* Poem Content */}
-      <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
-        <div className="border-b border-white/10 p-3 sm:p-8">
-          <div className="flex items-center space-x-2 mb-4">
+      <div>
+        <div className="p-3 sm:p-6 mb-4">
+          <div className="flex items-center space-x-2 mb-2">
             {/* Category disabled for now */}
             {/* <Badge variant="outline" className="border-theme-accent-40 text-theme-accent bg-theme-accent-10">
               {poem.category}
@@ -208,7 +208,7 @@ export default function PoemPage({ params }: PoemPageProps) {
               <span>{readingTimeText}</span>
             </div>
           </div>
-          <h1 className="text-4xl lg:text-5xl font-light leading-none mb-4 drop-shadow-lg text-theme-primary">{poem.title}</h1>
+          <h1 className="text-4xl lg:text-5xl font-light leading-none mb-2 drop-shadow-lg text-theme-primary">{poem.title}</h1>
           <div className="flex items-center space-x-6 text-sm text-theme-secondary">
             <div className="flex items-center space-x-2">
               <Avatar className="w-8 h-8">
@@ -229,17 +229,15 @@ export default function PoemPage({ params }: PoemPageProps) {
               <span>{publishedDate}</span>
             </div>
           </div>
-        </div>
 
-        <div className="p-3 sm:p-8">
-          <div className="prose prose-theme max-w-none mb-8">
+          <div className="prose prose-theme max-w-none mb-4">
             <div className="whitespace-pre-wrap font-light text-md leading-relaxed text-left text-theme-primary">
               {poem.content}
             </div>
           </div>
 
           {poem.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-2 mb-3">
               {poem.tags.map((tag) => (
                 <Link key={tag} href={`/poems?tag=${encodeURIComponent(tag)}`}>
                   <Badge
@@ -253,9 +251,9 @@ export default function PoemPage({ params }: PoemPageProps) {
             </div>
           )}
 
-          <div className="my-6 h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.3)] to-transparent"></div>
+          <div className="my-3 h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.3)] to-transparent"></div>
 
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-2">
             {/* Star Rating */}
             <div className="flex items-center justify-between">
               <StarRating poemId={poem.id} size="md" showStats={true} />
@@ -290,18 +288,19 @@ export default function PoemPage({ params }: PoemPageProps) {
                   <Share2 className="w-4 h-4 mr-2" />
                   <span className="hidden sm:inline">Partajează</span>
                 </Button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
       {/* Author Info */}
-      <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
-        <div className="p-3 sm:p-6 border-b border-white/10">
+      <div className="pt-1">
+        <div className="mb-1 h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.2)] to-transparent"></div>
+        <div className="p-2 sm:p-4 mb-1">
           <h2 className="text-xl font-light text-theme-primary">Despre autor</h2>
         </div>
-        <div className="p-3 sm:p-6">
+        <div className="p-2 sm:p-4">
           <div className="flex items-start space-x-4">
             <Avatar className="w-16 h-16">
               <AvatarImage src={poem.author.avatarUrl} alt={poem.author.name} />

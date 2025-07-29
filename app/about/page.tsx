@@ -1,233 +1,69 @@
-import { Button } from "@/components/ui/button"
-import { Heart, Users, BookOpen, Award, Target, Eye, Lightbulb } from "lucide-react"
 import Link from "next/link"
-import { LotusLogo } from "@/components/lotus-logo"
 
 export default function AboutPage() {
-  const stats = [
-    { icon: Users, label: "Active Poets", value: "500+" },
-    { icon: BookOpen, label: "Published Poems", value: "2,000+" },
-    { icon: Heart, label: "Community Likes", value: "15,000+" },
-    { icon: Award, label: "Featured Authors", value: "50+" },
-  ]
-
-  const values = [
-    {
-      icon: Heart,
-      title: "Passion for Poetry",
-      description:
-        "We believe poetry is a powerful form of human expression that connects hearts and minds across cultures and generations.",
-    },
-    {
-      icon: Users,
-      title: "Inclusive Community",
-      description:
-        "Our platform welcomes poets of all backgrounds, experience levels, and styles. Everyone has a voice worth hearing.",
-    },
-    {
-      icon: Lightbulb,
-      title: "Creative Growth",
-      description:
-        "We foster an environment where poets can experiment, learn, and grow through constructive feedback and inspiration.",
-    },
-    {
-      icon: Target,
-      title: "Quality Content",
-      description:
-        "We maintain high standards for published content while supporting emerging voices in their creative journey.",
-    },
-  ]
-
   return (
     <div className="min-h-screen bg-theme-dark">
-      <div className="max-w-6xl mx-auto px-6 py-16 space-y-12">
-        {/* Hero Section */}
-        <div className="text-center">
-          <div className="flex justify-center mb-6">
-            <div className="w-20 h-20">
-              <LotusLogo />
-            </div>
-          </div>
-          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">About LOTUS</h1>
-          <p className="text-xl max-w-3xl mx-auto leading-relaxed font-light text-theme-secondary">
-            A digital sanctuary where poetry blooms and creative souls connect. Just as a lotus rises from muddy waters to
-            bloom in pristine beauty, we believe every poet's journey deserves a platform to flourish.
-          </p>
+      <div className="max-w-4xl mx-auto px-6 py-16">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Despre Lotus</h1>
         </div>
 
-        {/* Mission & Vision */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
-            <div className="p-6 border-b border-white/10">
-              <h3 className="text-2xl font-light flex items-center space-x-2 text-theme-primary">
-                <Target className="w-6 h-6 text-pink-300" />
-                <span>Our Mission</span>
-              </h3>
-            </div>
-            <div className="p-6">
-              <p className="leading-relaxed font-light text-theme-secondary">
-                To create a nurturing digital space where poets can share their authentic voices, connect with like-minded
-                individuals, and contribute to the rich tapestry of human expression. We strive to make poetry accessible,
-                celebrated, and cherished by all.
+        <div className="prose prose-lg max-w-none">
+          {/* Main content in cards */}
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 mb-8">
+            <div className="p-8">
+              <p className="leading-relaxed mb-6 font-light text-theme-secondary text-lg">
+                Lotus s-a născut din dragoste pentru poezie și din credința că fiecare voce merită un loc în care să fie auzită și celebrată. Nu suntem doar un site, ci un un spațiu calm unde cuvintele pot respira, pot prinde rădăcini și, în cele din urmă, pot înflori.
+              </p>
+              <p className="leading-relaxed font-light text-theme-secondary text-lg">
+                Misiunea noastră este simplă: să creăm o punte între autor și cititor, să cultivăm un mediu unde sensibilitatea și curajul de a te exprima sunt prețuite mai presus de orice.
               </p>
             </div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 mb-8">
             <div className="p-6 border-b border-white/10">
-              <h3 className="text-2xl font-light flex items-center space-x-2 text-theme-primary">
-                <Eye className="w-6 h-6 text-pink-300" />
-                <span>Our Vision</span>
-              </h3>
+              <h2 className="text-2xl font-light text-theme-primary">O Scenă Deschisă pentru Sufletul Tău</h2>
             </div>
-            <div className="p-6">
-              <p className="leading-relaxed font-light text-theme-secondary">
-                To become the world's most beloved poetry community, where every verse matters and every poet finds their
-                audience. We envision a future where poetry thrives in the digital age, bridging cultures and inspiring
-                generations.
+            <div className="p-8">
+              <p className="leading-relaxed mb-6 font-light text-theme-secondary text-lg">
+                Credem cu tărie în puterea creatoare care se află în fiecare dintre noi. De aceea, Lotus este o platformă deschisă oricui dorește să își împărtășească creațiile. Indiferent dacă ești un poet consacrat sau dacă abia acum așterni pe hârtie primele tale versuri, aici este locul tău.
+              </p>
+              <p className="leading-relaxed font-light text-theme-secondary text-lg">
+                Pentru a menține coerența și calitatea estetică a acestui spațiu, echipa noastră citește cu atenție fiecare poem primit. Toate creațiile trec printr-un filtru editorial înainte de a ajunge pe site. Acest pas ne ajută să ne asigurăm că fiecare text publicat contribuie la armonia și valoarea întregii colecții, oferind cititorilor o experiență de lectură excepțională.
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Statistics */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
-          <div className="p-6 border-b border-white/10 text-center">
-            <h3 className="text-2xl font-light text-theme-primary">Our Growing Community</h3>
-            <p className="font-light text-theme-secondary">Numbers that reflect our vibrant poetry ecosystem</p>
-          </div>
-          <div className="p-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <stat.icon className="w-8 h-8 text-pink-300" />
-                  </div>
-                  <div className="text-2xl font-light mb-1 text-theme-primary">{stat.value}</div>
-                  <div className="text-sm font-light text-theme-secondary">{stat.label}</div>
-                </div>
-              ))}
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 mb-8">
+            <div className="p-6 border-b border-white/10">
+              <h2 className="text-2xl font-light text-theme-primary">Recunoaștere și Inspirație: Poemul Lunii și Poemul Anului</h2>
+            </div>
+            <div className="p-8">
+              <p className="leading-relaxed mb-6 font-light text-theme-secondary text-lg">
+                Pentru a încuraja și a recompensa talentul din comunitatea noastră, am creat un sistem de recunoaștere a celor mai remarcabile creații.
+              </p>
+              <p className="leading-relaxed mb-6 font-light text-theme-secondary text-lg">
+                <strong className="text-theme-accent">Poemul Lunii:</strong> La finalul fiecărei luni, echipa noastră, alături de votul cititorilor, va selecta un poem excepțional dintre toate lucrările publicate. Autorul acestuia va fi desemnat câștigătorul titlului "Poemul Lunii", va fi premiat cu suma de 200 RON și va beneficia de o promovare specială pe platforma noastră.
+              </p>
+              <p className="leading-relaxed font-light text-theme-secondary text-lg">
+                <strong className="text-theme-accent">Poemul Anului:</strong> La finalul unui an calendaristic, miza devine și mai mare. Cele 12 poeme câștigătoare ale lunii vor intra automat în competiția finală pentru cel mai înalt titlu: "Poemul Anului". Marele câștigător, ales printr-un proces similar de jurizare și vot al comunității, va fi recompensat cu un premiu de 400 RON și va fi celebrat ca vocea reprezentativă a comunității Lotus pentru acel an.
+              </p>
             </div>
           </div>
-        </div>
 
-        {/* Our Values */}
-        <section>
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-light mb-4 text-theme-primary">Our Core Values</h2>
-            <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
-              The principles that guide everything we do at LOTUS
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {values.map((value, index) => (
-              <div
-                key={index}
-                className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300"
-              >
-                <div className="p-6">
-                  <div className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-pink-300/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <value.icon className="w-6 h-6 text-pink-300" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-light mb-2 text-theme-primary">{value.title}</h3>
-                      <p className="font-light text-theme-secondary">{value.description}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Our Story */}
-        <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
-          <div className="p-6 border-b border-white/10">
-            <h3 className="text-2xl font-light text-theme-primary">Our Story</h3>
-          </div>
-          <div className="p-6 prose max-w-none">
-            <p className="leading-relaxed mb-4 font-light text-theme-secondary">
-              LOTUS was born from a simple observation: in our fast-paced digital world, poetry needed a dedicated space
-              to breathe, grow, and connect people. Founded in 2024 by a group of poetry enthusiasts and technology
-              advocates, we set out to create more than just another publishing platform.
-            </p>
-            <p className="leading-relaxed mb-4 font-light text-theme-secondary">
-              We wanted to build a community where the ancient art of poetry could flourish in the modern age. Like the
-              lotus flower that inspired our name, we believe beautiful art can emerge from any circumstance, and every
-              poet deserves a chance to share their unique perspective with the world.
-            </p>
-            <p className="leading-relaxed font-light text-theme-secondary">
-              Today, LOTUS continues to grow as a platform where established poets mentor newcomers, where diverse voices
-              are celebrated, and where the timeless power of poetry brings people together across geographical and
-              cultural boundaries.
-            </p>
-          </div>
-        </div>
-
-        {/* Features */}
-        <section>
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-light mb-4 text-theme-primary">What Makes LOTUS Special</h2>
-            <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
-              Features designed with poets and poetry lovers in mind
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 text-center">
-              <div className="p-6">
-                <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BookOpen className="w-8 h-8 text-pink-300" />
-                </div>
-                <h3 className="text-lg font-light mb-2 text-theme-primary">Curated Collections</h3>
-                <p className="font-light text-theme-secondary">Discover poems organized by themes, styles, and moods</p>
-              </div>
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 mb-8">
+            <div className="p-6 border-b border-white/10">
+              <h2 className="text-2xl font-light text-theme-primary">Cum poți participa?</h2>
             </div>
-
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 text-center">
-              <div className="p-6">
-                <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="w-8 h-8 text-pink-300" />
-                </div>
-                <h3 className="text-lg font-light mb-2 text-theme-primary">Supportive Community</h3>
-                <p className="font-light text-theme-secondary">Connect with fellow poets and receive constructive feedback</p>
-              </div>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300 text-center">
-              <div className="p-6">
-                <div className="w-16 h-16 bg-pink-300/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Award className="w-8 h-8 text-pink-300" />
-                </div>
-                <h3 className="text-lg font-light mb-2 text-theme-primary">Recognition Platform</h3>
-                <p className="font-light text-theme-secondary">Get featured and build your reputation as a poet</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Call to Action */}
-        <div className="bg-gradient-to-r from-pink-900/30 to-pink-800/30 backdrop-blur-sm rounded-xl border border-pink-300/30 shadow-lg">
-          <div className="p-8 text-center">
-            <h2 className="text-2xl font-light mb-4 text-theme-primary">Join Our Poetry Community</h2>
-            <p className="mb-6 max-w-2xl mx-auto font-light text-theme-secondary">
-              Whether you're a seasoned poet or just beginning your creative journey, LOTUS welcomes you. Share your
-              voice, discover new perspectives, and be part of a community that celebrates the beauty of words.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-pink-300/20 border border-pink-300/40 text-white hover:bg-pink-300/30 hover:border-pink-300/60 transition-all font-light">
-                <Link href="/register">Start Writing Today</Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
-              >
-                <Link href="/poems">Explore Poems</Link>
-              </Button>
+            <div className="p-8">
+              <p className="leading-relaxed mb-6 font-light text-theme-secondary text-lg">
+                Este simplu. Trimite-ne creațiile tale folosind formularul de pe pagina noastră de <Link href="/submit" className="text-theme-accent hover:text-[rgb(var(--theme-accent-light))] transition-colors">Trimite un poem</Link>. Te rugăm să incluzi numele sau pseudonimul sub care dorești să publici.
+              </p>
+              <p className="leading-relaxed font-light text-theme-secondary text-lg">
+                Lotus este mai mult decât un concurs; este o comunitate unită de emoție, artă și respect reciproc. Așteptăm cu nerăbdare să citim povestea ta.
+              </p>
             </div>
           </div>
         </div>

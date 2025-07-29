@@ -54,14 +54,6 @@ function FeedbackPageContent() {
   return (
     <div className="min-h-screen bg-theme-dark">
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-12">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Parerea cititorilor</h1>
-          <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
-            Vezi ce au spus cititorii despre poeziile noastre. Toate comentariile de la comunitate într-un singur loc.
-          </p>
-        </div>
-
         {/* Pagination Info */}
         {pagination && !isLoading && (
           <PaginationInfo
@@ -190,13 +182,7 @@ function FeedbackPageContent() {
 function FeedbackPageLoading() {
   return (
     <div className="min-h-screen bg-theme-dark">
-      <div className="max-w-7xl mx-auto px-6 py-16 space-y-8">
-        <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Parerea cititorilor</h1>
-          <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
-            Vezi ce au spus cititorii despre poeziile noastre. Toate comentariile de la comunitate într-un singur loc.
-          </p>
-        </div>
+      <div className="max-w-7xl mx-auto px-6 py-8 space-y-6">
         <div className="flex justify-center items-center py-12">
           <Loader2 className="w-8 h-8 animate-spin text-theme-accent" />
           <span className="ml-2 font-light text-theme-secondary">Se încarcă feedback-ul...</span>

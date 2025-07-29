@@ -58,17 +58,9 @@ function PoemsPageContent() {
 
   return (
     <div className="min-h-screen text-white bg-theme-dark">
-      <div className="max-w-7xl mx-auto px-1 sm:px-6 py-16 space-y-12">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Colecția de Poezii</h1>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">
-            Descoperă poezii frumoase de la scriitori talentați din întreaga lume. Fiecare piesă spune o poveste unică.
-          </p>
-        </div>
-
+      <div className="max-w-7xl mx-auto px-1 sm:px-6 py-8 space-y-6">
         {/* Search and Filter */}
-        <div className="bg-white/5 backdrop-blur-md rounded-xl border border-white/10 p-3 sm:p-8">
+        <div className="p-3 sm:p-8">
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Search Input */}
             <div className="flex-1 relative">
@@ -309,7 +301,7 @@ function PoemsPageContent() {
 function PoemsPageLoading() {
   return (
     <div className="min-h-screen text-white bg-theme-dark">
-      <div className="max-w-7xl mx-auto px-1 sm:px-6 py-16 space-y-12">
+      {/* <div className="max-w-7xl mx-auto px-1 sm:px-6 py-16 space-y-12">
         <div className="text-center">
           <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Colecția de Poezii</h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto font-light">
@@ -320,15 +312,13 @@ function PoemsPageLoading() {
           <Loader2 className="w-8 h-8 animate-spin text-theme-accent" />
           <span className="ml-3 text-gray-300 font-light">Se încarcă poeziile...</span>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
 
 export default function PoemsPage() {
   return (
-    <Suspense fallback={<PoemsPageLoading />}>
       <PoemsPageContent />
-    </Suspense>
   )
 }

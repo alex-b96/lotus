@@ -105,14 +105,8 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
   }
 
   return (
-    <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-pink-300/30 hover:bg-white/10 transition-all duration-300">
-      <div className="p-6 border-b border-white/10">
-        <h2 className="text-xl font-light flex items-center space-x-2 text-theme-primary">
-          <MessageCircle className="w-5 h-5" />
-          <span>Comentarii ({totalCount})</span>
-        </h2>
-      </div>
-      <div className="p-6 space-y-6">
+    <div>
+      <div className="p-2 sm:p-4 space-y-1">
         {/* Error display */}
         {error && (
           <div className="p-3 bg-red-900/20 border border-red-800 rounded-lg text-red-200">
@@ -141,7 +135,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
             </div>
           </div>
         ) : (
-          <div className="p-4 bg-white/5 rounded-lg text-center text-theme-secondary">
+          <div className="p-4 text-center text-theme-secondary">
             <p>Te rog să te autentifici pentru a lăsa un comentariu</p>
             <Button
               variant="outline"
@@ -154,7 +148,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
         )}
 
         {/* Comments List */}
-        <div className="space-y-4">
+        <div className="space-y-1">
           {loading && comments.length === 0 ? (
             <div className="text-center py-8 text-theme-secondary">
               <div className="animate-spin w-8 h-8 border-2 border-pink-300 border-t-transparent rounded-full mx-auto mb-4"></div>
@@ -163,7 +157,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
           ) : comments.length > 0 ? (
             <>
               {comments.map((comment) => (
-                <div key={comment.id} className="p-4 bg-white/5 rounded-lg border border-white/10">
+                <div key={comment.id} className="p-2">
                   <div className="flex items-start space-x-3">
                     <Avatar className="w-10 h-10">
                       <AvatarImage

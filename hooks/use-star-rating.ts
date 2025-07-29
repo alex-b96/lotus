@@ -37,7 +37,7 @@ export function useStarRating(poemId: string | undefined): UseStarRatingReturn {
 
     try {
       const response = await fetch(`/api/poems/${poemId}/ratings`)
-      
+
       if (!response.ok) {
         throw new Error(`Failed to fetch ratings: ${response.status}`)
       }
@@ -74,8 +74,24 @@ export function useStarRating(poemId: string | undefined): UseStarRatingReturn {
         body: JSON.stringify({ rating }),
       })
 
-      if (!response.ok) {
-        throw new Error(`Failed to submit rating: ${response.status}`)
+            if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+
+        // Handle specific user not found error
+        if (errorData.code === "USER_NOT_FOUND") {
+          setError("Sesiunea ta a expirat. Te rugăm să te conectezi din nou.")
+          // Redirect to logout to clear invalid session
+          window.location.href = '/logout'
+          return
+        }
+
+        // Handle unauthorized error (user not logged in)
+        if (response.status === 401) {
+          setError("Trebuie să fii conectat pentru a evalua.")
+          return
+        }
+
+        throw new Error(errorData.error || `Failed to submit rating: ${response.status}`)
       }
 
       const result = await response.json()
@@ -107,8 +123,24 @@ export function useStarRating(poemId: string | undefined): UseStarRatingReturn {
         method: "DELETE",
       })
 
-      if (!response.ok) {
-        throw new Error(`Failed to remove rating: ${response.status}`)
+            if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+
+        // Handle specific user not found error
+        if (errorData.code === "USER_NOT_FOUND") {
+          setError("Sesiunea ta a expirat. Te rugăm să te conectezi din nou.")
+          // Redirect to logout to clear invalid session
+          window.location.href = '/logout'
+          return
+        }
+
+        // Handle unauthorized error (user not logged in)
+        if (response.status === 401) {
+          setError("Trebuie să fii conectat pentru a evalua.")
+          return
+        }
+
+        throw new Error(errorData.error || `Failed to remove rating: ${response.status}`)
       }
 
       const result = await response.json()

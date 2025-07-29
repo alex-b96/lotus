@@ -39,6 +39,13 @@ export function StarRating({
     lg: "w-6 h-6"
   }
 
+  // Mobile-specific star sizes - smaller for narrow screens
+  const mobileStarSizes = {
+    sm: "w-2.5 h-2.5 sm:w-3 sm:h-3",
+    md: "w-3 h-3 sm:w-4 sm:h-4",
+    lg: "w-3.5 h-3.5 sm:w-5 sm:h-5"
+  }
+
   const handleStarClick = async (rating: number) => {
     if (!interactive || !session?.user || isSubmitting) return
 
@@ -85,10 +92,10 @@ export function StarRating({
   }
 
   return (
-    <div className={`flex items-center space-x-2 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-1 sm:gap-1.5 md:gap-2 ${className}`}>
       {/* Star buttons */}
       <div
-        className="flex items-center space-x-1"
+        className="flex items-center space-x-0.5 sm:space-x-0.5 md:space-x-1"
         onMouseLeave={handleMouseLeave}
       >
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((starIndex) => (
@@ -102,11 +109,12 @@ export function StarRating({
               ${!interactive || !session?.user ? 'opacity-70' : ''}
               transition-all duration-200
               ${isSubmitting ? 'opacity-50' : ''}
+              p-0.5 sm:p-1
             `}
           >
             <Star
               className={`
-                ${starSizes[size]}
+                ${mobileStarSizes[size]} md:${starSizes[size]}
                 transition-all duration-200
                 ${getStarState(starIndex)
                   ? 'fill-yellow-400 text-yellow-400'
@@ -120,11 +128,11 @@ export function StarRating({
 
       {/* Rating statistics */}
       {showStats && (
-        <div className="flex items-center space-x-2 text-sm text-gray-400">
+        <div className="flex items-center space-x-1 sm:space-x-1.5 md:space-x-2 text-xs sm:text-sm text-gray-400">
           <span className="font-medium">
             {formatRating(averageRating)}
           </span>
-          <span>
+          <span className="whitespace-nowrap">
             ({totalRatings})
           </span>
         </div>
@@ -132,17 +140,38 @@ export function StarRating({
 
       {/* Login prompt */}
       {interactive && !session?.user && (
-        <div className="text-xs text-gray-500 italic">
+        <div className="text-xs text-gray-500 italic whitespace-nowrap">
           <a href="/login" className="text-theme-accent hover:underline">
             Conectează-te
           </a> pentru a evalua
         </div>
       )}
 
+      {/* Error message with login link */}
+      {error && error.includes("Trebuie să fii conectat") && (
+        <div className="text-xs text-red-400 flex items-center space-x-1 md:space-x-2">
+          <span>{error}</span>
+          <a
+            href="/login"
+            className="text-blue-500 hover:underline font-medium"
+          >
+            Conectare
+          </a>
+        </div>
+      )}
+
       {/* Error message */}
       {error && (
-        <div className="text-xs text-red-400">
-          {error}
+        <div className="text-xs text-red-400 flex items-center space-x-1 md:space-x-2">
+          <span>{error}</span>
+          {error.includes("Sesiunea ta a expirat") && (
+            <a
+              href="/logout"
+              className="text-blue-500 hover:underline font-medium"
+            >
+              Deconectare
+            </a>
+          )}
         </div>
       )}
     </div>

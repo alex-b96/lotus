@@ -35,15 +35,6 @@ export function FeaturedAuthors() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Crown className="w-6 h-6 text-theme-accent" />
-            <h2 className="text-3xl font-light text-theme-primary">Autori de top</h2>
-            <Crown className="w-6 h-6 text-theme-accent" />
-          </div>
-          <p className="text-theme-secondary">Descoperă cei mai buni poeți ai comunității noastre</p>
-        </div>
-
         <div className="flex justify-center items-center py-8">
           <Loader2 className="w-6 h-6 animate-spin text-theme-accent" />
           <span className="ml-2 text-theme-secondary">Se încarcă autori de top...</span>
@@ -56,15 +47,6 @@ export function FeaturedAuthors() {
   if (error) {
     return (
       <div className="space-y-6">
-        <div className="text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Crown className="w-6 h-6 text-theme-accent" />
-            <h2 className="text-3xl font-light text-theme-primary">Autori de top</h2>
-            <Crown className="w-6 h-6 text-theme-accent" />
-          </div>
-          <p className="text-theme-secondary">Descoperă cei mai buni poeți ai comunității noastre</p>
-        </div>
-
         <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
           <div className="flex items-center gap-3">
             <AlertCircle className="h-5 w-5 text-red-400" />
@@ -93,18 +75,6 @@ export function FeaturedAuthors() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="text-center">
-        <div className="flex items-center justify-center space-x-2 mb-4">
-          <Crown className="w-6 h-6 text-theme-accent" />
-          <h2 className="text-3xl font-light text-theme-primary">Autori de top</h2>
-          <Crown className="w-6 h-6 text-theme-accent" />
-        </div>
-        <p className="text-lg text-theme-secondary">
-          Descoperă cei mai buni poeți ai comunității noastre
-        </p>
-      </div>
-
       {/* Featured Authors Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {featuredAuthors.map((author, index) => (

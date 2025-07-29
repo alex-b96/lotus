@@ -61,26 +61,26 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-theme-dark">
-      <div className="max-w-4xl mx-auto px-6 py-16 space-y-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 lg:py-20 space-y-8 sm:space-y-10 lg:space-y-12">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-5xl lg:text-6xl font-light mb-6 text-theme-primary">Contactează-ne</h1>
-        <p className="text-lg max-w-2xl mx-auto font-light text-theme-secondary">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 sm:mb-6 text-theme-primary">Contactează-ne</h1>
+        <p className="text-base sm:text-lg max-w-2xl mx-auto font-light text-theme-secondary px-4 sm:px-0">
           Ai întrebări, sugestii sau ai nevoie de asistență? Vrem să auzim de la tine. Contactează-ne.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
         {/* Contact Form */}
         <div className="lg:col-span-3">
           <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
-            <div className="p-6 border-b border-white/10">
-              <h2 className="text-2xl font-light flex items-center space-x-2 text-theme-primary">
-                <Mail className="w-6 h-6 text-theme-accent" />
+            <div className="p-4 sm:p-6 lg:p-8 border-b border-white/10">
+              <h2 className="text-xl sm:text-2xl font-light flex items-center space-x-2 text-theme-primary">
+                <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-theme-accent" />
                 <span>Trimite-ne un mesaj</span>
               </h2>
             </div>
-            <div className="p-6">
+            <div className="p-4 sm:p-6 lg:p-8">
               {submitted ? (
                 <div className="text-center py-8">
                   <div className="w-16 h-16 bg-theme-accent-20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -99,8 +99,8 @@ export default function ContactPage() {
                   </Button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="name" className="font-medium text-theme-primary">
                         Nume *
@@ -140,7 +140,7 @@ export default function ContactPage() {
                       onChange={(e) => setFormData((prev) => ({ ...prev, subject: e.target.value }))}
                       placeholder="Descriere rapidă a întrebării"
                       required
-                      className="border-green-300 focus:border-green-500"
+                      className="bg-white/5 border-white/20 text-white placeholder:text-gray-400 focus:border-theme-accent font-light"
                     />
                   </div>
 
@@ -172,12 +172,12 @@ export default function ContactPage() {
         </div>
 
         {/* Contact Information */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2 space-y-6 lg:space-y-8">
           <div className="bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 hover:border-theme-accent-30 hover:bg-white/10 transition-all duration-300">
-            <div className="p-6 border-b border-white/10">
-              <h3 className="text-xl font-light text-theme-primary">Contact Information</h3>
+            <div className="p-4 sm:p-6 lg:p-8 border-b border-white/10">
+              <h3 className="text-lg sm:text-xl font-light text-theme-primary">Contact Information</h3>
             </div>
-            <div className="p-6 space-y-4">
+            <div className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
               <div className="flex items-start space-x-3">
                 <Mail className="w-5 h-5 text-theme-accent mt-1" />
                 <div>
