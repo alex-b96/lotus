@@ -10,14 +10,21 @@ export default function LogoutPage() {
   useEffect(() => {
     const performLogout = async () => {
       try {
+        // Clear all client-side session data first
+        if (typeof window !== 'undefined') {
+          localStorage.clear()
+          sessionStorage.clear()
+        }
+        
+        // Then sign out with server cleanup
         await signOut({
-          redirect: false,
+          redirect: true,
           callbackUrl: '/login'
         })
-        router.push('/login')
       } catch (error) {
         console.error('Logout error:', error)
-        router.push('/login')
+        // Force redirect even if signOut fails
+        window.location.href = '/login'
       }
     }
 
