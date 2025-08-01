@@ -4,6 +4,10 @@ import { requireAuth, getAuthenticatedUser } from "@/lib/auth-middleware"
 import { createPoemSchema, poemListQuerySchema } from "@/lib/validations/poems"
 import { z } from "zod"
 
+// Optimize for faster cold starts
+export const runtime = 'nodejs'
+export const maxDuration = 15
+
 /**
  * GET /api/poems - List poems with pagination and filtering
  */
