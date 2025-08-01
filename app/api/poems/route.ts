@@ -168,7 +168,6 @@ export async function POST(request: NextRequest) {
       data: {
         title: validatedData.title,
         content: validatedData.content,
-        category: validatedData.category,
         status: validatedData.status,
         readingTime,
         publishedAt: validatedData.status === "PUBLISHED" ? new Date() : null,

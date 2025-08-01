@@ -4,7 +4,6 @@ import { z } from "zod"
 export const createPoemSchema = z.object({
   title: z.string().min(1, "Title is required").max(200, "Title must be less than 200 characters"),
   content: z.string().min(1, "Content is required").max(10000, "Content must be less than 10,000 characters"),
-  category: z.string().optional(), // Disabled for now, keeping for future use
   tags: z.array(z.string()).optional().default([]),
   status: z.enum(["DRAFT", "SUBMITTED", "PUBLISHED", "REJECTED"]).optional().default("SUBMITTED"),
 })
@@ -13,7 +12,6 @@ export const createPoemSchema = z.object({
 export const updatePoemSchema = z.object({
   title: z.string().min(1, "Title is required").max(200, "Title must be less than 200 characters").optional(),
   content: z.string().min(1, "Content is required").max(10000, "Content must be less than 10,000 characters").optional(),
-  category: z.string().optional(), // Disabled for now, keeping for future use
   tags: z.array(z.string()).optional(),
   status: z.enum(["DRAFT", "SUBMITTED", "PUBLISHED", "REJECTED"]).optional(),
 })
@@ -23,7 +21,6 @@ export const poemListQuerySchema = z.object({
   page: z.string().nullable().optional().transform((val) => val ? parseInt(val, 10) : 1),
   limit: z.string().nullable().optional().transform((val) => val ? Math.min(parseInt(val, 10), 50) : 20),
   search: z.string().nullable().optional(),
-  category: z.string().nullable().optional(),
   authorId: z.string().nullable().optional(),
   tag: z.string().nullable().optional(),
   sortBy: z.string().nullable().optional().transform((val) => val || "createdAt").pipe(z.enum(["createdAt", "title", "likes"])),
