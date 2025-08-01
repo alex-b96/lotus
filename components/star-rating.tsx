@@ -161,7 +161,7 @@ export function StarRating({
       )}
 
       {/* Error message */}
-      {error && (
+      {error && !error.includes("Trebuie să fii conectat") && (
         <div className="text-xs text-red-400 flex items-center space-x-1 md:space-x-2">
           <span>{error}</span>
           {error.includes("Sesiunea ta a expirat") && (

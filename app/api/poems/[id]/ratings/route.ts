@@ -20,18 +20,6 @@ export async function POST(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    // Debug: Check if user exists in database
-    const userExists = await db.user.findUnique({
-      where: { id: session.user.id },
-      select: { id: true, email: true, name: true }
-    })
-
-    if (!userExists) {
-      console.error(`User not found in database: ${session.user.id} (${session.user.email})`)
-      return NextResponse.json({ error: "User not found in database" }, { status: 404 })
-    }
-
-    console.log(`Rating for user: ${userExists.name} (${userExists.email})`)
 
     const body = await request.json()
     const validatedData = ratingSchema.parse(body)
@@ -99,15 +87,6 @@ export async function POST(
       return NextResponse.json({ error: "Invalid rating data" }, { status: 400 })
     }
 
-    // Handle Prisma foreign key constraint errors
-    if (error && typeof error === 'object' && 'code' in error) {
-      if (error.code === 'P2003') {
-        return NextResponse.json({
-          error: "User not found in database. Please log out and log back in.",
-          code: "USER_NOT_FOUND"
-        }, { status: 404 })
-      }
-    }
 
     return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
@@ -142,26 +121,15 @@ export async function GET(
 
     let userRating = null
     if (session?.user?.id) {
-      // Debug: Check if user exists in database
-      const userExists = await db.user.findUnique({
-        where: { id: session.user.id },
-        select: { id: true, email: true, name: true }
-      })
-
-      if (!userExists) {
-        console.error(`User not found in database (GET): ${session.user.id} (${session.user.email})`)
-        // Don't return error here, just skip user rating
-      } else {
-        const userRatingRecord = await db.starRating.findUnique({
-          where: {
-            userId_poemId: {
-              userId: session.user.id,
-              poemId: poemId
-            }
+      const userRatingRecord = await db.starRating.findUnique({
+        where: {
+          userId_poemId: {
+            userId: session.user.id,
+            poemId: poemId
           }
-        })
-        userRating = userRatingRecord?.rating || null
-      }
+        }
+      })
+      userRating = userRatingRecord?.rating || null
     }
 
     return NextResponse.json({
@@ -188,16 +156,6 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    // Debug: Check if user exists in database
-    const userExists = await db.user.findUnique({
-      where: { id: session.user.id },
-      select: { id: true, email: true, name: true }
-    })
-
-    if (!userExists) {
-      console.error(`User not found in database (DELETE): ${session.user.id} (${session.user.email})`)
-      return NextResponse.json({ error: "User not found in database" }, { status: 404 })
-    }
 
     // Delete the user's rating
     await db.starRating.delete({
