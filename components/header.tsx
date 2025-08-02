@@ -71,7 +71,7 @@ export function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-10">
+          <nav className="hidden lg:flex items-center space-x-10">
             {navigation.map((item) => {
               const isActive = pathname === item.href
               return (
@@ -95,7 +95,7 @@ export function Header() {
           </nav>
 
           {/* Auth Section - Desktop */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             {isLoading ? (
               // Loading state
               <div className="flex items-center space-x-4">
@@ -181,14 +181,14 @@ export function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <Button variant="ghost" size="sm" className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <Button variant="ghost" size="sm" className="lg:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </Button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-6 border-t border-white/10 max-h-[calc(100vh-5rem)] overflow-y-auto">
+          <div className="lg:hidden py-6 border-t border-white/10 max-h-[calc(100vh-5rem)] overflow-y-auto">
             <nav className="flex flex-col space-y-4">
               {navigation.map((item) => {
                 const isActive = pathname === item.href
@@ -230,13 +230,13 @@ export function Header() {
                         Trimite Poezie
                       </Link>
                     </Button>
-                    <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light justify-start">
+                    <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white hover:bg-white/10 font-light justify-start">
                       <Link href={`/authors/${session.user.id}`} onClick={() => setIsMenuOpen(false)}>
                         <User className="w-4 h-4 mr-2" />
                         Profilul Meu
                       </Link>
                     </Button>
-                    <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light justify-start">
+                    <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white hover:bg-white/10 font-light justify-start">
                       <Link href="/settings" onClick={() => setIsMenuOpen(false)}>
                         <Settings className="w-4 h-4 mr-2" />
                         Setări
@@ -266,13 +266,13 @@ export function Header() {
                 ) : (
                   // Not logged in mobile menu
                   <>
-                    <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white font-light justify-start">
+                    <Button variant="ghost" size="sm" asChild className="text-gray-300 hover:text-white hover:bg-white/10 font-light justify-start">
                       <Link href="/login" onClick={() => setIsMenuOpen(false)}>
                         <LogIn className="w-4 h-4 mr-2" />
                         Conectare
                       </Link>
                     </Button>
-                    <Button size="sm" asChild className="bg-transparent border-white/30 text-white hover:bg-white hover:text-black font-light">
+                    <Button variant="outline" size="sm" asChild className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:border-white/60 hover:text-white font-light justify-start">
                       <Link href="/register" onClick={() => setIsMenuOpen(false)}>
                         <User className="w-4 h-4 mr-2" />
                         Înregistrare

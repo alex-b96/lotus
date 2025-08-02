@@ -89,7 +89,6 @@ function AuthorsPageContent() {
               {/* Sort Options */}
               <div className="flex items-center space-x-2">
                 <Filter className="text-theme-accent w-4 h-4" />
-                <span className="text-sm font-light text-theme-secondary">Sortează după:</span>
                 <Select value={sortBy} onValueChange={setSortBy} disabled={isLoading}>
                   <SelectTrigger className="w-36 bg-white/5 border-white/20 text-white">
                     <SelectValue />

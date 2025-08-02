@@ -95,9 +95,8 @@ function PoemsPageContent() {
 
               {/* Sort Options */}
               <div className="flex items-center space-x-3">
-                <span className="text-sm text-gray-300 font-light">Sortează după:</span>
                 <Select value={sortBy} onValueChange={setSortBy} disabled={isLoading}>
-                  <SelectTrigger className="w-32 bg-white/5 border-white/20 text-white">
+                  <SelectTrigger className="w-36 sm:w-32 bg-white/5 border-white/20 text-white">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
