@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MessageCircle, Send, Heart, Edit, Trash2, MoreVertical } from "lucide-react"
+import { MessageCircle, Send, Heart, Edit, Trash2, MoreVertical, Flower } from "lucide-react"
 import { useComments } from "@/hooks/use-comments"
 import { formatDistanceToNow } from "date-fns"
 import {
@@ -171,7 +171,14 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-2">
-                          <h4 className="font-light text-theme-primary">{comment.author.name}</h4>
+                          {comment.author.role === "ADMIN" ? (
+                            <div className="flex items-center space-x-1">
+                              <Flower className="w-4 h-4 text-pink-300" />
+                              <h4 className="font-light text-pink-300">LOTUS</h4>
+                            </div>
+                          ) : (
+                            <h4 className="font-light text-theme-primary">{comment.author.name}</h4>
+                          )}
                           <span className="text-sm text-theme-secondary">
                             {formatTimestamp(comment.createdAt)}
                           </span>

@@ -20,15 +20,24 @@ export async function GET(request: NextRequest) {
 
     const skip = (query.page - 1) * query.limit
 
-    // Build where clause - now includes all users (not just those with published poems)
-    const where: any = {}
+    // Build where clause - exclude admin users and include all others
+    const where: any = {
+      role: "USER" // Only show regular users, not admins
+    }
 
     // Add search filter if provided
     if (query.search) {
-      where.OR = [
-        { name: { contains: query.search, mode: "insensitive" } },
-        { bio: { contains: query.search, mode: "insensitive" } },
+      where.AND = [
+        { role: "USER" }, // Ensure we still exclude admins when searching
+        {
+          OR: [
+            { name: { contains: query.search, mode: "insensitive" } },
+            { bio: { contains: query.search, mode: "insensitive" } },
+          ]
+        }
       ]
+      // Remove the top-level role filter since it's now in AND
+      delete where.role
     }
 
     // Build orderBy clause

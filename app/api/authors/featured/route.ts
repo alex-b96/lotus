@@ -7,10 +7,11 @@ import { db } from "@/lib/db"
  */
 export async function GET() {
   try {
-    // Get authors marked as featured by administrators
+    // Get authors marked as featured by administrators (exclude admin users)
     const featuredAuthors = await db.user.findMany({
       where: {
         featured: true,
+        role: "USER", // Exclude admin users from featured authors
         poems: {
           some: {
             status: "PUBLISHED"

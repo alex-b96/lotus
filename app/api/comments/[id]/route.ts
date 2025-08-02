@@ -60,6 +60,7 @@ export async function PUT(
             id: true,
             name: true,
             avatarUrl: true,
+            role: true,
           }
         }
       }

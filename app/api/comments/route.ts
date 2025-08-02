@@ -54,6 +54,7 @@ export async function GET(request: NextRequest) {
               id: true,
               name: true,
               avatarUrl: true,
+              role: true,
             }
           }
         },
@@ -146,6 +147,7 @@ export async function POST(request: NextRequest) {
             id: true,
             name: true,
             avatarUrl: true,
+            role: true,
           }
         }
       }

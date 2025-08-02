@@ -99,7 +99,7 @@ export const authOptions: NextAuthOptions = {
           // Get fresh user data from database (server-side, secure)
           const freshUser = await db.user.findUnique({
             where: { id: token.sub },
-            select: { name: true, email: true, bio: true, avatarUrl: true }
+            select: { name: true, email: true, bio: true, avatarUrl: true, role: true }
           })
           
           if (freshUser) {
@@ -107,6 +107,7 @@ export const authOptions: NextAuthOptions = {
             token.email = freshUser.email   // ✅ Secure source
             token.bio = freshUser.bio       // ✅ Verified data
             token.avatarUrl = freshUser.avatarUrl // ✅ Trustworthy
+            token.role = freshUser.role     // ✅ Fresh role from database
           }
         } catch (error) {
           console.error("Database error in JWT callback:", error)

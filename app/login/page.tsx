@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { signIn, getSession } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -22,6 +22,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
+  const { update } = useSession()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -38,8 +39,8 @@ export default function LoginPage() {
       if (result?.error) {
         setError("Email sau parolă invalidă")
       } else {
-        // Refresh the session and redirect to home
-        await getSession()
+        // Force session update to refresh role from database
+        await update()
         router.push("/")
         router.refresh()
       }
@@ -137,12 +138,6 @@ export default function LoginPage() {
                 Înregistrează-te
               </Link>
             </p>
-          </div>
-
-          <div className="mt-4 p-3 bg-blue-900/20 border border-blue-300/40 rounded-xl text-sm text-theme-blue-info">
-            <strong>Cont de test:</strong><br />
-            Email: sarah@example.com<br />
-            Parolă: password123
           </div>
         </div>
       </div>
