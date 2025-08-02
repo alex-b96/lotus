@@ -15,7 +15,6 @@ interface ApiPoem {
   id: string
   title: string
   content: string
-  category: string
   author: Author
   tags: string[]
   readingTime: number | null
@@ -46,7 +45,6 @@ interface Poem {
   title: string
   author: string
   preview: string
-  category: string
   tags: string[]
   likes: number
   comments: number
@@ -108,7 +106,6 @@ const transformApiPoem = (apiPoem: ApiPoem): Poem => {
     title: apiPoem.title,
     author: apiPoem.author.name,
     preview,
-    category: apiPoem.category,
     tags: apiPoem.tags,
     likes: apiPoem.likes,
     comments: apiPoem.comments,

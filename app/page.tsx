@@ -23,7 +23,6 @@ interface Poem {
   id: string
   title: string
   content: string
-  category: string
   author: Author
   tags: string[]
   readingTime: number

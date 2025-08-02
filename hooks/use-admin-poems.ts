@@ -7,7 +7,6 @@ interface AdminPoem {
   id: string
   title: string
   content: string
-  category: string
   author: {
     id: string
     name: string

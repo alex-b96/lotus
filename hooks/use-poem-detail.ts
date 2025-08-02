@@ -6,7 +6,6 @@ export interface PoemDetail {
   id: string
   title: string
   content: string
-  category: string
   status: string
   author: {
     id: string

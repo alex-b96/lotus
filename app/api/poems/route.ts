@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { requireAuth, getAuthenticatedUser } from "@/lib/auth-middleware"
+import { requireAuth } from "@/lib/auth-middleware"
 import { createPoemSchema, poemListQuerySchema } from "@/lib/validations/poems"
 import { z } from "zod"
 
@@ -39,9 +39,6 @@ export async function GET(request: NextRequest) {
       ]
     }
 
-    if (query.category) {
-      where.category = query.category
-    }
 
     if (query.authorId) {
       where.authorId = query.authorId
@@ -106,7 +103,6 @@ export async function GET(request: NextRequest) {
       id: poem.id,
       title: poem.title,
       content: poem.content,
-      category: poem.category,
       author: poem.author,
       tags: poem.tags.map(poemTag => poemTag.tag.name),
       readingTime: poem.readingTime,

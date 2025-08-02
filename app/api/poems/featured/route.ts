@@ -108,7 +108,6 @@ export async function GET(request: NextRequest) {
       id: poem.id,
       title: poem.title,
       content: poem.content,
-      category: poem.category,
       author: poem.author,
       tags: poem.tags.map((poemTag: any) => poemTag.tag.name),
       readingTime: poem.readingTime,
