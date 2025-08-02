@@ -10,12 +10,12 @@ export default function LogoutPage() {
   useEffect(() => {
     const performLogout = async () => {
       try {
-        // Clear all client-side session data first
+w        // Clear all client-side session data first
         if (typeof window !== 'undefined') {
           localStorage.clear()
           sessionStorage.clear()
         }
-        
+
         // Then sign out with server cleanup
         await signOut({
           redirect: true,
