@@ -83,20 +83,8 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt"
   },
-  // Temporarily remove custom cookie config to use NextAuth defaults
-  // cookies: {
-  //   sessionToken: {
-  //     name: env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
-  //     options: {
-  //       httpOnly: true,
-  //       sameSite: 'lax',
-  //       path: '/',
-  //       secure: env.NODE_ENV === 'production'
-  //     }
-  //   }
-  // },
   callbacks: {
-    async jwt({ token, user, trigger, session }) {
+    async jwt({ token, user, trigger }) {
       // On initial sign-in, add custom properties to the token
       if (user) {
         token.sub = user.id // Ensure sub is set from user.id on sign-in
@@ -107,18 +95,21 @@ export const authOptions: NextAuthOptions = {
 
       // Secure session updates: fetch fresh data from database when triggered
       if (trigger === "update") {
-        // Get fresh user data from database (server-side, secure)
-        const freshUser = await db.user.findUnique({
-          where: { id: token.sub },
-          select: { name: true, email: true, bio: true, avatarUrl: true }
-        })
-        
-        // Only update token with verified database data
-        if (freshUser) {
-          token.name = freshUser.name     // ✅ From database, not client
-          token.email = freshUser.email   // ✅ Secure source
-          token.bio = freshUser.bio       // ✅ Verified data
-          token.avatarUrl = freshUser.avatarUrl // ✅ Trustworthy
+        try {
+          // Get fresh user data from database (server-side, secure)
+          const freshUser = await db.user.findUnique({
+            where: { id: token.sub },
+            select: { name: true, email: true, bio: true, avatarUrl: true }
+          })
+          
+          if (freshUser) {
+            token.name = freshUser.name     // ✅ From database, not client
+            token.email = freshUser.email   // ✅ Secure source
+            token.bio = freshUser.bio       // ✅ Verified data
+            token.avatarUrl = freshUser.avatarUrl // ✅ Trustworthy
+          }
+        } catch (error) {
+          console.error("Database error in JWT callback:", error)
         }
       }
 
@@ -134,6 +125,7 @@ export const authOptions: NextAuthOptions = {
         session.user.avatarUrl = token.avatarUrl as string
         session.user.bio = token.bio as string | null
       }
+      
       return session
     }
   },

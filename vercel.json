@@ -7,9 +7,73 @@
     }
   },
   "regions": ["fra1"],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.lotuspoetry.ro"
+        }
+      ],
+      "destination": "https://lotuspoetry.ro",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "lotus-poetry-website.vercel.app"
+        }
+      ],
+      "destination": "https://lotuspoetry.ro",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.lotuspoetry.ro"
+        }
+      ],
+      "destination": "https://lotuspoetry.ro/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "lotus-poetry-website.vercel.app"
+        }
+      ],
+      "destination": "https://lotuspoetry.ro/$1",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/auth/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/api/poems/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=60, stale-while-revalidate=300"
+        }
+      ]
+    },
+    {
+      "source": "/api/admin/(.*)",
       "headers": [
         {
           "key": "Cache-Control",

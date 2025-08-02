@@ -46,8 +46,11 @@ export function Header() {
       .slice(0, 2)
   }
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: "/" })
+  const handleSignOut = async () => {
+    await signOut({ 
+      callbackUrl: "/",
+      redirect: true 
+    })
   }
 
   return (
