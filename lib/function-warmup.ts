@@ -15,7 +15,6 @@ export async function warmupFunction() {
     // Warm up database connection with a simple query
     await db.$queryRaw`SELECT 1`
     isWarmedUp = true
-    console.log('✅ Function warmed up successfully')
   } catch (error) {
     console.error('❌ Function warmup failed:', error)
   }

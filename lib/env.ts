@@ -43,7 +43,6 @@ function validateEnv() {
       }
     }
     
-    console.log('✅ Environment variables validated successfully')
     return validatedEnv
   } catch (error) {
     console.error('❌ Environment validation failed:')

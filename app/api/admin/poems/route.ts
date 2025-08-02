@@ -4,11 +4,9 @@ import { requireAdmin } from '@/lib/admin-middleware'
 
 export async function GET(req: NextRequest) {
   try {
-    console.log('Admin API: Starting request')
 
     // Check admin auth directly
     const adminUser = await requireAdmin()
-    console.log('Admin API: Admin user verified')
 
     // Parse query parameters for pagination and filtering
     const { searchParams } = new URL(req.url)
@@ -16,7 +14,6 @@ export async function GET(req: NextRequest) {
     const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 50)
     const skip = (page - 1) * limit
 
-    console.log('Admin API: Fetching submitted poems...')
 
     // Get submitted poems with author information
     const poems = await db.poem.findMany({
@@ -51,7 +48,6 @@ export async function GET(req: NextRequest) {
       take: limit
     })
 
-    console.log('Admin API: Found poems:', poems.length)
 
     // Get total count for pagination
     const totalCount = await db.poem.count({
@@ -70,7 +66,6 @@ export async function GET(req: NextRequest) {
       comments: poem._count.comments
     }))
 
-    console.log('Admin API: Returning response')
 
     return NextResponse.json({
       poems: transformedPoems,

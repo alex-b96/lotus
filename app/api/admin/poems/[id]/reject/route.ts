@@ -9,11 +9,9 @@ export async function PUT(
 ) {
   try {
     const { id: poemId } = params
-    console.log('Reject API: Starting request for poem:', poemId)
 
     // Check admin auth directly
     const adminUser = await requireAdmin()
-    console.log('Reject API: Admin user verified')
 
     if (!poemId) {
       return NextResponse.json(
@@ -31,7 +29,6 @@ export async function PUT(
       // Body is optional, continue without rejection reason
     }
 
-    console.log('Reject API: Finding poem:', poemId)
 
     // Check if poem exists and is in submitted status
     const poem = await db.poem.findUnique({
@@ -44,7 +41,6 @@ export async function PUT(
     })
 
     if (!poem) {
-      console.log('Reject API: Poem not found')
       return NextResponse.json(
         { error: 'Poem not found' },
         { status: 404 }
@@ -52,14 +48,12 @@ export async function PUT(
     }
 
     if (poem.status !== 'SUBMITTED') {
-      console.log('Reject API: Poem not in submitted status:', poem.status)
       return NextResponse.json(
         { error: 'Poem is not in submitted status' },
         { status: 400 }
       )
     }
 
-    console.log('Reject API: Updating poem to rejected')
 
     // Update poem to rejected status
     const updatedPoem = await db.poem.update({
@@ -79,7 +73,6 @@ export async function PUT(
       }
     })
 
-    console.log('Reject API: Poem rejected successfully')
 
     // Send rejection email to author
     try {
@@ -94,7 +87,6 @@ export async function PUT(
         console.warn('Failed to send rejection email:', emailResult.error)
         // Don't fail the entire request if email fails
       } else {
-        console.log('Rejection email sent successfully to author')
       }
     } catch (emailError) {
       console.warn('Email service error:', emailError)

@@ -6,7 +6,6 @@ export async function POST(req: NextRequest) {
   try {
     // Check admin authentication
     const adminUser = await requireAdmin()
-    console.log('Test Email API: Admin user verified')
 
     // Parse request body
     const body = await req.json()
@@ -28,7 +27,6 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    console.log('Test Email API: Testing email configuration...')
 
     // Step 1: Test SMTP configuration
     const configTest = await testEmailConfiguration()
@@ -49,7 +47,6 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    console.log('Test Email API: SMTP configuration valid, sending test email...')
 
     // Step 2: Send test email based on type
     let emailResult
@@ -79,7 +76,6 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    console.log('Test Email API: Test email sent successfully')
 
     return NextResponse.json({
       message: 'Test email sent successfully',

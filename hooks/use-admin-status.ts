@@ -21,14 +21,10 @@ export function useAdminStatus() {
       }
 
       try {
-        // Make a simple request to an admin endpoint to check status
-        const response = await fetch('/api/admin/poems?page=1&limit=1')
-
-        if (response.ok) {
-          setIsAdmin(true)
-        } else {
-          setIsAdmin(false)
-        }
+        // Check admin status with dedicated endpoint
+        const response = await fetch('/api/admin/status')
+        const data = await response.json()
+        setIsAdmin(data.isAdmin || false)
       } catch {
         setIsAdmin(false)
       } finally {

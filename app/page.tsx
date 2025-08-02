@@ -82,7 +82,6 @@ export default function HomePage() {
     setRecentError(null)
     try {
       const response = await fetch('/api/poems?limit=3&sortBy=createdAt&order=desc')
-      console.log(response)
       if (!response.ok) {
         throw new Error(`Failed to fetch recent poems: ${response.status}`)
       }

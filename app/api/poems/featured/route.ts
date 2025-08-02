@@ -6,7 +6,6 @@ import { db } from "@/lib/db"
  */
 export async function GET(request: NextRequest) {
   try {
-    console.log("Starting featured poem fetch...")
 
     // First, try to get the featured poem from site settings
     const siteSettings = await db.siteSettings.findFirst({
@@ -45,13 +44,11 @@ export async function GET(request: NextRequest) {
 
     // If no featured poem is set, fallback to a random published poem
     if (!poem) {
-      console.log("No featured poem set, falling back to random poem...")
 
       // Get total count of published poems
       const totalCount = await db.poem.count({
         where: { status: "PUBLISHED" }
       })
-      console.log("Poem count:", totalCount)
 
       if (totalCount === 0) {
         return NextResponse.json({
@@ -66,10 +63,8 @@ export async function GET(request: NextRequest) {
       const startOfYear = new Date(now.getFullYear(), 0, 1)
       const weekNumber = Math.ceil(((now.getTime() - startOfYear.getTime()) / 86400000 + 1) / 7)
       const consistentOffset = (weekNumber * 7) % totalCount
-      console.log("Consistent offset for week", weekNumber, ":", consistentOffset)
 
       // Fetch the random poem
-      console.log("Fetching random poem...")
       poem = await db.poem.findFirst({
         where: { status: "PUBLISHED" },
         include: {
@@ -100,7 +95,6 @@ export async function GET(request: NextRequest) {
         skip: consistentOffset,
       })
     } else {
-      console.log("Found featured poem:", poem.title)
     }
 
     if (!poem) {
@@ -125,7 +119,6 @@ export async function GET(request: NextRequest) {
       comments: poem._count.comments,
     }
 
-    console.log("Successfully fetched poem:", poem.title)
     return NextResponse.json({ poem: transformedPoem })
 
   } catch (error: any) {

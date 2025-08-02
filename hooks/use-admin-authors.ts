@@ -202,8 +202,6 @@ export function useAdminAuthors(options: UseAdminAuthorsOptions = {}): UseAdminA
         )
       )
 
-      // Show success message if needed
-      console.log(data.message)
 
     } catch (err) {
       console.error("Error toggling featured status:", err)
