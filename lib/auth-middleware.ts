@@ -7,6 +7,7 @@ export interface AuthenticatedRequest extends NextRequest {
     id: string
     email: string
     name: string
+    role: string
   }
 }
 
@@ -29,6 +30,7 @@ export async function getAuthenticatedUser(request: NextRequest) {
       id: token.sub,
       email: token.email as string,
       name: token.name as string,
+      role: token.role as string,
     }
   } catch (error) {
     console.error("Auth middleware error:", error)

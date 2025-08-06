@@ -2,19 +2,30 @@
 
 import { useState } from "react"
 import { useSession } from "next-auth/react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { MessageCircle, Send, Heart, Edit, Trash2, MoreVertical, Flower } from "lucide-react"
+import { MessageCircle, Send, Edit, Trash2, MoreVertical, Flower, Shield } from "lucide-react"
 import { useComments } from "@/hooks/use-comments"
 import { formatDistanceToNow } from "date-fns"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 interface CommentSectionProps {
   poemId: string
@@ -27,7 +38,6 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
     comments,
     loading,
     error,
-    totalCount,
     hasMore,
     addComment,
     updateComment,
@@ -39,6 +49,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null)
   const [editContent, setEditContent] = useState("")
+  const [isAdminDeleting, setIsAdminDeleting] = useState<string | null>(null)
 
   // Handle submitting a new comment
   const handleSubmitComment = async () => {
@@ -81,10 +92,17 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
     setEditContent("")
   }
 
-  // Handle deleting a comment
+  // Handle deleting a comment (owner)
   const handleDeleteComment = async (commentId: string) => {
-    if (window.confirm("Ești sigur că vrei să ștergi acest comentariu?")) {
-      await deleteComment(commentId)
+    await deleteComment(commentId)
+  }
+
+  // Handle admin deleting a comment
+  const handleAdminDeleteComment = async (commentId: string) => {
+    setIsAdminDeleting(commentId)
+    const success = await deleteComment(commentId)
+    if (success) {
+      setIsAdminDeleting(null)
     }
   }
 
@@ -161,7 +179,7 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                   <div className="flex items-start space-x-3">
                     <Avatar className="w-10 h-10">
                       <AvatarImage
-                        src={comment.author.avatarUrl}
+                        src={comment.author.avatarUrl || undefined}
                         alt={comment.author.name}
                       />
                       <AvatarFallback>
@@ -183,28 +201,106 @@ export function CommentSection({ poemId, onCommentAdded }: CommentSectionProps) 
                             {formatTimestamp(comment.createdAt)}
                           </span>
                         </div>
-                        {/* Comment actions menu - only show for comment author */}
-                        {session?.user?.id === comment.author.id && (
+                        {/* Comment actions menu - show for comment author or admin */}
+                        {(session?.user?.id === comment.author.id || session?.user?.role === 'ADMIN') && (
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-gray-400 hover:text-white hover:bg-white/10">
                                 <MoreVertical className="w-4 h-4" />
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuItem
-                                onClick={() => handleStartEdit(comment.id, comment.content)}
-                              >
-                                <Edit className="w-4 h-4 mr-2" />
-                                Editează
-                              </DropdownMenuItem>
-                              <DropdownMenuItem
-                                onClick={() => handleDeleteComment(comment.id)}
-                                className="text-red-600"
-                              >
-                                <Trash2 className="w-4 h-4 mr-2" />
-                                Șterge
-                              </DropdownMenuItem>
+                            <DropdownMenuContent align="end" className="bg-black/80 backdrop-blur-md border-white/10">
+                              {/* Owner actions */}
+                              {session?.user?.id === comment.author.id && (
+                                <>
+                                  <DropdownMenuItem
+                                    onClick={() => handleStartEdit(comment.id, comment.content)}
+                                    className="text-gray-300 focus:text-white focus:bg-white/5"
+                                  >
+                                    <Edit className="w-4 h-4 mr-2" />
+                                    Editează
+                                  </DropdownMenuItem>
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <DropdownMenuItem
+                                        onSelect={(e) => e.preventDefault()}
+                                        className="text-red-400 focus:text-red-300 focus:bg-red-900/20"
+                                      >
+                                        <Trash2 className="w-4 h-4 mr-2" />
+                                        Șterge
+                                      </DropdownMenuItem>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent className="bg-black/90 backdrop-blur-md border border-white/10">
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle className="font-light text-theme-primary">
+                                          Șterge comentariu
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription className="font-light text-theme-secondary">
+                                          Ești sigur că vrei să îți ștergi comentariul? Această acțiune nu poate fi anulată.
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                        <AlertDialogCancel className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
+                                          Anulează
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                          onClick={() => handleDeleteComment(comment.id)}
+                                          className="bg-red-600 hover:bg-red-700 text-white font-light"
+                                        >
+                                          Șterge
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
+                                </>
+                              )}
+
+                              {/* Admin actions */}
+                              {session?.user?.role === 'ADMIN' && session?.user?.id !== comment.author.id && (
+                                <>
+                                  <DropdownMenuSeparator className="bg-white/10" />
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <DropdownMenuItem
+                                        onSelect={(e) => e.preventDefault()}
+                                        className="text-orange-400 focus:text-orange-300 focus:bg-orange-900/20"
+                                      >
+                                        <Shield className="w-4 h-4 mr-2" />
+                                        Șterge comentariu (Admin)
+                                      </DropdownMenuItem>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent className="bg-black/90 backdrop-blur-md border border-white/10">
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle className="font-light text-theme-primary">
+                                          Șterge comentariu (Admin)
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription className="font-light text-theme-secondary">
+                                          Ești pe cale să ștergi comentariul utilizatorului <span className="text-pink-300">{comment.author.name}</span>. Această acțiune nu poate fi anulată.
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                        <AlertDialogCancel className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
+                                          Anulează
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                          onClick={() => handleAdminDeleteComment(comment.id)}
+                                          disabled={isAdminDeleting === comment.id}
+                                          className="bg-orange-600 hover:bg-orange-700 text-white font-light"
+                                        >
+                                          {isAdminDeleting === comment.id ? (
+                                            <>
+                                              <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full mr-2"></div>
+                                              Se șterge...
+                                            </>
+                                          ) : (
+                                            "Șterge (Admin)"
+                                          )}
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
+                                </>
+                              )}
                             </DropdownMenuContent>
                           </DropdownMenu>
                         )}

@@ -92,7 +92,7 @@ export async function PUT(
 }
 
 /**
- * DELETE /api/comments/[id] - Delete a comment (only by the author)
+ * DELETE /api/comments/[id] - Delete a comment (by the author or admin)
  */
 export async function DELETE(
   request: NextRequest,
@@ -119,8 +119,7 @@ export async function DELETE(
       )
     }
 
-    // Check if the user is the author of the comment
-    if (existingComment.authorId !== user.id) {
+    if (existingComment.authorId !== user.id && user.role !== 'ADMIN') {
       return NextResponse.json(
         { error: "You can only delete your own comments" },
         { status: 403 }

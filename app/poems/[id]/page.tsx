@@ -230,7 +230,7 @@ export default function PoemPage({ params }: PoemPageProps) {
             </div>
           </div>
 
-          <div className="prose prose-theme max-w-none mb-4">
+          <div className="prose prose-theme max-w-none mb-4 mt-4">
             <div className="whitespace-pre-wrap font-light text-md leading-relaxed text-left text-theme-primary">
               {poem.content}
             </div>
