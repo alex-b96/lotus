@@ -316,3 +316,38 @@ export async function sendContactEmail(
     }
   }
 }
+
+/**
+ * Send a generic email
+ * @param to Recipient email address
+ * @param subject Email subject
+ * @param htmlContent HTML content
+ * @returns { success: boolean, error?: string }
+ */
+export async function sendEmail(
+  to: string,
+  subject: string,
+  htmlContent: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const transporter = createTransporter()
+    
+    const mailOptions = {
+      from: `"LOTUS Poetry" <${env.SMTP_FROM || env.SMTP_USER}>`,
+      to,
+      subject,
+      html: htmlContent,
+    }
+
+    await transporter.sendMail(mailOptions)
+    console.log(`Email sent successfully to ${to}`)
+
+    return { success: true }
+  } catch (error) {
+    console.error('Error sending email:', error)
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to send email'
+    }
+  }
+}

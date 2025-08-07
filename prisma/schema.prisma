@@ -36,6 +36,8 @@ model User {
   website   String?
   role      UserRole @default(USER)
   featured  Boolean  @default(false)
+  resetToken       String?   @map("reset_token")
+  resetTokenExpiry DateTime? @map("reset_token_expiry")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
