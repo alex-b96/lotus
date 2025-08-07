@@ -34,7 +34,7 @@ function createTransporter() {
 
 // Email template for poem approval
 function createApprovalEmailTemplate(authorName: string, poemTitle: string) {
-  const subject = `🎉 Your poem "${poemTitle}" has been approved!`
+  const subject = `🎉 Poezia ta "${poemTitle}" a fost aprobată!`
 
   const html = `
     <!DOCTYPE html>
@@ -55,27 +55,27 @@ function createApprovalEmailTemplate(authorName: string, poemTitle: string) {
         <div class="container">
           <div class="header">
             <h1>🌸 LOTUS Poetry</h1>
-            <p>Congratulations! Your poem has been approved</p>
+            <p>Felicitări! Poezia ta a fost aprobată</p>
           </div>
           <div class="content">
-            <h2>Hello ${authorName},</h2>
-            <p>We're excited to inform you that your poem has been approved and is now published on LOTUS Poetry!</p>
+            <h2>Salut ${authorName},</h2>
+            <p>Suntem bucuroși să te informăm că poezia ta a fost aprobată și este acum publicată pe LOTUS Poetry!</p>
 
             <div class="poem-title">
               <h3>"${poemTitle}"</h3>
-              <p><em>Status: Published ✅</em></p>
+              <p><em>Status: Publicată ✅</em></p>
             </div>
 
-            <p>Your beautiful words are now live and can be discovered by poetry lovers in our community. Thank you for sharing your creativity with us!</p>
+            <p>Cuvintele tale frumoase sunt acum live și pot fi descoperite de iubitorii de poezie din comunitatea noastră. Îți mulțumim că ne-ai împărtășit creativitatea!</p>
 
-            <a href="${env.NEXTAUTH_URL}/poems" class="cta-button">View Your Published Poem</a>
+            <a href="${env.NEXTAUTH_URL}/poems" class="cta-button">Vezi poezia ta publicată</a>
 
-            <p>Keep writing and sharing your amazing work!</p>
+            <p>Continuă să scrii și să ne împărtășești munca ta uimitoare!</p>
 
-            <p>Best regards,<br>The LOTUS Poetry Team</p>
+            <p>Cu stimă,<br>Echipa LOTUS Poetry</p>
           </div>
           <div class="footer">
-            <p>LOTUS Poetry - Where poetry blooms and creative souls connect</p>
+            <p>LOTUS Poetry</p>
           </div>
         </div>
       </body>
@@ -83,18 +83,18 @@ function createApprovalEmailTemplate(authorName: string, poemTitle: string) {
   `
 
   const text = `
-    Hello ${authorName},
+    Salut ${authorName},
 
-    Congratulations! Your poem "${poemTitle}" has been approved and is now published on LOTUS Poetry.
+    Felicitări! Poezia ta "${poemTitle}" a fost aprobată și este acum publicată pe LOTUS Poetry.
 
-    Your poem is now live and can be discovered by poetry lovers in our community. Thank you for sharing your creativity with us!
+    Poezia ta este acum live și poate fi descoperită de iubitorii de poezie din comunitatea noastră. Îți mulțumim că ne-ai împărtășit creativitatea!
 
-    Visit ${env.NEXTAUTH_URL}/poems to see your published poem.
+    Vizitează ${env.NEXTAUTH_URL}/poems pentru a-ți vedea poezia publicată.
 
-    Keep writing and sharing your amazing work!
+    Continuă să scrii și să ne împărtășești munca ta uimitoare!
 
-    Best regards,
-    The LOTUS Poetry Team
+    Cu stimă,
+    Echipa LOTUS Poetry
   `
 
   return { subject, html, text }
@@ -102,7 +102,7 @@ function createApprovalEmailTemplate(authorName: string, poemTitle: string) {
 
 // Email template for poem rejection
 function createRejectionEmailTemplate(authorName: string, poemTitle: string, rejectionReason?: string) {
-  const subject = `Update on your poem submission: "${poemTitle}"`
+  const subject = `Actualizare privind submisia poeziei: "${poemTitle}"`
 
   const html = `
     <!DOCTYPE html>
@@ -124,39 +124,39 @@ function createRejectionEmailTemplate(authorName: string, poemTitle: string, rej
         <div class="container">
           <div class="header">
             <h1>🌸 LOTUS Poetry</h1>
-            <p>Update on your poem submission</p>
+            <p>Actualizare privind submisia poeziei</p>
           </div>
           <div class="content">
-            <h2>Hello ${authorName},</h2>
-            <p>Thank you for submitting your poem to LOTUS Poetry. After careful review, we've decided not to publish this particular submission at this time.</p>
+            <h2>Salut ${authorName},</h2>
+            <p>Îți mulțumim că ai trimis poezia ta la LOTUS Poetry. După o analiză atentă, am decis să nu publicăm această submisie în acest moment.</p>
 
             <div class="poem-title">
               <h3>"${poemTitle}"</h3>
-              <p><em>Status: Not approved for publication</em></p>
+              <p><em>Status: Nu a fost aprobată pentru publicare</em></p>
             </div>
 
             ${rejectionReason ? `
               <div class="feedback-box">
-                <h4>📝 Reviewer Feedback:</h4>
+                <h4>📝 Feedback de la recenzor:</h4>
                 <p>${rejectionReason}</p>
               </div>
             ` : ''}
 
-            <p>Please don't be discouraged! Poetry is subjective, and we encourage you to:</p>
+            <p>Te rog să nu te descurajezi! Poezia este subiectivă și te încurajăm să:</p>
             <ul>
-              <li>Continue writing and exploring your unique voice</li>
-              <li>Consider revising this piece based on any feedback provided</li>
-              <li>Submit new poems that showcase your creativity</li>
+              <li>Continui să scrii și să-ți explorezi vocea unică</li>
+              <li>Să consideri revizuirea acestei poezii pe baza feedback-ului primit</li>
+              <li>Să trimiți poezii noi care să-ți demonstreze creativitatea</li>
             </ul>
 
-            <a href="${env.NEXTAUTH_URL}/submit" class="cta-button">Submit Another Poem</a>
+            <a href="${env.NEXTAUTH_URL}/submit" class="cta-button">Trimite altă poezie</a>
 
-            <p>We believe every poet has something valuable to share, and we look forward to seeing more of your work!</p>
+            <p>Credem că fiecare poet are ceva valoros de împărtășit și așteptăm cu nerăbdare să vedem mai multe din lucrul tău!</p>
 
-            <p>Keep writing,<br>The LOTUS Poetry Team</p>
+            <p>Continuă să scrii,<br>Echipa LOTUS Poetry</p>
           </div>
           <div class="footer">
-            <p>LOTUS Poetry - Where poetry blooms and creative souls connect</p>
+            <p>LOTUS Poetry</p>
           </div>
         </div>
       </body>
@@ -164,25 +164,25 @@ function createRejectionEmailTemplate(authorName: string, poemTitle: string, rej
   `
 
   const text = `
-    Hello ${authorName},
+    Salut ${authorName},
 
-    Thank you for submitting your poem "${poemTitle}" to LOTUS Poetry.
+    Îți mulțumim că ai trimis poezia ta "${poemTitle}" la LOTUS Poetry.
 
-    After careful review, we've decided not to publish this particular submission at this time.
+    După o analiză atentă, am decis să nu publicăm această submisie în acest moment.
 
-    ${rejectionReason ? `Reviewer Feedback: ${rejectionReason}` : ''}
+    ${rejectionReason ? `Feedback de la recenzor: ${rejectionReason}` : ''}
 
-    Please don't be discouraged! We encourage you to:
-    - Continue writing and exploring your unique voice
-    - Consider revising this piece based on any feedback provided
-    - Submit new poems that showcase your creativity
+    Te rog să nu te descurajezi! Te încurajăm să:
+    - Continui să scrii și să-ți explorezi vocea unică
+    - Să consideri revizuirea acestei poezii pe baza feedback-ului primit
+    - Să trimiți poezii noi care să-ți demonstreze creativitatea
 
-    Visit ${env.NEXTAUTH_URL}/submit to submit another poem.
+    Vizitează ${env.NEXTAUTH_URL}/submit pentru a trimite altă poezie.
 
-    We believe every poet has something valuable to share, and we look forward to seeing more of your work!
+    Credem că fiecare poet are ceva valoros de împărtășit și așteptăm cu nerăbdare să vedem mai multe din lucrul tău!
 
-    Keep writing,
-    The LOTUS Poetry Team
+    Continuă să scrii,
+    Echipa LOTUS Poetry
   `
 
   return { subject, html, text }
@@ -285,20 +285,20 @@ export async function sendContactEmail(
     const transporter = createTransporter()
     // Compose the email content
     const to = env.SMTP_USER || env.SMTP_FROM || ''
-    const mailSubject = `[Contact Form] ${subject}`
+    const mailSubject = `[Formular Contact] ${subject}`
     const html = `
       <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${fromName}</p>
+        <h2>Nouă submisie formular de contact</h2>
+        <p><strong>Nume:</strong> ${fromName}</p>
         <p><strong>Email:</strong> ${fromEmail}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong></p>
+        <p><strong>Subiect:</strong> ${subject}</p>
+        <p><strong>Mesaj:</strong></p>
         <div style="background: #f9fafb; padding: 16px; border-radius: 8px;">${message.replace(/\n/g, '<br/>')}</div>
       </div>
     `
-    const text = `New Contact Form Submission\n\nName: ${fromName}\nEmail: ${fromEmail}\nSubject: ${subject}\n\nMessage:\n${message}`
+    const text = `Nouă submisie formular de contact\n\nNume: ${fromName}\nEmail: ${fromEmail}\nSubiect: ${subject}\n\nMesaj:\n${message}`
     const mailOptions = {
-      from: `Contact Form <${env.SMTP_FROM || env.SMTP_USER}>`,
+      from: `Formular Contact LOTUS <${env.SMTP_FROM || env.SMTP_USER}>`,
       to,
       subject: mailSubject,
       html,
@@ -331,7 +331,7 @@ export async function sendEmail(
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const transporter = createTransporter()
-    
+
     const mailOptions = {
       from: `"LOTUS Poetry" <${env.SMTP_FROM || env.SMTP_USER}>`,
       to,
