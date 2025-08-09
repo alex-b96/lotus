@@ -100,7 +100,7 @@ function PoemsPageContent() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-black/80 backdrop-blur-md border-white/10">
-                    <SelectItem value="createdAt" className="text-gray-300 focus:text-white focus:bg-white/5">Cele mai recente</SelectItem>
+                    <SelectItem value="publishedAt" className="text-gray-300 focus:text-white focus:bg-white/5">Cele mai recente</SelectItem>
                     <SelectItem value="title" className="text-gray-300 focus:text-white focus:bg-white/5">Titlu</SelectItem>
                     <SelectItem value="likes" className="text-gray-300 focus:text-white focus:bg-white/5">Cele mai apreciate</SelectItem>
                   </SelectContent>

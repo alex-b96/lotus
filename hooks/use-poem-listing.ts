@@ -63,7 +63,7 @@ interface UsePoemListingOptions {
   initialSearch?: string
   initialCategory?: string
   initialTag?: string
-  initialSortBy?: "createdAt" | "title" | "likes"
+  initialSortBy?: "publishedAt" | "createdAt" | "title" | "likes"
   initialOrder?: "asc" | "desc"
 }
 
@@ -80,14 +80,14 @@ interface UsePoemListingReturn {
   searchTerm: string
   selectedCategory: string
   selectedTag: string
-  sortBy: "createdAt" | "title" | "likes"
+  sortBy: "publishedAt" | "createdAt" | "title" | "likes"
   order: "asc" | "desc"
 
   // Actions
   setSearchTerm: (term: string) => void
   setSelectedCategory: (category: string) => void
   setSelectedTag: (tag: string) => void
-  setSortBy: (sortBy: "createdAt" | "title" | "likes") => void
+  setSortBy: (sortBy: "publishedAt" | "createdAt" | "title" | "likes") => void
   setOrder: (order: "asc" | "desc") => void
   goToPage: (page: number) => void
   clearFilters: () => void
@@ -133,8 +133,8 @@ export function usePoemListing(options: UsePoemListingOptions = {}): UsePoemList
   const [selectedTag, setSelectedTagState] = useState(() =>
     searchParams.get("tag") || options.initialTag || ""
   )
-  const [sortBy, setSortByState] = useState<"createdAt" | "title" | "likes">(() =>
-    (searchParams.get("sortBy") as "createdAt" | "title" | "likes") || options.initialSortBy || "createdAt"
+  const [sortBy, setSortByState] = useState<"publishedAt" | "createdAt" | "title" | "likes">(() =>
+    (searchParams.get("sortBy") as "publishedAt" | "createdAt" | "title" | "likes") || options.initialSortBy || "publishedAt"
   )
   const [order, setOrderState] = useState<"asc" | "desc">(() =>
     (searchParams.get("order") as "asc" | "desc") || options.initialOrder || "desc"
@@ -262,7 +262,7 @@ export function usePoemListing(options: UsePoemListingOptions = {}): UsePoemList
     setCurrentPage(1) // Reset to first page on filter change
   }, [])
 
-  const setSortBy = useCallback((newSortBy: "createdAt" | "title" | "likes") => {
+  const setSortBy = useCallback((newSortBy: "publishedAt" | "createdAt" | "title" | "likes") => {
     setSortByState(newSortBy)
     setCurrentPage(1) // Reset to first page on sort change
   }, [])

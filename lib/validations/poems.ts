@@ -23,7 +23,7 @@ export const poemListQuerySchema = z.object({
   search: z.string().nullable().optional(),
   authorId: z.string().nullable().optional(),
   tag: z.string().nullable().optional(),
-  sortBy: z.string().nullable().optional().transform((val) => val || "createdAt").pipe(z.enum(["createdAt", "title", "likes"])),
+  sortBy: z.string().nullable().optional().transform((val) => val || "publishedAt").pipe(z.enum(["publishedAt", "createdAt", "title", "likes"])),
   order: z.string().nullable().optional().transform((val) => val || "desc").pipe(z.enum(["asc", "desc"])),
 })
 
