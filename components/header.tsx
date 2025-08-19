@@ -47,28 +47,19 @@ export function Header() {
   }
 
   const handleSignOut = async () => {
-    await signOut({ 
+    await signOut({
       callbackUrl: "/",
-      redirect: true 
+      redirect: true
     })
   }
 
   return (
-    <header className="backdrop-blur-md sticky top-0 z-50 bg-theme-dark-alpha">
+    <header className="sticky top-0 z-50 relative backdrop-blur-xl">
+      {/* Glassy gradient overlay to mesh with flowing background */}
+      <div className="absolute inset-0 -z-10 pointer-events-none bg-[linear-gradient(to_bottom,rgba(10,13,18,0.65),rgba(13,18,26,0.35)_45%,rgba(15,22,31,0))]" />
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center justify-between h-20">
-          {/* Logo and Brand */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <img
-              src="/logo-simple.png"
-              alt="Lotus Logo"
-              className="w-20 h-20 object-contain filter brightness-200 contrast-100"
-            />
-            {/* <div>
-              <h1 className="text-2xl font-light text-white group-hover:text-theme-accent transition-colors">LOTUS</h1>
-              <p className="text-xs text-theme-accent italic tracking-wide">Open up like a lotus</p>
-            </div> */}
-          </Link>
+        
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-10">

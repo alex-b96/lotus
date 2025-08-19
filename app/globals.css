@@ -160,6 +160,31 @@
   font-family: var(--font-cormorant-garamond), serif;
 }
 
+  /* Poetry-first readable typography */
+  .poem-typography {
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-size: clamp(1rem, 0.95rem + 0.35vw, 1.25rem); /* ~16–20px */
+    line-height: 1.75;
+    max-width: 65ch;
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0.005em;
+    font-variant-ligatures: common-ligatures;
+    hyphens: none;
+    word-break: break-word;
+    color: rgb(var(--theme-text-primary));
+  }
+
+  /* Respect reduced motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
 /* Mobile-specific text sizing fixes */
 @media screen and (max-width: 768px) {
   .text-sm {
