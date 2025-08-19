@@ -6,6 +6,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { Providers } from "@/components/providers"
 import Script from "next/script"
+import { GTMRouteListener } from "@/components/gtm-route-listener"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -70,6 +71,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <Footer />
           </div>
         </Providers>
+        {/* Push page_view events on client-side route changes */}
+        <GTMRouteListener />
       </body>
     </html>
   )
