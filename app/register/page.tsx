@@ -95,6 +95,14 @@ export default function RegisterPage() {
       // Registration successful
       setSuccess(true)
 
+      // Track signup in GTM
+      if (typeof window !== 'undefined' && window.dataLayer) {
+        window.dataLayer.push({
+          event: 'user_signup',
+          signup_method: 'email',
+        })
+      }
+
       // Auto-login the user
       const signInResult = await signIn("credentials", {
         email: formData.email,
