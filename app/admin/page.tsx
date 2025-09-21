@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Heart, MessageCircle, CheckCircle, XCircle, Loader2, AlertCircle, RefreshCcw, Shield, Calendar, User, Star, StarOff } from "lucide-react"
+import { Heart, MessageCircle, CheckCircle, XCircle, Loader2, AlertCircle, RefreshCcw, Shield, Calendar, User, Star, StarOff, Megaphone } from "lucide-react"
 import { useAdminPoems } from "@/hooks/use-admin-poems"
 import { Pagination } from "@/components/pagination"
 
@@ -186,6 +186,12 @@ export default function AdminDashboard() {
               <a href="/admin/authors">
                 <User className="h-4 w-4 mr-2" />
                 Manage Authors
+              </a>
+            </Button>
+            <Button variant="outline" asChild className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
+              <a href="/admin/announcements">
+                <Megaphone className="h-4 w-4 mr-2" />
+                Manage Announcements
               </a>
             </Button>
           </div>

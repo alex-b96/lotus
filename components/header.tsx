@@ -27,6 +27,7 @@ export function Header() {
     { name: "Acasă", href: "/" },
     { name: "Poezii", href: "/poems" },
     { name: "Autori", href: "/authors" },
+    { name: "Anunțuri", href: "/announcements" },
     { name: "Feedback", href: "/feedback" },
     { name: "Despre", href: "/about" },
     { name: "Contact", href: "/contact" },
