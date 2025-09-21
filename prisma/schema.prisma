@@ -134,6 +134,18 @@ model SiteSettings {
   @@map("site_settings")
 }
 
+model Announcement {
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  priority    Int       @default(0)
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("announcements")
+}
+
 enum UserRole {
   USER
   ADMIN

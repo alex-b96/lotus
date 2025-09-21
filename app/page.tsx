@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Heart, MessageCircle, Share2, Clock, User, AlertCircle, RefreshCw, PenTool, BookOpen } from "lucide-react"
+import { Heart, MessageCircle, Share2, Clock, User, AlertCircle, RefreshCw, PenTool, BookOpen, Megaphone } from "lucide-react"
 import Link from "next/link"
 import { sharePoem, ShareData } from "@/lib/share-utils"
 import { ShareModal } from "@/components/share-modal"
@@ -44,13 +44,24 @@ interface RecentPoem {
   comments: number
 }
 
+interface Announcement {
+  id: string
+  title: string
+  content: string
+  publishedAt: string
+  priority: number
+}
+
 export default function HomePage() {
   const [featuredPoem, setFeaturedPoem] = useState<Poem | null>(null)
   const [recentPoems, setRecentPoems] = useState<RecentPoem[]>([])
+  const [announcements, setAnnouncements] = useState<Announcement[]>([])
   const [isLoadingFeatured, setIsLoadingFeatured] = useState(true)
   const [isLoadingRecent, setIsLoadingRecent] = useState(true)
+  const [isLoadingAnnouncements, setIsLoadingAnnouncements] = useState(true)
   const [featuredError, setFeaturedError] = useState<string | null>(null)
   const [recentError, setRecentError] = useState<string | null>(null)
+  const [announcementsError, setAnnouncementsError] = useState<string | null>(null)
 
   // Share modal state
   const [shareModalOpen, setShareModalOpen] = useState(false)
@@ -94,9 +105,29 @@ export default function HomePage() {
     }
   }
 
+  // Fetch announcements
+  const fetchAnnouncements = async () => {
+    setIsLoadingAnnouncements(true)
+    setAnnouncementsError(null)
+    try {
+      const response = await fetch('/api/announcements')
+      if (!response.ok) {
+        throw new Error(`Failed to fetch announcements: ${response.status}`)
+      }
+      const data = await response.json()
+      setAnnouncements(data || [])
+    } catch (error) {
+      console.error('Error fetching announcements:', error)
+      setAnnouncementsError(error instanceof Error ? error.message : 'Failed to load announcements')
+    } finally {
+      setIsLoadingAnnouncements(false)
+    }
+  }
+
   useEffect(() => {
     fetchFeaturedPoem()
     fetchRecentPoems()
+    fetchAnnouncements()
   }, [])
 
   // Helper function to format date
@@ -319,13 +350,78 @@ export default function HomePage() {
           )}
         </section>
 
-        {/* Sidebar: Recently Added */}
+        {/* Sidebar: Announcements + Recently Added */}
         <aside className="lg:col-span-2 self-start relative">
           {/* Horizontal line above sidebar - desktop only */}
           <div className="hidden lg:block absolute -top-8 left-0 right-0">
             <div className="w-full h-px bg-gradient-to-r from-transparent via-[rgb(var(--theme-accent-primary)/0.3)] to-transparent drop-shadow-sm"></div>
             <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mt-1"></div>
           </div>
+          
+          {/* Announcements Section */}
+          <div className="mb-12">
+            <div className="flex items-center justify-between gap-3 mb-6">
+              <span className="text-theme-accent text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-[rgb(var(--theme-accent-primary))] to-[rgb(var(--theme-accent-light))] bg-clip-text text-transparent drop-shadow-sm flex items-center gap-2">
+                <Megaphone className="w-4 h-4" />
+                Anunțuri
+              </span>
+              <Link 
+                href="/announcements" 
+                className="text-xs text-theme-secondary hover:text-theme-accent transition-colors duration-300"
+              >
+                Vezi toate →
+              </Link>
+            </div>
+
+            {isLoadingAnnouncements ? (
+              <div className="space-y-4">
+                {[1,2].map((i) => (
+                  <div key={i} className="space-y-2 p-4 bg-gradient-to-r from-white/5 to-transparent rounded-lg border border-white/10">
+                    <Skeleton className="h-4 w-3/4 bg-white/10" />
+                    <Skeleton className="h-3 w-full bg-white/10" />
+                    <Skeleton className="h-3 w-2/3 bg-white/10" />
+                  </div>
+                ))}
+              </div>
+            ) : announcementsError ? (
+              <Alert variant="destructive" className="mb-4 bg-red-900/20 border-red-800">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription className="text-red-200">{announcementsError}</AlertDescription>
+              </Alert>
+            ) : (
+              <div className="space-y-3">
+                {announcements.slice(0, 2).map((announcement, index) => (
+                  <div
+                    key={announcement.id}
+                    className="group cursor-pointer p-4 bg-gradient-to-r from-white/5 to-transparent rounded-lg border border-white/10 hover:border-theme-accent-30 transition-all duration-300"
+                    style={{
+                      animationDelay: `${index * 100}ms`,
+                      animation: 'fadeInUp 0.6s ease-out forwards'
+                    }}
+                  >
+                    <Link href="/announcements" className="block">
+                      <h4 className="group-hover:text-theme-accent transition-all duration-300 font-medium mb-2 drop-shadow-sm text-theme-primary text-sm">
+                        {announcement.title}
+                        {announcement.priority > 0 && (
+                          <Badge className="ml-2 bg-theme-accent-20 text-theme-accent text-xs px-2 py-0.5">
+                            Important
+                          </Badge>
+                        )}
+                      </h4>
+                      <p className="text-xs leading-relaxed text-theme-secondary line-clamp-2">
+                        {announcement.content}
+                      </p>
+                      <p className="text-xs font-light text-theme-secondary mt-2">
+                        {formatDate(announcement.publishedAt)}
+                      </p>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Recently Added Section */}
           <div className="mb-12">
             <div className="flex items-center gap-3 mb-6">
               <span className="text-theme-accent text-sm tracking-wide uppercase font-medium bg-gradient-to-r from-[rgb(var(--theme-accent-primary))] to-[rgb(var(--theme-accent-light))] bg-clip-text text-transparent drop-shadow-sm flex items-center gap-2">
