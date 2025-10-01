@@ -87,7 +87,7 @@ export default function AdminDashboard() {
 
   const fetchPublishedPoems = async () => {
     try {
-      const response = await fetch('/api/poems?status=PUBLISHED&limit=50')
+      const response = await fetch('/api/poems?status=PUBLISHED&limit=1000')
       if (response.ok) {
         const data = await response.json()
         setPublishedPoems(data.poems || [])
