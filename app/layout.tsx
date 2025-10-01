@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer"
 import { Providers } from "@/components/providers"
 import Script from "next/script"
 import { GTMRouteListener } from "@/components/gtm-route-listener"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -73,6 +74,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </Providers>
         {/* Push page_view events on client-side route changes */}
         <GTMRouteListener />
+        <Analytics />
       </body>
     </html>
   )
