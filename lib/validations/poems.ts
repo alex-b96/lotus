@@ -19,7 +19,7 @@ export const updatePoemSchema = z.object({
 // Schema for query parameters when listing poems
 export const poemListQuerySchema = z.object({
   page: z.string().nullable().optional().transform((val) => val ? parseInt(val, 10) : 1),
-  limit: z.string().nullable().optional().transform((val) => val ? Math.min(parseInt(val, 10), 50) : 20),
+  limit: z.string().nullable().optional().transform((val) => val ? Math.min(parseInt(val, 10), 1000) : 20),
   search: z.string().nullable().optional(),
   authorId: z.string().nullable().optional(),
   tag: z.string().nullable().optional(),
