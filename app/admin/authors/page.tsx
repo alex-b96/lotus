@@ -11,6 +11,17 @@ import { Pagination, PaginationInfo } from "@/components/pagination"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
   BookOpen,
   ExternalLink,
   Search,
@@ -22,7 +33,8 @@ import {
   Crown,
   Mail,
   Calendar,
-  Users
+  Users,
+  Trash2
 } from "lucide-react"
 import Link from "next/link"
 import { useAdminAuthors } from "@/hooks/use-admin-authors"
@@ -46,15 +58,18 @@ function AdminAuthorsPageContent() {
     isLoading,
     error,
     isTogglingFeatured,
+    isDeleting,
     searchTerm,
     setSearchTerm,
     goToPage,
     clearFilters,
     retry,
     toggleFeatured,
+    deleteAuthor,
   } = useAdminAuthors()
 
   const [localError, setLocalError] = useState<string | null>(null)
+  const [authorToDelete, setAuthorToDelete] = useState<string | null>(null)
 
   const handleToggleFeatured = async (authorId: string, featured: boolean) => {
     try {
@@ -62,6 +77,17 @@ function AdminAuthorsPageContent() {
       await toggleFeatured(authorId, featured)
     } catch (err) {
       setLocalError(err instanceof Error ? err.message : "Failed to update featured status")
+    }
+  }
+
+  const handleDeleteAuthor = async (authorId: string) => {
+    try {
+      setLocalError(null)
+      await deleteAuthor(authorId)
+      setAuthorToDelete(null) // Close dialog on success
+    } catch (err) {
+      setLocalError(err instanceof Error ? err.message : "Failed to delete author")
+      // Keep dialog open on error so user can retry
     }
   }
 
@@ -122,23 +148,23 @@ function AdminAuthorsPageContent() {
 
         {/* Error States */}
         {(error || localError) && (
-        <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
-          <div className="flex items-center gap-3">
-            <AlertCircle className="h-5 w-5 text-red-400" />
-            <div className="text-red-200 flex items-center justify-between w-full">
-              <span>Error: {error || localError}</span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={retry}
-                className="ml-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
-              >
-                <RefreshCcw className="w-4 h-4 mr-1" />
-                Retry
-              </Button>
+          <div className="bg-red-900/20 border border-red-800 rounded-xl p-6">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="h-5 w-5 text-red-400" />
+              <div className="text-red-200 flex items-center justify-between w-full">
+                <span>Error: {error || localError}</span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={retry}
+                  className="ml-4 bg-transparent border-red-400 text-red-400 hover:bg-red-400 hover:text-black"
+                >
+                  <RefreshCcw className="w-4 h-4 mr-1" />
+                  Retry
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
         )}
 
         {/* Loading State */}
@@ -152,98 +178,161 @@ function AdminAuthorsPageContent() {
         {/* Authors Grid */}
         {!isLoading && !error && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {authors.map((author) => (
-            <div
-              key={author.id}
-              className={`bg-white/5 backdrop-blur-sm rounded-xl border-2 transition-all duration-300 hover:bg-white/10 ${
-                author.featured
-                  ? 'border-pink-300 bg-pink-300/10'
-                  : 'border-white/10 hover:border-pink-300/30'
-              }`}
-            >
-              <div className="relative p-6 border-b border-white/10">
-                {/* Featured Badge */}
-                {author.featured && (
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-pink-300/20 text-pink-300 border border-pink-300/40 hover:bg-pink-300/30">
-                      <Star className="w-3 h-3 mr-1 fill-current" />
-                      Featured
-                    </Badge>
-                  </div>
-                )}
+            {authors.map((author) => (
+              <div
+                key={author.id}
+                className={`bg-white/5 backdrop-blur-sm rounded-xl border-2 transition-all duration-300 hover:bg-white/10 ${author.featured
+                    ? 'border-pink-300 bg-pink-300/10'
+                    : 'border-white/10 hover:border-pink-300/30'
+                  }`}
+              >
+                <div className="relative p-6 border-b border-white/10">
+                  {/* Featured Badge */}
+                  {author.featured && (
+                    <div className="absolute top-4 right-4">
+                      <Badge className="bg-pink-300/20 text-pink-300 border border-pink-300/40 hover:bg-pink-300/30">
+                        <Star className="w-3 h-3 mr-1 fill-current" />
+                        Featured
+                      </Badge>
+                    </div>
+                  )}
 
-                <div className="flex items-start space-x-4">
-                  <Avatar className="w-16 h-16">
-                    <AvatarImage src={author.avatar} alt={author.name} />
-                    <AvatarFallback className="text-lg bg-white/10 text-pink-200">
-                      {getInitials(author.name)}
-                    </AvatarFallback>
-                  </Avatar>
+                  <div className="flex items-start space-x-4">
+                    <Avatar className="w-16 h-16">
+                      <AvatarImage src={author.avatar} alt={author.name} />
+                      <AvatarFallback className="text-lg bg-white/10 text-pink-200">
+                        {getInitials(author.name)}
+                      </AvatarFallback>
+                    </Avatar>
 
-                  <div className="flex-1">
-                    <h3 className="text-xl font-light mb-2 text-theme-primary">{author.name}</h3>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-light mb-2 text-theme-primary">{author.name}</h3>
 
-                    {/* Author Info */}
-                    <div className="space-y-2 text-sm text-theme-secondary">
-                      <div className="flex items-center space-x-2">
-                        <Mail className="w-4 h-4" />
-                        <span>{author.email}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <BookOpen className="w-4 h-4" />
-                        <span>{author.poemsCount} published poem{author.poemsCount !== 1 ? 's' : ''}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="w-4 h-4" />
-                        <span>Joined {new Date(author.createdAt).toLocaleDateString()}</span>
+                      {/* Author Info */}
+                      <div className="space-y-2 text-sm text-theme-secondary">
+                        <div className="flex items-center space-x-2">
+                          <Mail className="w-4 h-4" />
+                          <span>{author.email}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <BookOpen className="w-4 h-4" />
+                          <span>{author.poemsCount} published poem{author.poemsCount !== 1 ? 's' : ''}</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Calendar className="w-4 h-4" />
+                          <span>Joined {new Date(author.createdAt).toLocaleDateString()}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="p-6">
-                {/* Bio */}
-                {author.bio && (
-                  <p className="mb-4 text-sm line-clamp-3 font-light text-theme-secondary">
-                    {author.bio}
-                  </p>
-                )}
+                <div className="p-6">
+                  {/* Bio */}
+                  {author.bio && (
+                    <p className="mb-4 text-sm line-clamp-3 font-light text-theme-secondary">
+                      {author.bio}
+                    </p>
+                  )}
 
-                {/* Featured Toggle */}
-                <div className="border-t border-white/10 pt-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Crown className="w-4 h-4 text-pink-300" />
-                      <Label htmlFor={`featured-${author.id}`} className="text-sm font-medium text-theme-primary">
-                        Featured Author
-                      </Label>
+                  {/* Featured Toggle */}
+                  <div className="border-t border-white/10 pt-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Crown className="w-4 h-4 text-pink-300" />
+                        <Label htmlFor={`featured-${author.id}`} className="text-sm font-medium text-theme-primary">
+                          Featured Author
+                        </Label>
+                      </div>
+                      <Switch
+                        id={`featured-${author.id}`}
+                        checked={author.featured}
+                        onCheckedChange={(checked) => handleToggleFeatured(author.id, checked)}
+                        disabled={isTogglingFeatured === author.id}
+                        className="data-[state=checked]:bg-pink-300"
+                      />
                     </div>
-                    <Switch
-                      id={`featured-${author.id}`}
-                      checked={author.featured}
-                      onCheckedChange={(checked) => handleToggleFeatured(author.id, checked)}
-                      disabled={isTogglingFeatured === author.id}
-                      className="data-[state=checked]:bg-pink-300"
-                    />
+                    <p className="text-xs mt-1 text-theme-secondary">
+                      {author.featured
+                        ? "This author appears in the featured authors section"
+                        : "Enable to feature this author on the authors page"
+                      }
+                    </p>
                   </div>
-                  <p className="text-xs mt-1 text-theme-secondary">
-                    {author.featured
-                      ? "This author appears in the featured authors section"
-                      : "Enable to feature this author on the authors page"
-                    }
-                  </p>
-                </div>
 
-                {/* Action Buttons */}
-                <div className="flex space-x-2 mt-4">
-                  <Button asChild variant="outline" size="sm" className="flex-1 bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
-                    <Link href={`/authors/${author.id}`}>
-                      <User className="w-4 h-4 mr-2" />
-                      View Profile
-                    </Link>
-                  </Button>
-                  {/* {author.website && (
+                  {/* Action Buttons */}
+                  <div className="flex space-x-2 mt-4">
+                    <Button asChild variant="outline" size="sm" className="flex-1 bg-transparent border-white/30 text-white hover:bg-white/10 font-light">
+                      <Link href={`/authors/${author.id}`}>
+                        <User className="w-4 h-4 mr-2" />
+                        View Profile
+                      </Link>
+                    </Button>
+                    <AlertDialog open={authorToDelete === author.id} onOpenChange={(open) => {
+                      if (!open) {
+                        setAuthorToDelete(null)
+                      } else {
+                        setAuthorToDelete(author.id)
+                      }
+                    }}>
+                      <AlertDialogTrigger asChild>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          disabled={isDeleting === author.id || isTogglingFeatured === author.id}
+                          className="bg-red-600/20 border-red-500/40 text-red-400 hover:bg-red-600/30 hover:border-red-500/60 font-light"
+                        >
+                          <Trash2 className="w-4 h-4 mr-2" />
+                          Delete
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent className="bg-black/90 backdrop-blur-md border border-white/10">
+                        <AlertDialogHeader>
+                          <AlertDialogTitle className="font-light text-theme-primary">
+                            Delete Author Account
+                          </AlertDialogTitle>
+                          <AlertDialogDescription className="font-light text-theme-secondary">
+                            Are you sure you want to delete <strong>{author.name}</strong> ({author.email})?
+                            <br /><br />
+                            This action will permanently delete:
+                            <ul className="list-disc list-inside mt-2 space-y-1">
+                              <li>The author account</li>
+                              <li>All {author.poemsCount} published poem{author.poemsCount !== 1 ? 's' : ''} by this author</li>
+                              <li>All comments made by this author</li>
+                              <li>All associated data (ratings, etc.)</li>
+                            </ul>
+                            <br />
+                            <strong className="text-red-400">This action cannot be undone.</strong>
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel
+                            disabled={isDeleting === author.id}
+                            className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
+                          >
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={() => handleDeleteAuthor(author.id)}
+                            disabled={isDeleting === author.id}
+                            className="bg-red-600 hover:bg-red-700 text-white font-light"
+                          >
+                            {isDeleting === author.id ? (
+                              <>
+                                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                                Deleting...
+                              </>
+                            ) : (
+                              <>
+                                <Trash2 className="w-4 h-4 mr-2" />
+                                Delete Author
+                              </>
+                            )}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                    {/* {author.website && (
                     <Button
                       variant="outline"
                       size="sm"
@@ -255,18 +344,18 @@ function AdminAuthorsPageContent() {
                       </a>
                     </Button>
                   )} */}
-                </div>
-
-                {/* Loading indicator for this specific author */}
-                {isTogglingFeatured === author.id && (
-                  <div className="flex items-center justify-center mt-3 text-sm text-theme-secondary">
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    Updating featured status...
                   </div>
-                )}
+
+                  {/* Loading indicator for this specific author */}
+                  {isTogglingFeatured === author.id && (
+                    <div className="flex items-center justify-center mt-3 text-sm text-theme-secondary">
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Updating featured status...
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
         )}
 

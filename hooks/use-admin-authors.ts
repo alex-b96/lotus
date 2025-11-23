@@ -60,6 +60,7 @@ interface UseAdminAuthorsReturn {
   isLoading: boolean
   error: string | null
   isTogglingFeatured: string | null // ID of author being toggled
+  isDeleting: string | null // ID of author being deleted
 
   // Search and filters
   searchTerm: string
@@ -70,6 +71,7 @@ interface UseAdminAuthorsReturn {
   clearFilters: () => void
   retry: () => void
   toggleFeatured: (authorId: string, featured: boolean) => Promise<void>
+  deleteAuthor: (authorId: string) => Promise<void>
 }
 
 // Transform API author data to component-compatible format
@@ -105,6 +107,7 @@ export function useAdminAuthors(options: UseAdminAuthorsOptions = {}): UseAdminA
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isTogglingFeatured, setIsTogglingFeatured] = useState<string | null>(null)
+  const [isDeleting, setIsDeleting] = useState<string | null>(null)
 
   // Debounced search term
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm)
@@ -212,6 +215,33 @@ export function useAdminAuthors(options: UseAdminAuthorsOptions = {}): UseAdminA
     }
   }, [])
 
+  // Delete author
+  const deleteAuthor = useCallback(async (authorId: string) => {
+    setIsDeleting(authorId)
+    setError(null)
+
+    try {
+      const response = await fetch(`/api/admin/authors/${authorId}`, {
+        method: "DELETE",
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`)
+      }
+
+      // Refresh the authors list after successful deletion
+      await fetchAuthors()
+
+    } catch (err) {
+      console.error("Error deleting author:", err)
+      setError(err instanceof Error ? err.message : "Failed to delete author")
+      throw err // Re-throw for component error handling
+    } finally {
+      setIsDeleting(null)
+    }
+  }, [fetchAuthors])
+
   // Effect to fetch authors when parameters change
   useEffect(() => {
     fetchAuthors()
@@ -247,11 +277,13 @@ export function useAdminAuthors(options: UseAdminAuthorsOptions = {}): UseAdminA
     isLoading,
     error,
     isTogglingFeatured,
+    isDeleting,
     searchTerm,
     setSearchTerm,
     goToPage,
     clearFilters,
     retry,
     toggleFeatured,
+    deleteAuthor,
   }
 }
