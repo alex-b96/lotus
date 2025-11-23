@@ -54,17 +54,17 @@ async function main() {
     },
   })
 
-  // Create tags
-  const tags = await Promise.all([
-    prisma.tag.create({ data: { name: 'nature' } }),
-    prisma.tag.create({ data: { name: 'morning' } }),
-    prisma.tag.create({ data: { name: 'peace' } }),
-    prisma.tag.create({ data: { name: 'urban' } }),
-    prisma.tag.create({ data: { name: 'night' } }),
-    prisma.tag.create({ data: { name: 'ocean' } }),
-    prisma.tag.create({ data: { name: 'memories' } }),
-    prisma.tag.create({ data: { name: 'autumn' } }),
-  ])
+  // Create tags (using upsert to avoid duplicates on re-seed)
+  const tagNames = ['nature', 'morning', 'peace', 'urban', 'night', 'ocean', 'memories', 'autumn']
+  const tags = await Promise.all(
+    tagNames.map(name =>
+      prisma.tag.upsert({
+        where: { name },
+        update: {},
+        create: { name },
+      })
+    )
+  )
 
   // Create poems
   const morningDew = await prisma.poem.create({
@@ -79,7 +79,6 @@ Nature's tears of joy and light,
 Washing clean the darkest night,
 In the silence, peace is found,
 Where the earth and sky are bound.`,
-      category: 'Lyric',
       authorId: sarah.id,
       readingTime: 2,
       status: 'PUBLISHED', // Publish the poem
@@ -99,7 +98,6 @@ In the maze of concrete towers,
 Hearts beat through the restless hours,
 City lights like fallen stars,
 Illuminate our urban scars.`,
-      category: 'Modern',
       authorId: marcus.id,
       readingTime: 2,
       status: 'PUBLISHED', // Publish the poem
@@ -119,7 +117,6 @@ Tides that ebb and tides that flow,
 Secrets that the deep ones know,
 In the ocean's vast embrace,
 Find the soul its rightful place.`,
-      category: 'Lyric',
       authorId: elena.id,
       readingTime: 2,
       status: 'PUBLISHED', // Publish the poem
@@ -138,11 +135,13 @@ Find the soul its rightful place.`,
       { poemId: oceanSong.id, tagId: tags[0].id }, // nature
       { poemId: oceanSong.id, tagId: tags[5].id }, // ocean
     ],
+    skipDuplicates: true,
   })
 
   // Create some comments
   await prisma.comment.createMany({
     data: [
+      // Comments on Morning Dew
       {
         content: 'This poem beautifully captures the serenity of morning. The imagery is so vivid I can almost feel the dewdrops.',
         authorId: marcus.id,
@@ -154,31 +153,82 @@ Find the soul its rightful place.`,
         poemId: morningDew.id,
       },
       {
+        content: 'Reading this makes me want to wake up early just to experience that morning magic. Beautiful work!',
+        authorId: sarah.id,
+        poemId: morningDew.id,
+      },
+      // Comments on City Lights
+      {
         content: 'The rhythm of this poem perfectly matches the pulse of city life. Well done!',
         authorId: sarah.id,
         poemId: cityLights.id,
       },
+      {
+        content: 'As someone who lives in the city, this really resonates with me. You captured the energy perfectly.',
+        authorId: elena.id,
+        poemId: cityLights.id,
+      },
+      {
+        content: "Love the contrast between 'electric pulse' and 'urban scars' - it's haunting and beautiful.",
+        authorId: marcus.id,
+        poemId: cityLights.id,
+      },
+      // Comments on Ocean's Song
+      {
+        content: 'This transports me to the beach every time I read it. The ocean comes alive in your words.',
+        authorId: sarah.id,
+        poemId: oceanSong.id,
+      },
+      {
+        content: "The line 'Secrets that the deep ones know' gives me chills. So powerful!",
+        authorId: marcus.id,
+        poemId: oceanSong.id,
+      },
+      {
+        content: 'Elena, your connection to the ocean really shines through here. Gorgeous imagery throughout.',
+        authorId: elena.id,
+        poemId: oceanSong.id,
+      },
     ],
+    skipDuplicates: true,
   })
 
-  // Create some likes
-  await prisma.like.createMany({
+  // Create some star ratings (replaced likes with star ratings)
+  await prisma.starRating.createMany({
     data: [
-      { userId: marcus.id, poemId: morningDew.id },
-      { userId: elena.id, poemId: morningDew.id },
-      { userId: sarah.id, poemId: cityLights.id },
-      { userId: elena.id, poemId: cityLights.id },
-      { userId: sarah.id, poemId: oceanSong.id },
-      { userId: marcus.id, poemId: oceanSong.id },
+      { userId: marcus.id, poemId: morningDew.id, rating: 5 },
+      { userId: elena.id, poemId: morningDew.id, rating: 5 },
+      { userId: sarah.id, poemId: cityLights.id, rating: 4 },
+      { userId: elena.id, poemId: cityLights.id, rating: 4 },
+      { userId: sarah.id, poemId: oceanSong.id, rating: 5 },
+      { userId: marcus.id, poemId: oceanSong.id, rating: 5 },
     ],
+    skipDuplicates: true,
   })
+
+  // Create a welcome announcement (only if it doesn't exist)
+  const existingAnnouncement = await prisma.announcement.findFirst({
+    where: { title: 'Welcome to LOTUS Poetry' },
+  })
+
+  if (!existingAnnouncement) {
+    await prisma.announcement.create({
+      data: {
+        title: 'Welcome to LOTUS Poetry',
+        content: 'Thank you for joining our community of poets and poetry lovers. We hope you find inspiration here!',
+        priority: 1,
+        publishedAt: new Date(),
+      },
+    })
+  }
 
   console.log('✅ Database seeded successfully!')
   console.log(`Created ${await prisma.user.count()} users`)
   console.log(`Created ${await prisma.poem.count()} poems`)
   console.log(`Created ${await prisma.tag.count()} tags`)
   console.log(`Created ${await prisma.comment.count()} comments`)
-  console.log(`Created ${await prisma.like.count()} likes`)
+  console.log(`Created ${await prisma.starRating.count()} star ratings`)
+  console.log(`Created ${await prisma.announcement.count()} announcements`)
 }
 
 main()

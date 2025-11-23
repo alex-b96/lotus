@@ -11,6 +11,17 @@ import { Pagination, PaginationInfo } from "@/components/pagination"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
   BookOpen,
   ExternalLink,
   Search,
@@ -22,7 +33,8 @@ import {
   Crown,
   Mail,
   Calendar,
-  Users
+  Users,
+  Trash2
 } from "lucide-react"
 import Link from "next/link"
 import { useAdminAuthors } from "@/hooks/use-admin-authors"
@@ -46,15 +58,18 @@ function AdminAuthorsPageContent() {
     isLoading,
     error,
     isTogglingFeatured,
+    isDeleting,
     searchTerm,
     setSearchTerm,
     goToPage,
     clearFilters,
     retry,
     toggleFeatured,
+    deleteAuthor,
   } = useAdminAuthors()
 
   const [localError, setLocalError] = useState<string | null>(null)
+  const [authorToDelete, setAuthorToDelete] = useState<string | null>(null)
 
   const handleToggleFeatured = async (authorId: string, featured: boolean) => {
     try {
@@ -62,6 +77,17 @@ function AdminAuthorsPageContent() {
       await toggleFeatured(authorId, featured)
     } catch (err) {
       setLocalError(err instanceof Error ? err.message : "Failed to update featured status")
+    }
+  }
+
+  const handleDeleteAuthor = async (authorId: string) => {
+    try {
+      setLocalError(null)
+      await deleteAuthor(authorId)
+      setAuthorToDelete(null) // Close dialog on success
+    } catch (err) {
+      setLocalError(err instanceof Error ? err.message : "Failed to delete author")
+      // Keep dialog open on error so user can retry
     }
   }
 
@@ -243,6 +269,70 @@ function AdminAuthorsPageContent() {
                       View Profile
                     </Link>
                   </Button>
+                  <AlertDialog open={authorToDelete === author.id} onOpenChange={(open) => {
+                    if (!open) {
+                      setAuthorToDelete(null)
+                    } else {
+                      setAuthorToDelete(author.id)
+                    }
+                  }}>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        disabled={isDeleting === author.id || isTogglingFeatured === author.id}
+                        className="bg-red-600/20 border-red-500/40 text-red-400 hover:bg-red-600/30 hover:border-red-500/60 font-light"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="bg-black/90 backdrop-blur-md border border-white/10">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="font-light text-theme-primary">
+                          Delete Author Account
+                        </AlertDialogTitle>
+                        <AlertDialogDescription className="font-light text-theme-secondary">
+                          Are you sure you want to delete <strong>{author.name}</strong> ({author.email})?
+                          <br /><br />
+                          This action will permanently delete:
+                          <ul className="list-disc list-inside mt-2 space-y-1">
+                            <li>The author account</li>
+                            <li>All {author.poemsCount} published poem{author.poemsCount !== 1 ? 's' : ''} by this author</li>
+                            <li>All comments made by this author</li>
+                            <li>All associated data (ratings, etc.)</li>
+                          </ul>
+                          <br />
+                          <strong className="text-red-400">This action cannot be undone.</strong>
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel
+                          disabled={isDeleting === author.id}
+                          className="bg-transparent border-white/30 text-white hover:bg-white/10 font-light"
+                        >
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => handleDeleteAuthor(author.id)}
+                          disabled={isDeleting === author.id}
+                          className="bg-red-600 hover:bg-red-700 text-white font-light"
+                        >
+                          {isDeleting === author.id ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                              Deleting...
+                            </>
+                          ) : (
+                            <>
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Delete Author
+                            </>
+                          )}
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                   {/* {author.website && (
                     <Button
                       variant="outline"
